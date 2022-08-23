@@ -8,13 +8,15 @@ public class Item : MonoBehaviour
     [Header("General")]
     [SerializeField] private GameObject collectionEffect;
     public int coinsPerPickup = 0;
+    public int gemsPerPickup = 0;
     public float homingRange = 0;
     public float homingSpeed = 5;
     [SerializeField] private float activationDelay = 0;
 
-    [Header("Run Upgrade")]
-    [SerializeField] private bool isRunUpgrade = false;
-    [SerializeField] private RunUpgrades.RunUpgrade runUpgrade;
+    [Header("PowerUp")]
+    [SerializeField] private bool _isPowerUp = false;
+    [SerializeField] private PowerUp[] _powerUpLootTable;
+    [SerializeField] private int _choices = 3;
 
     float timer = 0;
     Transform player;
@@ -50,9 +52,11 @@ public class Item : MonoBehaviour
         if (activationDelay > timer) { return; }
         if (!playerCollider.CompareTag("Player")) { return; }
 
-        if (isRunUpgrade)
+        if (_isPowerUp)
         {
-            playerCollider.GetComponent<RunUpgrades>().AddUpgrade(runUpgrade);
+
+
+            /*playerCollider.GetComponent<PowerUpManager>().AddUpgrade();*/
         }
 
         GameManager.Insatnce.AddCoins(coinsPerPickup);

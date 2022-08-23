@@ -1,3 +1,4 @@
+using Mike;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +27,7 @@ public class Missile : MonoBehaviour
             if(currentSpeed > speed) { currentSpeed = speed; }
         }
 
-        if(target == null) { target = RunUpgrades.GetClosestTargetWithTag2D(transform.position, "Enemy"); }
+        if(target == null) { target = MikeGameObject.GetClosestTargetWithTag(transform.position, "Enemy").transform; }
         if(target == null) 
         {
             if (hitEffect != null) { Instantiate(hitEffect, transform.position, Quaternion.identity); }

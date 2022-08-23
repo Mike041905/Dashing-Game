@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mike;
 using UnityEngine.UI;
+using System;
 
 public class Dash : MonoBehaviour
 {
@@ -32,6 +33,15 @@ public class Dash : MonoBehaviour
     [HideInInspector] public bool explodeUpgradeEnabled = false;
     [HideInInspector] public bool chainLightningUpgradeEnabled = false;
 
+    public event Action OnStartAiming;
+    public event Action OnAiming;
+    public event Action OnEndAiming;
+
+    public event Action OnStartDash;
+    public event Action OnEndDash;
+
+    public event Action<GameObject> OnHitEnemy;
+
     private Vector2 firstTouchPosition;
     private Vector2 secondTouchPosition;
     private bool setFirstTouchPosition = false;
@@ -45,6 +55,9 @@ public class Dash : MonoBehaviour
 
     private void Awake()
     {
+        if (GameObject.FindGameObjectsWithTag("Player").Length > 1) { Destroy(gameObject); return; }
+        else { DontDestroyOnLoad(gameObject); }
+
         InitializeVariables();
 
         stamina = maxStamina;
@@ -56,17 +69,10 @@ public class Dash : MonoBehaviour
         SetPositionsAndDash(usePcControls);
         RechargeStamina();
         ManageLineRenderer();
-        UpdateTriggerRunUpgradeCooldownTimer();
     }
 
 
     //-----------------------------
-
-
-    void UpdateTriggerRunUpgradeCooldownTimer()
-    {
-       triggerRunUpgradeCooldown += Time.deltaTime;
-    }
 
     void ManageLineRenderer()
     {
@@ -115,20 +121,26 @@ public class Dash : MonoBehaviour
 
         if (pcControls == true ? Input.GetMouseButton(0) : Input.touchCount > 0)
         {
-            //slowMo upgrade
-            if (slowMoUpgradeEnabled) Time.timeScale = .2f;
+            if (!setFirstTouchPosition)
+            {
+                firstTouchPosition = pcControls == true ? (Vector2)Input.mousePosition : Input.GetTouch(0).position;
+                setFirstTouchPosition = true;
 
-            if (!setFirstTouchPosition) firstTouchPosition = pcControls == true ? (Vector2) Input.mousePosition : Input.GetTouch(0).position;
-            secondTouchPosition = pcControls == true ? (Vector2)Input.mousePosition : Input.GetTouch(0).position;
-            setFirstTouchPosition = true;
+            }
+            else
+            {
+                secondTouchPosition = pcControls == true ? (Vector2)Input.mousePosition : Input.GetTouch(0).position;
 
-            cameraTarget.position = (secondTouchPosition - firstTouchPosition).normalized * dashDistance / 2 + (Vector2)transform.position;
+                cameraTarget.position = (secondTouchPosition - firstTouchPosition).normalized * dashDistance / 2 + (Vector2)transform.position;
 
-            if ((secondTouchPosition - firstTouchPosition).normalized != Vector2.zero) transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, (secondTouchPosition - firstTouchPosition).normalized + (Vector2)transform.position);
+                if ((secondTouchPosition - firstTouchPosition).normalized != Vector2.zero) transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, (secondTouchPosition - firstTouchPosition).normalized + (Vector2)transform.position);
 
-            directionIndicator.enabled = true;
-            directionIndicator.SetPosition(0, transform.position);
-            directionIndicator.SetPosition(1, (secondTouchPosition - firstTouchPosition).normalized * 3 + (Vector2)transform.position);
+                directionIndicator.enabled = true;
+                directionIndicator.SetPosition(0, transform.position);
+                directionIndicator.SetPosition(1, (secondTouchPosition - firstTouchPosition).normalized * 3 + (Vector2)transform.position);
+
+            }
+
         }
         else if(setFirstTouchPosition)
         {
@@ -168,7 +180,7 @@ public class Dash : MonoBehaviour
                     DealKnockback(item.rigidbody, (Vector2) item.transform.position - item.point, knockbackForce);
                     StartCoroutine(MikeScreenShake.Shake(Camera.main.transform, .02f, 3, 4));
 
-                    TriggerRunUpgradesOnCollision();
+                    OnHitEnemy?.Invoke(item.transform.gameObject);
                 }
                 if (item.transform.CompareTag("Barrier")) 
                 {
@@ -185,17 +197,5 @@ public class Dash : MonoBehaviour
             if ((Vector2)transform.position == finalPosition) { currentDash = null; break; }
             yield return null;
         }
-    }
-
-    float triggerRunUpgradeCooldown = 0;
-    void TriggerRunUpgradesOnCollision()
-    {
-        if(triggerRunUpgradeCooldown < .2f) { return; }
-
-        triggerRunUpgradeCooldown = 0;
-        RunUpgrades runUpgrades = GetComponent<RunUpgrades>();
-
-        runUpgrades.Explode();
-        runUpgrades.ChainLightning();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Explosion : MonoBehaviour
 {
     [SerializeField] float damage = 10;
-    [SerializeField] float radius = 2;
+    public float radius = 2;
     [SerializeField] float damageDropOffMultiplier = 1;
 
     private void Start()

@@ -138,13 +138,7 @@ public class GameManager : MonoBehaviour
 
     void MoveToNextLevel()
     {
-        GameObject go = Instantiate(new GameObject());
-
-        go.name = "Temp";
-        go.AddComponent<MikeDestroy>();
-        RunUpgrades temp = go.AddComponent<RunUpgrades>();
-        temp.currentRunUpgrades = GameObject.FindGameObjectWithTag("Player").GetComponent<RunUpgrades>().currentRunUpgrades;
-        DontDestroyOnLoad(go);
+        GameObject.FindGameObjectWithTag("Player").transform.position = Vector3.zero;
 
         PlayerPrefs.SetInt("Current Level", PlayerPrefs.GetInt("Current Level", 1) + 1);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

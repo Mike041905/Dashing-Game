@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour
     //-----------------------------------------
 
 
-    public void MikeTrigger(RaycastHit2D hit2D)
+    public void OnMikeSphereTriggerEnter(RaycastHit2D hit2D)
     {
         if(hit2D.transform.gameObject == shooter) { return; }
 

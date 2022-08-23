@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ChainLightning : MonoBehaviour
 {
-    [SerializeField] private int bounces = 5;
+    public int bounces = 2;
     [SerializeField] private float speed = 25;
-    [SerializeField] private float damage = 5;
+    public float damage = 3;
 
     private GameObject[] hitGameObjects = new GameObject[0];
     private GameObject currentTarget;

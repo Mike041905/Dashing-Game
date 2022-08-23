@@ -130,13 +130,5 @@ MonoBehaviour:
     weight: 10
   - item: {fileID: 1449947554712204251, guid: 598d28d1194c1a84c800f259d428fb87, type: 3}
     weight: 2
-  - item: {fileID: 1373157238608429773, guid: 6355684c094893747afa0009b4bf2985, type: 3}
-    weight: 1
-  - item: {fileID: 7846968903967964103, guid: a4394ac4b4ebce841bceb6aac765d974, type: 3}
-    weight: 1
-  - item: {fileID: 8762551887521317020, guid: 6bfbf312ffe3b85478e897f2338f2eed, type: 3}
-    weight: 1
-  - item: {fileID: 3388009247696730751, guid: 9dfd961dedb389d4f9995fa46dec0f6b, type: 3}
-    weight: 1
-  - item: {fileID: 1532714903873071266, guid: c7278ea4c42b70e4a8562eeced0c28f4, type: 3}
-    weight: 1
+  - item: {fileID: 8392118956376280407, guid: 2b4b4be4dc8d89445ac472fec41c95ea, type: 3}
+    weight: 10

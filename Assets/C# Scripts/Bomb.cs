@@ -1,5 +1,6 @@
 using UnityEngine;
 using Mike;
+using EZCameraShake;
 
 public class Bomb : MonoBehaviour
 {
@@ -8,22 +9,31 @@ public class Bomb : MonoBehaviour
     public float radius = 2;
     public float speed = 20;
     [SerializeField] private ParticleSystem explosionEffect;
+    [SerializeField] private ParticleSystem trail;
+    [SerializeField] private SpriteRenderer targetDesignator;
+
+    Vector2 startPos;
 
     void Start()
     {
-        transform.position = targetPosition + Vector2.one * (speed * Random.Range(1f, 2f));
+        startPos = targetPosition + Vector2.one * (speed * Random.Range(1f, 2f));
+        transform.position = startPos;
     }
 
     private void Update()
     {
         transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+        targetDesignator.transform.localScale = Vector2.one / 2 + (Vector2)transform.position - targetPosition / (startPos - targetPosition);
+        targetDesignator.color = new Color(1,0,0, .5f + transform.position.x - targetPosition.x / (startPos.x - targetPosition.x));
 
         if((Vector2) transform.position == targetPosition)
         {
             DealDamageToObjects(Physics2D.OverlapCircleAll(targetPosition, radius));
             explosionEffect.transform.parent = null;
+            trail.transform.parent = null;
+            trail.loop = false;
             explosionEffect.Play();
-            StartCoroutine(MikeScreenShake.Shake(Camera.main.transform, .02f, 5, 1));
+            CameraShaker.Instance.ShakeOnce(1, 10, .2f, .2f);
             Destroy(gameObject);
             Destroy(explosionEffect.gameObject, 1);
         }
