@@ -63,14 +63,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectionEffect: {fileID: 7890909979121165634, guid: e427020535af3b14293a29ba6a2128a1, type: 3}
-  coinsPerPickup: 1
+  coinsPerPickup: 0
+  gemsPerPickup: 1
   homingRange: 7
   homingSpeed: 5
   activationDelay: 0.5
-  isRunUpgrade: 0
-  runUpgrade:
-    name: 
-    spawnObject: {fileID: 0}
+  _isPowerUp: 0
+  _powerUpLootTable: []
+  _choices: 3
 --- !u!1001 &6986749454468565051
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -13,6 +13,9 @@ TagManager:
   - OfflineEarner
   - Room
   - SingleObject
+  - ChoiceSelector
+  - PowerUpHolder
+  - CameraTarget
   layers:
   - Default
   - TransparentFX

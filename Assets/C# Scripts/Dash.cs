@@ -121,6 +121,8 @@ public class Dash : MonoBehaviour
 
         if (pcControls == true ? Input.GetMouseButton(0) : Input.touchCount > 0)
         {
+            OnAiming?.Invoke();
+
             if (!setFirstTouchPosition)
             {
                 firstTouchPosition = pcControls == true ? (Vector2)Input.mousePosition : Input.GetTouch(0).position;
@@ -138,7 +140,6 @@ public class Dash : MonoBehaviour
                 directionIndicator.enabled = true;
                 directionIndicator.SetPosition(0, transform.position);
                 directionIndicator.SetPosition(1, (secondTouchPosition - firstTouchPosition).normalized * 3 + (Vector2)transform.position);
-
             }
 
         }

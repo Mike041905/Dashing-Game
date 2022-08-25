@@ -14,7 +14,7 @@ public class PowerUpChainLightning : PowerUp
     void Start()
     {
         PowerUpChainLightning[] powerUps = transform.parent.GetComponentsInChildren<PowerUpChainLightning>();
-        if (powerUps.Length > 0)
+        if (powerUps.Length > 1)
         {
             foreach (PowerUpChainLightning powerUp in powerUps)
             {
@@ -30,10 +30,21 @@ public class PowerUpChainLightning : PowerUp
         }
     }
 
+    private void Update()
+    {
+        if (coolDown > 0) coolDown -= Time.deltaTime;
+    }
+
+    float coolDown = 0;
     void Electrify(GameObject hit)
     {
-        ChainLightning chainLightning = Instantiate(lightiningPrefab, transform.position, Quaternion.identity).GetComponent<ChainLightning>();
-        chainLightning.damage = damage;
-        chainLightning.bounces = bounces;
+        if(coolDown <= 0)
+        {
+            ChainLightning chainLightning = Instantiate(lightiningPrefab, transform.position, Quaternion.identity).GetComponent<ChainLightning>();
+            chainLightning.damage = damage;
+            chainLightning.bounces = bounces;
+
+            coolDown = .25f;
+        }
     }
 }

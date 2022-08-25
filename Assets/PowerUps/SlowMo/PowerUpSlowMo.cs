@@ -10,7 +10,7 @@ public class PowerUpSlowMo : PowerUp
     void Start()
     {
         PowerUpSlowMo[] slowMos = transform.parent.GetComponentsInChildren<PowerUpSlowMo>();
-        if (slowMos.Length > 0)
+        if (slowMos.Length > 1)
         {
             foreach (PowerUpSlowMo slowMo in slowMos)
             {

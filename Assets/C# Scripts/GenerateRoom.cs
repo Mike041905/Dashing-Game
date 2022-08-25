@@ -83,7 +83,7 @@ public class GenerateRoom : MonoBehaviour
         }
 
         //instantiate room and lower spawn chance
-        GameObject go = Instantiate(roomPrefab, spawnPosition, spawnRotation);
+        GameObject go = Instantiate(roomPrefab, (Vector3)spawnPosition + new Vector3(0,0,10), spawnRotation);
         go.GetComponent<GenerateRoom>().chanceMultiplier = chanceMultiplier / LevelGanerator.Instance.roomChanceDeprecation;
         go.transform.GetChild(0).rotation = Quaternion.Euler(Vector3.zero);
         go.transform.GetChild(0).GetChild(unlockDoor).GetComponent<BoxCollider2D>().isTrigger = true;

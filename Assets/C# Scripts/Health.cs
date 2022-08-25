@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 
@@ -23,6 +24,7 @@ public class Health : MonoBehaviour
 
     bool immune = false;
 
+    public UnityEvent OnDeath;
 
     //--------------------------
 
@@ -78,8 +80,8 @@ public class Health : MonoBehaviour
         }
 
         HealthOnKill();
+        OnDeath?.Invoke();
         if(deathEffect != null) Instantiate(deathEffect, transform.position, Quaternion.identity);
-        if (!destroyOnDeath) gameObject.SetActive(false);
-        else Destroy(gameObject);
+        if (destroyOnDeath) Destroy(gameObject);
     }
 }

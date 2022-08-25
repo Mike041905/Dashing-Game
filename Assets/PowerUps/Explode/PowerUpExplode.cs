@@ -11,7 +11,7 @@ public class PowerUpExplode : PowerUp
     void Start()
     {
         PowerUpExplode[] explosions = transform.parent.GetComponentsInChildren<PowerUpExplode>();
-        if (explosions.Length > 0)
+        if (explosions.Length > 1)
         {
             foreach (PowerUpExplode explosion in explosions)
             {
@@ -26,10 +26,21 @@ public class PowerUpExplode : PowerUp
         }
     }
 
+    private void Update()
+    {
+        if (coolDown > 0) coolDown -= Time.deltaTime;
+    }
+
+    float coolDown = 0;
     void Explode(GameObject hit)
     {
-        GameObject go = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        go.transform.localScale = Vector2.one * size;
-        go.GetComponent<Explosion>().radius = size;
+        if(coolDown <= 0)
+        {
+            GameObject go = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            go.transform.localScale = Vector2.one * size;
+            go.GetComponent<Explosion>().radius = size;
+
+            coolDown = .25f;
+        }
     }
 }

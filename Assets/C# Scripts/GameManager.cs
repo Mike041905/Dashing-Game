@@ -52,6 +52,11 @@ public class GameManager : MonoBehaviour
 
         Initialize();
         UpdateUI();
+
+        if(SceneManager.GetActiveScene().buildIndex == 0 && GameObject.FindGameObjectWithTag("Player") != null)
+        {
+            Destroy(GameObject.FindGameObjectWithTag("Player"));
+        }
     }
 
     private void OnApplicationQuit()

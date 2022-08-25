@@ -27,7 +27,20 @@ public class Missile : MonoBehaviour
             if(currentSpeed > speed) { currentSpeed = speed; }
         }
 
-        if(target == null) { target = MikeGameObject.GetClosestTargetWithTag(transform.position, "Enemy").transform; }
+        if(target == null) 
+        { 
+            GameObject go = MikeGameObject.GetClosestTargetWithTag(transform.position, "Enemy"); 
+            if (go == null) 
+            { 
+                MikeTrigger(new()); 
+                return; 
+            } 
+            else 
+            { 
+                target = go.transform; 
+            } 
+        }
+
         if(target == null) 
         {
             if (hitEffect != null) { Instantiate(hitEffect, transform.position, Quaternion.identity); }
