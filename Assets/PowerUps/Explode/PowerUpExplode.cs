@@ -5,25 +5,10 @@ using UnityEngine;
 public class PowerUpExplode : PowerUp
 {
     [SerializeField] private GameObject explosionPrefab;
-    [SerializeField] private float size;
-    [SerializeField] private float sizeUpgradeValue = .25f;
 
     void Start()
     {
-        PowerUpExplode[] explosions = transform.parent.GetComponentsInChildren<PowerUpExplode>();
-        if (explosions.Length > 1)
-        {
-            foreach (PowerUpExplode explosion in explosions)
-            {
-                explosion.size *= 1 + sizeUpgradeValue;
-            }
-
-            Destroy(gameObject);
-        }
-        else
-        {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<Dash>().OnHitEnemy += Explode;
-        }
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Dash>().OnHitEnemy += Explode;
     }
 
     private void Update()
@@ -37,8 +22,8 @@ public class PowerUpExplode : PowerUp
         if(coolDown <= 0)
         {
             GameObject go = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            go.transform.localScale = Vector2.one * size;
-            go.GetComponent<Explosion>().radius = size;
+            go.transform.localScale = Vector2.one * GetStat("Size").statValue;
+            go.GetComponent<Explosion>().radius = GetStat("Size").statValue;
 
             coolDown = .25f;
         }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3464007397947900407}
   - component: {fileID: 525222923677594248}
   - component: {fileID: 2636885682734186678}
+  - component: {fileID: 3737288497924828327}
   m_Layer: 0
   m_Name: Common PowerUp Selector
   m_TagString: Untagged
@@ -132,3 +133,19 @@ MonoBehaviour:
   - weight: 1
     item: {fileID: 1978333764054074077, guid: 3770bd6b9b97a5646beab6fe99fd9eee, type: 3}
   _choices: 3
+--- !u!58 &3737288497924828327
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464007397947900406}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

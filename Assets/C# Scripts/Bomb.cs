@@ -16,15 +16,16 @@ public class Bomb : MonoBehaviour
 
     void Start()
     {
-        startPos = targetPosition + Vector2.one * (speed * Random.Range(1f, 2f));
+        startPos = targetPosition + Vector2.one * (speed * Random.Range(3f, 6f));
         transform.position = startPos;
     }
 
     private void Update()
     {
         transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
-        targetDesignator.transform.localScale = Vector2.one / 2 + (Vector2)transform.position - targetPosition / (startPos - targetPosition);
-        targetDesignator.color = new Color(1,0,0, .5f + transform.position.x - targetPosition.x / (startPos.x - targetPosition.x));
+        targetDesignator.transform.position = targetPosition;
+        targetDesignator.transform.localScale = ((transform.position.x - targetPosition.x) / (startPos.x - targetPosition.x)) * 25 * Vector2.one;
+        targetDesignator.color = new Color(1,0,0, .5f - ((transform.position.x - targetPosition.x) / (startPos.x - targetPosition.x)));
 
         if((Vector2) transform.position == targetPosition)
         {
@@ -33,9 +34,10 @@ public class Bomb : MonoBehaviour
             trail.transform.parent = null;
             trail.loop = false;
             explosionEffect.Play();
-            CameraShaker.Instance.ShakeOnce(1, 10, .2f, .2f);
+            CameraShaker.Instance.ShakeOnce(.5f, 7, .1f, .15f);
             Destroy(gameObject);
             Destroy(explosionEffect.gameObject, 1);
+            Destroy(trail.gameObject, 1);
         }
     }
 

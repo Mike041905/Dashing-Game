@@ -73,7 +73,6 @@ public class Health : MonoBehaviour
         if (dead) { return; } // a precaution (it likes to trigger multiple times when hit twice at the same time)
         dead = true;
 
-        Debug.Log(GameManager.Insatnce);
         for (int i = 0; i < Random.Range(minCoinsOnDeath, maxCoinsOnDeath); i++)
         {
             Instantiate(GameManager.Insatnce.coin, transform.position + (Vector3) Mike.MikeRandom.RandomVector2(-.5f, .5f, -.5f, .5f), Quaternion.identity).GetComponent<Item>().coinsPerPickup = 1 + Mathf.RoundToInt(GameManager.Insatnce.Level * .1f);

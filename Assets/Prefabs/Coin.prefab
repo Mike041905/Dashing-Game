@@ -64,13 +64,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectionEffect: {fileID: 7890909979121165634, guid: e427020535af3b14293a29ba6a2128a1, type: 3}
   coinsPerPickup: 1
+  gemsPerPickup: 0
   homingRange: 7
   homingSpeed: 5
-  activationDelay: 0.5
-  isRunUpgrade: 0
-  runUpgrade:
-    name: 
-    spawnObject: {fileID: 0}
+  activationDelay: 0.25
+  _isPowerUp: 0
+  _powerUpLootTable: []
+  _choices: 3
 --- !u!1001 &2648523474704266187
 PrefabInstance:
   m_ObjectHideFlags: 0

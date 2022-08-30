@@ -13,11 +13,6 @@ public class Missile : MonoBehaviour
 
     private float currentSpeed = 0;
 
-    private void Start()
-    {
-        transform.rotation = Mike.MikeTransform.Rotation.LookTwards(transform.position, target.position);
-    }
-
     void Update()
     {
         if(currentSpeed < speed)
@@ -31,8 +26,8 @@ public class Missile : MonoBehaviour
         { 
             GameObject go = MikeGameObject.GetClosestTargetWithTag(transform.position, "Enemy"); 
             if (go == null) 
-            { 
-                MikeTrigger(new()); 
+            {
+                Hit(); 
                 return; 
             } 
             else 
@@ -51,7 +46,7 @@ public class Missile : MonoBehaviour
         if(target != null) transform.rotation = Quaternion.RotateTowards(transform.rotation, Mike.MikeTransform.Rotation.LookTwards(transform.position, target.position), rotSpeed * Time.deltaTime);
     }
 
-    public void MikeTrigger(RaycastHit2D hit)
+    public void OnMikeSphereTriggerEnter(RaycastHit2D hit)
     {
         if (hit.transform.CompareTag("Player")) { return; }
         if (hit.transform.CompareTag("Projectile")) { return; }
@@ -59,7 +54,12 @@ public class Missile : MonoBehaviour
 
         if(hit.transform.GetComponent<Health>() != null) { hit.transform.GetComponent<Health>().TakeDamage(damage * PlayerPrefs.GetFloat("Damage")); }
 
-        if(hitEffect != null) { Instantiate(hitEffect, transform.position, Quaternion.identity); }
+        Hit();
+    }
+
+    void Hit()
+    {
+        if (hitEffect != null) { Instantiate(hitEffect, transform.position, Quaternion.identity); }
 
         Destroy(gameObject);
     }

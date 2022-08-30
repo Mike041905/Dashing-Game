@@ -21,7 +21,7 @@ MonoBehaviour:
     m_Value: 1
   scatter:
     m_OverrideState: 1
-    m_Value: 0.517
+    m_Value: 0.75
   clamp:
     m_OverrideState: 1
     m_Value: 65472
@@ -33,7 +33,7 @@ MonoBehaviour:
     m_Value: 1
   skipIterations:
     m_OverrideState: 1
-    m_Value: 9
+    m_Value: 11
   dirtTexture:
     m_OverrideState: 1
     m_Value: {fileID: 0}

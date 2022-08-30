@@ -48,7 +48,7 @@ public class Dash : MonoBehaviour
     private Vector2 lastDashPosition;
     private float stamina = 0;
 
-    private Coroutine currentDash;
+    public Coroutine currentDash;
 
 
     //-----------------------------

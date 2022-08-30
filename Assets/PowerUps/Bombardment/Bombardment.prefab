@@ -46,7 +46,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpName: Bombardment
   description: death from above
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: b684491cf3193f640bf29cca028cfdc0, type: 3}
+  stats:
+  - statName: Interval
+    statValue: 1
+    statUpgradeOffset: 0
+    statUpgradeMultiplier: -0.1
+  - statName: ChancePerc
+    statValue: 0.2
+    statUpgradeOffset: 0
+    statUpgradeMultiplier: 0.1
+  - statName: Amount
+    statValue: 15
+    statUpgradeOffset: 2
+    statUpgradeMultiplier: 0
   bombPrefab: {fileID: 1281403807000855016, guid: c52c35c4f30af71478923d990fc612f9, type: 3}
-  interval: 1
-  chancePerc: 0.75

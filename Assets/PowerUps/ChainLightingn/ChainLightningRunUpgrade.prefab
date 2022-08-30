@@ -46,9 +46,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpName: ChainLighting
   description: zap!
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: b0a43ccc0c27eda48855795f5f1e6776, type: 3}
+  stats:
+  - statName: Bounces
+    statValue: 2
+    statUpgradeOffset: 1
+    statUpgradeMultiplier: 0
+  - statName: Damage
+    statValue: 2
+    statUpgradeOffset: 0
+    statUpgradeMultiplier: 0.25
   lightiningPrefab: {fileID: 8392118956376280407, guid: 2b4b4be4dc8d89445ac472fec41c95ea, type: 3}
-  damage: 3
-  bounces: 2
-  damageUpgrade: 0.1
-  bouncesUpgrade: 1

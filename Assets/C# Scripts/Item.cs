@@ -83,6 +83,10 @@ public class Item : MonoBehaviour
         }
 
         choiceIndexes = new int[_choices];
+        for (int i = 0; i < choiceIndexes.Length; i++)
+        {
+            choiceIndexes[i] = -1;
+        }
 
         // Generates Choices
         for (int i = 0; i < _choices; i++)
@@ -103,11 +107,14 @@ public class Item : MonoBehaviour
         // converts to ChoiceData
         for (int i = 0; i < _choices; i++)
         {
+            PowerUp powerUp = _powerUpLootTable[choiceIndexes[i]].item.GetComponent<PowerUp>();
+            PowerUp oldPowerUp = PowerUpAdder.Instance.GetPowerUp(powerUp.powerUpName);
+
             choices[i] = new ChoiceSelector.ChoiceData
             {
-                name = _powerUpLootTable[choiceIndexes[i]].item.GetComponent<PowerUp>().powerUpName,
-                description = _powerUpLootTable[choiceIndexes[i]].item.GetComponent<PowerUp>().description,
-                iconSpr = _powerUpLootTable[choiceIndexes[i]].item.GetComponent<PowerUp>().icon
+                name = powerUp.powerUpName,
+                description = oldPowerUp != null ? oldPowerUp.GetUpgradeDifference() + "\n" + powerUp.description : powerUp.description,
+                iconSpr = powerUp.icon
             };
         }
 
@@ -119,7 +126,7 @@ public class Item : MonoBehaviour
     {
         if(index >= 0)
         {
-            Instantiate(_powerUpLootTable[choiceIndexes[index]].item, GameObject.FindGameObjectWithTag("PowerUpHolder").transform);
+            PowerUpAdder.Instance.AddOrUpgradePowerUp(_powerUpLootTable[choiceIndexes[index]].item);
         }
     }
 }

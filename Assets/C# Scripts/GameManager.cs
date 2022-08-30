@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Mike;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -143,7 +144,16 @@ public class GameManager : MonoBehaviour
 
     void MoveToNextLevel()
     {
-        GameObject.FindGameObjectWithTag("Player").transform.position = Vector3.zero;
+        StartCoroutine(NextLevel());
+    }
+
+    IEnumerator NextLevel()
+    {
+        yield return new WaitForSeconds(2f);
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.position = Vector3.zero;
+        if (player.GetComponent<Dash>().currentDash != null) { StopCoroutine(player.GetComponent<Dash>().currentDash); }
 
         PlayerPrefs.SetInt("Current Level", PlayerPrefs.GetInt("Current Level", 1) + 1);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

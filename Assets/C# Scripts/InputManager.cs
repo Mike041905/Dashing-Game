@@ -59,8 +59,8 @@ public class InputManager : MonoBehaviour
     void ShowUpdateNotes()
     {
         if(updateNotes == null) { return; }
-        if (updateNotes.transform.Find("Version").GetComponent<TextMeshProUGUI>().text == PlayerPrefs.GetString("Last Version", "")) { return; }
-        else { PlayerPrefs.SetString("Last Version", updateNotes.transform.Find("Version").GetComponent<TextMeshProUGUI>().text); PlayerPrefs.SetInt("Seen Update Notes", 0); }
+        if (Application.version == PlayerPrefs.GetString("Last Version", "")) { return; }
+        else { PlayerPrefs.SetString("Last Version", Application.version); PlayerPrefs.SetInt("Seen Update Notes", 0); }
         if(PlayerPrefs.GetInt("New Player", 1) == 1) { PlayerPrefs.SetInt("New Player", 0); return; }
         if(PlayerPrefs.GetInt("Seen Update Notes", 0) == 1) { return; }
             PlayerPrefs.SetInt("Seen Update Notes", 1);

@@ -194,11 +194,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 0}
   health: 5
-  deathEffect: {fileID: 1518020747397404029, guid: 79d43f36675b4f848bd2819a69224317, type: 3}
+  deathEffect: {fileID: 1518020747397404029, guid: be85564dc7699d14a8de14ea9d38a1ba, type: 3}
   destroyOnDeath: 1
   minCoinsOnDeath: 1
   maxCoinsOnDeath: 2
   immuneTime: 0.2
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!50 &9040167499389947997
 Rigidbody2D:
   serializedVersion: 4

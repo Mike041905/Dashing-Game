@@ -45,6 +45,7 @@ public class ChoiceSelector : MonoBehaviour
         background.SetActive(false);
 
         OnSelect?.Invoke(choiceIndex);
+        OnSelect -= OnSelect;
         OnEndChoice?.Invoke();
     }
 

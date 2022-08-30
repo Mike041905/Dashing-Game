@@ -46,6 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpName: Slow-Mo
   description: Slow Motion
-  icon: {fileID: 0}
-  slowMoTime: 0.5
-  slowMoUpgradeValue: 0.1
+  icon: {fileID: 21300000, guid: 7e0a4927de4eace4a9afe3d692107785, type: 3}
+  stats:
+  - statName: SlowMoTime
+    statValue: 0.5
+    statUpgradeOffset: 0
+    statUpgradeMultiplier: -0.1
