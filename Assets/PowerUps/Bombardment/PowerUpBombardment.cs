@@ -7,14 +7,14 @@ public class PowerUpBombardment : PowerUp
 
     //----------------
 
-    void Update()
+    private void Update()
     {
         ExecuteBombardment();
     }
 
     //---------------
 
-    float bombardmentTimer = 0;
+    private float bombardmentTimer = 0;
     public void ExecuteBombardment()
     {
         if (bombardmentTimer < GetStat("Interval").statValue) { bombardmentTimer += Time.deltaTime; return; } //makes the method run at a certain interval
@@ -24,11 +24,8 @@ public class PowerUpBombardment : PowerUp
 
         Vector2 currentRoom = Mike.MikeGameObject.GetClosestTargetWithTag(transform.position, "Room").transform.position;
 
-        for (int i = 0; i < GetStat("Amount").statValue; i++)
-        {
-            Bomb bomb = Instantiate(bombPrefab, transform.position, Quaternion.identity).GetComponent<Bomb>();//spawn bomb
+        Bomb bomb = Instantiate(bombPrefab, transform.position, Quaternion.identity).GetComponent<Bomb>();//spawn bomb
 
-            bomb.targetPosition = currentRoom + Mike.MikeRandom.RandomVector2(-20, 20, -20, 20);
-        }
+        bomb.targetPosition = currentRoom + Mike.MikeRandom.RandomVector2(-20, 20, -20, 20);
     }
 }

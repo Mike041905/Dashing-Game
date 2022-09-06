@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5117320625641416578}
   m_RootOrder: 0
@@ -44,6 +45,7 @@ TrailRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -52,7 +54,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6da2843e8d731004dadf9bd92ed2b3b5, type: 2}
+  - {fileID: 2100000, guid: f9027589c6a90614ba0d885f3f0d7f0a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -76,13 +78,13 @@ TrailRenderer:
   m_Time: 0.2
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.050554767
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -153,8 +155,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minY: -1
   maxY: 1
-  minSpeed: 90
-  maxSpeed: 110
+  minSpeed: 900
+  maxSpeed: 1100
 --- !u!1 &446299447005461956
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +185,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5117320625641416578}
   m_RootOrder: 2
@@ -199,6 +202,7 @@ TrailRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -207,7 +211,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6da2843e8d731004dadf9bd92ed2b3b5, type: 2}
+  - {fileID: 2100000, guid: f141a2f0cde7a5746bffe044cbc98726, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -231,13 +235,13 @@ TrailRenderer:
   m_Time: 0.2
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.050554767
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -308,8 +312,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minY: -1
   maxY: 1
-  minSpeed: 90
-  maxSpeed: 110
+  minSpeed: 900
+  maxSpeed: 1100
 --- !u!1 &6628215295143812199
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,6 +342,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5117320625641416578}
   m_RootOrder: 1
@@ -354,6 +359,7 @@ TrailRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -362,7 +368,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6da2843e8d731004dadf9bd92ed2b3b5, type: 2}
+  - {fileID: 2100000, guid: 6494bf99bc6980f45a1e07e535178561, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -386,13 +392,13 @@ TrailRenderer:
   m_Time: 0.2
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.050554767
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -463,8 +469,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minY: -1
   maxY: 1
-  minSpeed: 90
-  maxSpeed: 110
+  minSpeed: 900
+  maxSpeed: 1100
 --- !u!1 &8392118956376280407
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,6 +498,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1546379518300666219}
   - {fileID: 9116757272802045424}

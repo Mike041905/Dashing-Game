@@ -14,7 +14,6 @@ public class OfflineEarnings : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         InitializeOfflineEarnings();
-        SetNewLastLoginDate();
         ShowCoinsGained();
     }
 
@@ -33,7 +32,6 @@ public class OfflineEarnings : MonoBehaviour
 
     void ShowCoinsGained()
     {
-        popUp.SetActive(true);
 
         InitializeOfflineEarnings();
         if (Mathf.RoundToInt((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalHours) >= 10f)
@@ -43,6 +41,11 @@ public class OfflineEarnings : MonoBehaviour
         else
         {
             coinsGained.text = MikeString.ConvertNumberToString(Mathf.RoundToInt((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalSeconds / 100 * PlayerPrefs.GetInt("Offline Earnings")));
+        }
+
+        if(coinsGained.text != "0")
+        {
+            popUp.SetActive(true);
         }
     }
 

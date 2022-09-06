@@ -49,7 +49,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        if(Insatnce != null && SceneManager.GetActiveScene().buildIndex != 0) { return; }
+
         _Instance = this;
+
+        SceneManager.activeSceneChanged += OnSceneChange;
 
         Initialize();
         UpdateUI();
@@ -72,6 +76,7 @@ public class GameManager : MonoBehaviour
 
     void Initialize()
     {
+
         DifficultyPreLevel = difficultyPreLevel;
         DifficultyPreRoomMultiplier = difficultyPreRoomMultiplier;
 
@@ -157,5 +162,16 @@ public class GameManager : MonoBehaviour
 
         PlayerPrefs.SetInt("Current Level", PlayerPrefs.GetInt("Current Level", 1) + 1);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void OnSceneChange(Scene s, Scene s2)
+    {
+        Initialize();
+        UpdateUI();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.activeSceneChanged -= OnSceneChange;
     }
 }

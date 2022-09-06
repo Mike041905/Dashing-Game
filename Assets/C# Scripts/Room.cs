@@ -40,18 +40,13 @@ public class Room : MonoBehaviour
         SetEnemyTickets();
     }
 
-    private void Update()
-    {
-        EndFightIfEnemiesDead();
-    }
-
 
     //---------------------
 
 
     void SetEnemyTickets()
     {
-        enemySpawnTickets = Mathf.RoundToInt(enemySpawnTickets + GameManager.Insatnce.Level * 0.01f);
+        enemySpawnTickets = Mathf.RoundToInt(enemySpawnTickets + GameManager.Insatnce.Level * 0.05f);
     }
 
     public void SetInitialDoorStates()
@@ -65,7 +60,7 @@ public class Room : MonoBehaviour
         }
     }
 
-    void EndFightIfEnemiesDead() 
+    public void EndFightIfEnemiesDead() 
     {
         if (CheckIfAllEnemiesDead())
         {
@@ -100,7 +95,7 @@ public class Room : MonoBehaviour
 
         foreach (var item in spawnedEnemies)
         {
-            if (item != null) { return false; }
+            if (item != null && !item.GetComponent<Health>().Dead) { return false; }
         }
 
         return true;
@@ -148,7 +143,7 @@ public class Room : MonoBehaviour
             enemy = enemies[MikeRandom.RandomIntByWeights(weights)];
 
             //set random position until the distance between the player and the spawn position is more than 10
-            while (Vector2.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, spawnPosition) <= 10)
+            while (Vector2.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, spawnPosition) <= 15)
             {
                 spawnPosition = Mike.MikeRandom.RandomVector2(-20, 20, -20, 20) + (Vector2)transform.position;
             }
@@ -157,11 +152,12 @@ public class Room : MonoBehaviour
             if(enemySpawnTickets - enemy.ticketLossPerSpawnedUnit < 0) { return; }
 
             //spawn Enemy
-            GameObject go = Instantiate(enemy.prefab, spawnPosition, Quaternion.identity);
-            go.GetComponent<EnemyAI>().difficultyMultiplier = GameManager.Insatnce.DifficultyPreRoomMultiplier + PlayerPrefs.GetInt("Current Level") * GameManager.Insatnce.DifficultyPreLevel;
+            EnemyAI newEnemy = Instantiate(enemy.prefab, spawnPosition, Quaternion.identity).GetComponent<EnemyAI>();
+            newEnemy.difficultyMultiplier = GameManager.Insatnce.DifficultyPreRoomMultiplier + PlayerPrefs.GetInt("Current Level") * GameManager.Insatnce.DifficultyPreLevel;
+            newEnemy.room = this;
 
             //add spawned enemy to array
-            spawnedEnemies = MikeArray.Append(spawnedEnemies, go);
+            spawnedEnemies = MikeArray.Append(spawnedEnemies, newEnemy.gameObject);
             
             //remove tickets
             enemySpawnTickets -= enemy.ticketLossPerSpawnedUnit;

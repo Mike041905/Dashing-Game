@@ -13,6 +13,10 @@ public class ChainLightning : MonoBehaviour
 
     //-------------------------------------------
 
+    private void Start()
+    {
+        damage *= PlayerPrefs.GetFloat("Damage");
+    }
 
     void Update()
     {
@@ -27,6 +31,7 @@ public class ChainLightning : MonoBehaviour
             currentTarget = MikeGameObject.GetClosestTargetWithTag(transform.position, "Enemy", hitGameObjects); 
             if(currentTarget == null) { TurnOffZigZagEffects(); Destroy(gameObject, 1); enabled = false; }
             AddToHitGameObjcets(currentTarget);
+            damage -= damage / bounces;
             bounces--;
         }
         else if (bounces < 0) { TurnOffZigZagEffects(); Destroy(gameObject, 1); enabled = false; }
@@ -43,7 +48,7 @@ public class ChainLightning : MonoBehaviour
         }
         else 
         {
-            currentTarget.GetComponent<Health>().TakeDamage(damage * PlayerPrefs.GetFloat("Damage")); currentTarget = null; 
+            currentTarget.GetComponent<Health>().TakeDamage(damage); currentTarget = null; 
         }
     }
 

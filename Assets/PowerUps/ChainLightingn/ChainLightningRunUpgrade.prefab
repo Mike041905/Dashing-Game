@@ -52,8 +52,4 @@ MonoBehaviour:
     statValue: 2
     statUpgradeOffset: 1
     statUpgradeMultiplier: 0
-  - statName: Damage
-    statValue: 2
-    statUpgradeOffset: 0
-    statUpgradeMultiplier: 0.25
   lightiningPrefab: {fileID: 8392118956376280407, guid: 2b4b4be4dc8d89445ac472fec41c95ea, type: 3}

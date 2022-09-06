@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cfbc54e35009f94189a2eec5543d24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectionEffect: {fileID: 7890909979121165634, guid: e427020535af3b14293a29ba6a2128a1, type: 3}
+  collectionEffect: {fileID: 7890909979121165634, guid: a27d52d447c2b8d4fb79f86188a3e37a, type: 3}
   coinsPerPickup: 0
   gemsPerPickup: 1
   homingRange: 7
@@ -84,11 +84,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 779898321780722395, guid: e0e03110a1ac96049b99c179a911167e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 779898321780722395, guid: e0e03110a1ac96049b99c179a911167e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 779898321780722395, guid: e0e03110a1ac96049b99c179a911167e, type: 3}
       propertyPath: m_LocalPosition.x

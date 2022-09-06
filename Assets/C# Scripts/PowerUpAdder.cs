@@ -10,7 +10,7 @@ public class PowerUpAdder : MonoBehaviour
 
     private void Awake()
     {
-        if(PowerUpAdder.Instance != null) { return; }
+        if(Instance != null) { return; }
 
         PowerUps = new PowerUp[0];
         _instance = this;
@@ -28,7 +28,7 @@ public class PowerUpAdder : MonoBehaviour
 
     public PowerUp AddOrUpgradePowerUp(GameObject newPowerUp)
     {
-        PowerUp powerUp = GetPowerUp(newPowerUp.name);
+        PowerUp powerUp = GetPowerUp(newPowerUp.GetComponent<PowerUp>().powerUpName);
         if(powerUp == null) // Add
         {
             PowerUps = MikeArray.Append(PowerUps, Instantiate(newPowerUp, transform).GetComponent<PowerUp>());

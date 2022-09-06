@@ -34,6 +34,8 @@ public class ChoiceSelector : MonoBehaviour
     [SerializeField] UnityEvent OnStartChoice;
     [SerializeField] UnityEvent OnEndChoice;
 
+    bool activeChoice;
+
     public void OnChoiceSelected(int choiceIndex)
     {
         for (int i = 0; i < choiceHolder.transform.childCount; i++)
@@ -41,6 +43,7 @@ public class ChoiceSelector : MonoBehaviour
             Destroy(choiceHolder.transform.GetChild(i).gameObject);
         }
 
+        activeChoice = false;
         Time.timeScale = 1;
         background.SetActive(false);
 
@@ -59,6 +62,14 @@ public class ChoiceSelector : MonoBehaviour
         if (!Application.IsPlaying(gameObject)) { return; }
         choiceTemplate.transform.SetParent(transform);
         choiceTemplate.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (activeChoice && Time.timeScale > 0.0001f)
+        {
+            Time.timeScale = 0.00001f;
+        }
     }
 
     void Initialize()
@@ -89,8 +100,8 @@ public class ChoiceSelector : MonoBehaviour
     /// <param name="CallBack"></param>
     public void DisplayChoice(ChoiceData[] choices, UnityAction<int> CallBack)
     {
-        Time.timeScale = 0.00001f;
         background.SetActive(true);
+        activeChoice = true;
 
         OnStartChoice?.Invoke();
         OnSelect += CallBack;

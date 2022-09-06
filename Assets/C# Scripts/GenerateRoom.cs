@@ -7,8 +7,7 @@ public class GenerateRoom : MonoBehaviour
     private GameObject roomPrefab;
     private float chanceOfRoomSpawnPrc;
 
-    [HideInInspector]
-    public float chanceMultiplier = 1;
+    [HideInInspector] public float chanceMultiplier = 1;
 
     enum Side
     {

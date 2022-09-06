@@ -36,6 +36,7 @@ public class EnemyAI : MonoBehaviour
 
     Transform target;
     float shotDelayTimer = 0.0f;
+    public Room room;
 
 
     //---------------------------------------------
@@ -46,6 +47,7 @@ public class EnemyAI : MonoBehaviour
         //asign player to target variable
         target = GameObject.FindGameObjectWithTag("Player").transform;
 
+        GetComponent<Health>().OnDeath.AddListener(OnDeath);
         GetComponent<Health>().health *= difficultyMultiplier;
         projectileDamage *= difficultyMultiplier;
     }
@@ -108,7 +110,11 @@ public class EnemyAI : MonoBehaviour
         else if(Vector2.Distance(transform.position, target.position) < backupRange) 
         {
             transform.position -= playerAvoidanceSpeed * Time.deltaTime * transform.up;
-
         }
+    }
+
+    void OnDeath()
+    {
+        room.EndFightIfEnemiesDead();
     }
 }

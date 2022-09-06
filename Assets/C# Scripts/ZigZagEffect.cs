@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class ZigZagEffect : MonoBehaviour
 {
     [SerializeField] private float minY = -1;

@@ -22,7 +22,6 @@ public class PowerUpChainLightning : PowerUp
         if(coolDown <= 0)
         {
             ChainLightning chainLightning = Instantiate(lightiningPrefab, transform.position, Quaternion.identity).GetComponent<ChainLightning>();
-            chainLightning.damage = GetStat("Damage").statValue;
             chainLightning.bounces = (int) GetStat("Bounces").statValue;
 
             coolDown = .25f;

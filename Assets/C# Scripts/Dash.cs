@@ -4,6 +4,7 @@ using UnityEngine;
 using Mike;
 using UnityEngine.UI;
 using System;
+using EZCameraShake;
 
 public class Dash : MonoBehaviour
 {
@@ -29,9 +30,11 @@ public class Dash : MonoBehaviour
     //-----------------------------
 
 
+    // Deprecated
     [HideInInspector] public bool slowMoUpgradeEnabled = false;
     [HideInInspector] public bool explodeUpgradeEnabled = false;
     [HideInInspector] public bool chainLightningUpgradeEnabled = false;
+    //
 
     public event Action OnStartAiming;
     public event Action OnAiming;
@@ -59,9 +62,6 @@ public class Dash : MonoBehaviour
         else { DontDestroyOnLoad(gameObject); }
 
         InitializeVariables();
-
-        stamina = maxStamina;
-        staminaSlider.maxValue = maxStamina;
     }
 
     void Update()
@@ -73,6 +73,7 @@ public class Dash : MonoBehaviour
 
 
     //-----------------------------
+
 
     void ManageLineRenderer()
     {
@@ -97,6 +98,9 @@ public class Dash : MonoBehaviour
     {
         damage = PlayerPrefs.GetFloat("Damage");
         staminaRecharge = PlayerPrefs.GetFloat("Stamina Recharge");
+
+        stamina = maxStamina;
+        staminaSlider.maxValue = maxStamina;
     }
 
     void RechargeStamina()
@@ -118,7 +122,6 @@ public class Dash : MonoBehaviour
 
     public void SetPositionsAndDash(bool pcControls = false)
     {
-
         if (pcControls == true ? Input.GetMouseButton(0) : Input.touchCount > 0)
         {
             OnAiming?.Invoke();
@@ -127,7 +130,6 @@ public class Dash : MonoBehaviour
             {
                 firstTouchPosition = pcControls == true ? (Vector2)Input.mousePosition : Input.GetTouch(0).position;
                 setFirstTouchPosition = true;
-
             }
             else
             {
@@ -141,7 +143,6 @@ public class Dash : MonoBehaviour
                 directionIndicator.SetPosition(0, transform.position);
                 directionIndicator.SetPosition(1, (secondTouchPosition - firstTouchPosition).normalized * 3 + (Vector2)transform.position);
             }
-
         }
         else if(setFirstTouchPosition)
         {
@@ -167,11 +168,13 @@ public class Dash : MonoBehaviour
         Vector2 finalPosition = (secondTouchPosition - firstTouchPosition).normalized * distance + (Vector2)transform.position;
         transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, finalPosition);
 
+        Collider2D lastHitBarrier = GetComponent<Collider2D>();
+
         while (true)
         {
             lastDashPosition = transform.position;
             transform.position = Vector2.MoveTowards(transform.position, finalPosition, speed * Time.deltaTime);
-            RaycastHit2D[] collider2Ds = Physics2D.CircleCastAll(transform.position, .5f, lastDashPosition, Vector2.Distance(transform.position, lastDashPosition));
+            RaycastHit2D[] collider2Ds = Physics2D.CircleCastAll(transform.position, .55f, lastDashPosition, Vector2.Distance(transform.position, lastDashPosition));
             foreach (RaycastHit2D item in collider2Ds)
             {
                 if (item.transform.CompareTag("Enemy"))
@@ -179,24 +182,73 @@ public class Dash : MonoBehaviour
                     Health enemy = item.transform.GetComponent<Health>();
                     DealDamage(enemy, damage);
                     DealKnockback(item.rigidbody, (Vector2) item.transform.position - item.point, knockbackForce);
-                    StartCoroutine(MikeScreenShake.Shake(Camera.main.transform, .02f, 3, 4));
+                    CameraShaker.Instance.ShakeOnce(1, 3, .1f, .1f);
 
                     OnHitEnemy?.Invoke(item.transform.gameObject);
                 }
-                if (item.transform.CompareTag("Barrier")) 
+                if (item.transform.CompareTag("Barrier") && item.collider != lastHitBarrier) 
                 {
-                    StartCoroutine(MikeScreenShake.Shake(Camera.main.transform, .02f, 3, 3));
+                    transform.position = item.centroid;
+                    lastHitBarrier = item.collider;
 
-                    transform.position = lastDashPosition;
-                    finalPosition -= (Vector2) transform.position;
-                    finalPosition *= -.5f;
-                    finalPosition += (Vector2) transform.position;
-                    speed *= .5f;
+                    CameraShaker.Instance.ShakeOnce(1, 3, .1f, .1f);
+                    Vector2 bounceDir = Vector2.Reflect(transform.up, item.normal);
+
+                    distance /= 2;
+                    speed /= 2;
+                    finalPosition = bounceDir * distance + (Vector2)transform.position;
+
+                    transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, finalPosition);
                 }
-                
             }
             if ((Vector2)transform.position == finalPosition) { currentDash = null; break; }
             yield return null;
         }
+
+        // Prevent Being Stuck in a wall
+        bool checkForBarriers = true;
+        for (int i = 0; checkForBarriers; i++)
+        {
+            checkForBarriers = false;
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, .6f);
+            foreach (Collider2D hit in hits)
+            {
+                if (!hit.CompareTag("Barrier")) { continue; }
+                transform.position += (Vector3) ((Vector2)transform.position - hit.ClosestPoint(transform.position)).normalized * .6f;
+                checkForBarriers = true;
+                break;
+            }
+
+            if(i > 10) { transform.position += (Vector3) ((Vector2) MikeGameObject.GetClosestTargetWithTag(transform.position, "Room").transform.position - (Vector2) transform.position).normalized; }
+            if(i > 100) { break; } //percaution
+        }
+    }
+
+    public void OnPause()
+    {
+        if (GetComponent<Health>().Dead) { return; }
+        enabled = false;
+    }
+
+    public void OnResume()
+    {
+        if (GetComponent<Health>().Dead) { return; }
+        enabled = true;
+    }
+
+    public void OnDeath()
+    {
+        lineRenderer.enabled = false;
+        directionIndicator.enabled = false;
+        if (currentDash != null) { StopCoroutine(currentDash); }
+        GetComponent<Collider2D>().enabled = false;
+        enabled = false;
+        PowerUpAdder.Instance.gameObject.SetActive(false);
+    }
+
+    public void OnRevive()
+    {
+        GetComponent<Collider2D>().enabled = true;
+        PowerUpAdder.Instance.gameObject.SetActive(true);
     }
 }

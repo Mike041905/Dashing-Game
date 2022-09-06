@@ -20,7 +20,7 @@ public class Health : MonoBehaviour
 
 
     float maxhealth;
-    bool dead = false;
+    public bool Dead { get; private set; }
 
     bool immune = false;
 
@@ -70,8 +70,10 @@ public class Health : MonoBehaviour
 
     public void Die()
     {
-        if (dead) { return; } // a precaution (it likes to trigger multiple times when hit twice at the same time)
-        dead = true;
+        if (Dead) { return; } // a precaution (it likes to trigger multiple times when hit twice at the same time)
+        Dead = true;
+
+        OnDeath?.Invoke();
 
         for (int i = 0; i < Random.Range(minCoinsOnDeath, maxCoinsOnDeath); i++)
         {
@@ -79,7 +81,6 @@ public class Health : MonoBehaviour
         }
 
         HealthOnKill();
-        OnDeath?.Invoke();
         if(deathEffect != null) Instantiate(deathEffect, transform.position, Quaternion.identity);
         if (destroyOnDeath) Destroy(gameObject);
     }
