@@ -72,8 +72,9 @@ public class EnemyAI : MonoBehaviour
 
     void ShootIfAble()
     {
-        if (target.gameObject.activeSelf && shootingDistance >= Vector2.Distance(transform.position, target.position) && shotDelayTimer >= delayBetweenShots)
+        if (target.gameObject.GetHealth() && shootingDistance >= Vector2.Distance(transform.position, target.position) && shotDelayTimer >= delayBetweenShots)
         {
+            gameObject.GetHealth();
             if (burst) StartCoroutine(FireBurst(projectilesPerBurst, delay)); else Shoot();
         }
     }

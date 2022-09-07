@@ -10,7 +10,6 @@ public class ChainLightning : MonoBehaviour
     private GameObject[] hitGameObjects = new GameObject[0];
     private GameObject currentTarget;
 
-
     //-------------------------------------------
 
     private void Start()
@@ -31,7 +30,7 @@ public class ChainLightning : MonoBehaviour
             currentTarget = MikeGameObject.GetClosestTargetWithTag(transform.position, "Enemy", hitGameObjects); 
             if(currentTarget == null) { TurnOffZigZagEffects(); Destroy(gameObject, 1); enabled = false; }
             AddToHitGameObjcets(currentTarget);
-            damage -= damage / bounces;
+            damage /= 2;
             bounces--;
         }
         else if (bounces < 0) { TurnOffZigZagEffects(); Destroy(gameObject, 1); enabled = false; }
@@ -43,8 +42,7 @@ public class ChainLightning : MonoBehaviour
 
         if (Vector2.Distance(transform.position, currentTarget.transform.position) > .5f)
         {
-            transform.position = Vector2.MoveTowards(transform.position, currentTarget.transform.position, speed * Time.deltaTime);
-            transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, currentTarget.transform.position);
+            transform.SetPositionAndRotation(Vector2.MoveTowards(transform.position, currentTarget.transform.position, speed * Time.deltaTime), MikeTransform.Rotation.LookTwards(transform.position, currentTarget.transform.position));
         }
         else 
         {

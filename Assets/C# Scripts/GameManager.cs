@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
 
         _Instance = this;
 
+        Application.targetFrameRate = Screen.currentResolution.refreshRate;
         SceneManager.activeSceneChanged += OnSceneChange;
 
         Initialize();

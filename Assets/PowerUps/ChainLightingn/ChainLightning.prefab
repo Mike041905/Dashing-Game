@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949899b4c84c98d44a7b2035b7b6ee46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minY: -1
-  maxY: 1
+  minY: -2
+  maxY: 2
   minSpeed: 900
   maxSpeed: 1100
 --- !u!1 &446299447005461956
@@ -310,8 +310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949899b4c84c98d44a7b2035b7b6ee46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minY: -1
-  maxY: 1
+  minY: -2
+  maxY: 2
   minSpeed: 900
   maxSpeed: 1100
 --- !u!1 &6628215295143812199
@@ -467,8 +467,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949899b4c84c98d44a7b2035b7b6ee46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minY: -1
-  maxY: 1
+  minY: -2
+  maxY: 2
   minSpeed: 900
   maxSpeed: 1100
 --- !u!1 &8392118956376280407

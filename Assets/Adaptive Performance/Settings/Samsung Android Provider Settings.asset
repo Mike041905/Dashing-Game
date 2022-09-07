@@ -314,5 +314,5 @@ MonoBehaviour:
   m_DefaultScalerProfilerIndex: 0
   k_AssetVersion: 2
   m_SamsungProviderLogging: 0
-  m_HighSpeedVRR: 1
-  m_AutomaticVRR: 1
+  m_HighSpeedVRR: 0
+  m_AutomaticVRR: 0
