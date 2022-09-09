@@ -22,7 +22,7 @@ public class EnemyAI : MonoBehaviour
 
     [Header("AI")]
     [Tooltip("The minimum range from the target")]
-    [SerializeField] private float movementSpeed = 3;
+    [SerializeField] protected float movementSpeed = 3;
     [SerializeField] private float playerAvoidanceSpeed = 3;
     [SerializeField] private float stopRange = 10;
     [SerializeField] private float backupRange = 10;
@@ -41,7 +41,7 @@ public class EnemyAI : MonoBehaviour
     //---------------------------------------------
 
 
-    private void Start()
+    public virtual void Start()
     {
         //asign player to target variable
         target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -55,6 +55,7 @@ public class EnemyAI : MonoBehaviour
         UpdateTimers();
         ShootIfAble();
         Move();
+        FaceTarget();
     }
 
 

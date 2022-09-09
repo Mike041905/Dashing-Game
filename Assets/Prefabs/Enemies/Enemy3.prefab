@@ -124,7 +124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9040167499389947999}
-  - component: {fileID: 9040167499389947987}
+  - component: {fileID: 1271912217142359408}
   - component: {fileID: 9040167499389947996}
   - component: {fileID: 9040167499389947997}
   - component: {fileID: 3752980813822647907}
@@ -152,7 +152,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9040167499389947987
+--- !u!114 &1271912217142359408
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,25 +161,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 9040167499389947992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0021e602841e2834fa7dd0c21fb40751, type: 3}
+  m_Script: {fileID: 11500000, guid: 890965a6a06bde64fbb702b0c953b5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1810532768877956804, guid: b1f6815eebb63cd40abc8076c5cecede, type: 3}
   muzzle: {fileID: 3033408715699039662}
-  projectileDamage: 2
+  projectileDamage: 0.3
   projectileSpeed: 20
   delayBetweenShots: 0.4
   projectilesPerShot: 1
   inaccuracy: 5
   burst: 1
-  projectilesPerBurst: 2
-  delay: 0.1
-  movementSpeed: 15
+  projectilesPerBurst: 10
+  delay: 2
+  movementSpeed: 10
   playerAvoidanceSpeed: 0.1
   stopRange: 7
   backupRange: 6.5
-  shootingDistance: 8
+  shootingDistance: 10
   difficultyMultiplier: 1
+  room: {fileID: 0}
+  turnSpeed: 270
+  AttackBreakOffDistance: 4
+  pointPositionTolerance: 1
 --- !u!114 &9040167499389947996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +203,7 @@ MonoBehaviour:
   minCoinsOnDeath: 1
   maxCoinsOnDeath: 2
   immuneTime: 0.2
+  maxhealth: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
