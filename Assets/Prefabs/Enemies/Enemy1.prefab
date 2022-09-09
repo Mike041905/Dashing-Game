@@ -253,7 +253,7 @@ MonoBehaviour:
   muzzle: {fileID: 3997293795890969470}
   projectileDamage: 5
   projectileSpeed: 10
-  delayBetweenShots: 2
+  delayBetweenShots: 3
   projectilesPerShot: 1
   inaccuracy: 5
   burst: 0
@@ -263,8 +263,9 @@ MonoBehaviour:
   playerAvoidanceSpeed: 3
   stopRange: 10
   backupRange: 2
-  shootingDistance: 15
+  shootingDistance: 13
   difficultyMultiplier: 1
+  room: {fileID: 0}
 --- !u!114 &9040167499389947996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,6 +285,10 @@ MonoBehaviour:
   minCoinsOnDeath: 0
   maxCoinsOnDeath: 3
   immuneTime: 0.2
+  maxhealth: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!58 &9040167499389947998
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -110,4 +110,10 @@ public class InputManager : MonoBehaviour
     {
         Time.timeScale = scale;
     }
+
+    public void Retry()
+    {
+        PlayerPrefs.SetInt("Current Level", PlayerPrefs.GetInt("Starting Level", 1));
+        LoadScene("Level");
+    }
 }
