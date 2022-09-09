@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Mike;
+using System.Collections;
+using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -34,15 +33,15 @@ public class EnemyAI : MonoBehaviour
     //---------------------------------------------
 
 
-    Transform target;
-    float shotDelayTimer = 0.0f;
+    protected Transform target;
+    private float shotDelayTimer = 0.0f;
     public Room room;
 
 
     //---------------------------------------------
 
 
-    void Start()
+    private void Start()
     {
         //asign player to target variable
         target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -51,10 +50,8 @@ public class EnemyAI : MonoBehaviour
         projectileDamage *= difficultyMultiplier;
     }
 
-    void Update()
+    private void Update()
     {
-        transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, target.position);
-        
         UpdateTimers();
         ShootIfAble();
         Move();
@@ -64,12 +61,17 @@ public class EnemyAI : MonoBehaviour
     //----------------------------------------------
 
 
-    void UpdateTimers()
+    protected virtual void FaceTarget()
     {
-        if(shotDelayTimer < delayBetweenShots) shotDelayTimer += Time.deltaTime;
+        transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, target.position);
     }
 
-    void ShootIfAble()
+    private void UpdateTimers()
+    {
+        if (shotDelayTimer < delayBetweenShots) shotDelayTimer += Time.deltaTime;
+    }
+
+    private void ShootIfAble()
     {
         if (target.gameObject.activeSelf && shootingDistance >= Vector2.Distance(transform.position, target.position) && shotDelayTimer >= delayBetweenShots)
         {
@@ -77,20 +79,20 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void Shoot()
+    private void Shoot()
     {
         shotDelayTimer = 0;
 
         for (int i = 0; i < projectilesPerShot; i++)
         {
-            Projectile projectile = Instantiate(projectilePrefab, muzzle.position, Quaternion.Euler(0,0,Random.Range(-inaccuracy, inaccuracy) + muzzle.rotation.eulerAngles.z)).GetComponent<Projectile>();
+            Projectile projectile = Instantiate(projectilePrefab, muzzle.position, Quaternion.Euler(0, 0, Random.Range(-inaccuracy, inaccuracy) + muzzle.rotation.eulerAngles.z)).GetComponent<Projectile>();
             projectile.damage = projectileDamage;
             projectile.speed = projectileSpeed;
             projectile.shooter = gameObject;
         }
     }
 
-    IEnumerator FireBurst(int numberOfProjectiles, float delay)
+    private IEnumerator FireBurst(int numberOfProjectiles, float delay)
     {
         for (int i = 0; i < numberOfProjectiles; i++)
         {
@@ -100,13 +102,13 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void Move()
+    protected virtual void Move()
     {
-        if(Vector2.Distance(transform.position, target.position) > stopRange)
+        if (Vector2.Distance(transform.position, target.position) > stopRange)
         {
             transform.position += movementSpeed * Time.deltaTime * transform.up;
         }
-        else if(Vector2.Distance(transform.position, target.position) < backupRange) 
+        else if (Vector2.Distance(transform.position, target.position) < backupRange)
         {
             transform.position -= playerAvoidanceSpeed * Time.deltaTime * transform.up;
         }

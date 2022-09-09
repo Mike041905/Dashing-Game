@@ -9,11 +9,11 @@ using UnityEngine.SceneManagement;
 
 public class DevCodes : MonoBehaviour
 {
-    public string Code { set; get; }
+    public string Code { set;  get; }
 
     public void EnterCode()
     {
-        ToLowerNoSpaces(Code);
+        Code = ToLowerNoSpaces(Code);
 
         if (Code.StartsWith("PlayerPrefs.SetInt("))
         {
@@ -58,47 +58,49 @@ public class DevCodes : MonoBehaviour
     void ModifyPlayerPrefsInt(string code)
     {
         string variable;
-        string value;
+        string val;
 
         variable = code.Remove(0, code.IndexOf("\"") + 1);
         variable = variable.Remove(variable.IndexOf("\""));
 
-        value = code.Remove(0, code.IndexOf(",") + 1);
-        value = value.Remove(value.IndexOf(")"));
+        val = code.Remove(0, code.IndexOf(",") + 1);
+        val = val.Remove(val.IndexOf(")"));
 
-        PlayerPrefs.SetInt(variable, int.Parse(value));
+        PlayerPrefs.SetInt(variable, int.Parse(val));
     }
 
     void ModifyPlayerPrefsFloat(string code)
     {
         string variable;
-        string value;
+        string val;
 
         variable = code.Remove(0, code.IndexOf("\"") + 1);
         variable = variable.Remove(variable.IndexOf("\""));
 
-        value = code.Remove(0, code.IndexOf(",") + 1);
-        value = value.Remove(value.IndexOf(")"));
+        val = code.Remove(0, code.IndexOf(",") + 1);
+        val = val.Remove(val.IndexOf(")"));
 
-        PlayerPrefs.SetFloat(variable, float.Parse(value));
+        PlayerPrefs.SetFloat(variable, float.Parse(val));
     }
     
     void ModifyPlayerPrefsString(string code)
     {
         string variable;
-        string value;
+        string val;
 
         variable = code.Remove(0, code.IndexOf("\"") + 1);
         variable = variable.Remove(variable.IndexOf("\""));
 
-        value = code.Remove(0, code.IndexOf("\"") + 1);
-        value = value.Remove(value.IndexOf("\""));
+        val = code.Remove(0, code.IndexOf("\"") + 1);
+        val = val.Remove(val.IndexOf("\""));
 
-        PlayerPrefs.SetString(variable, value);
+        PlayerPrefs.SetString(variable, val);
     }
-    public void ToLowerNoSpaces(string value)
+    public string ToLowerNoSpaces(string val)
     {
-        Code.ToLower();
-        Code = String.Concat(Code.Where(c => !Char.IsWhiteSpace(c)));
+        val = val.ToLower();
+        val = string.Concat(val.Where(c => !char.IsWhiteSpace(c)));
+
+        return val;
     }
 }
