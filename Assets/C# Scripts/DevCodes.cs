@@ -1,5 +1,9 @@
+using Mono.Cecil.Cil;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +13,8 @@ public class DevCodes : MonoBehaviour
 
     public void EnterCode()
     {
+        ToLowerNoSpaces(Code);
+
         if (Code.StartsWith("PlayerPrefs.SetInt("))
         {
             ModifyPlayerPrefsInt(Code);
@@ -24,17 +30,22 @@ public class DevCodes : MonoBehaviour
             ModifyPlayerPrefsString(Code);
             return;
         }
-        else if (Code == "ReloadScene()")
+        else if (Code == "reloadscene()")
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             return;
         }
-        else if (Code.StartsWith("Coins="))
+        else if (Code.StartsWith("coins="))
         {
             GameManager.Insatnce.AddCoins(int.Parse(Code.Remove(0, Code.IndexOf("=") + 1)) - GameManager.Insatnce.Coins);
             return;
         }
-        else if (Code == "ResetProgress()")
+        else if (Code.StartsWith("gems="))
+        {
+            GameManager.Insatnce.AddGems(int.Parse(Code.Remove(0, Code.IndexOf("=") + 1)) - GameManager.Insatnce.Gems);
+            return;
+        }
+        else if (Code == "resetprogress()")
         {
             PlayerPrefs.DeleteAll();
             SceneManager.LoadScene(0);
@@ -84,5 +95,10 @@ public class DevCodes : MonoBehaviour
         value = value.Remove(value.IndexOf("\""));
 
         PlayerPrefs.SetString(variable, value);
+    }
+    public void ToLowerNoSpaces(string value)
+    {
+        Code.ToLower();
+        Code = String.Concat(Code.Where(c => !Char.IsWhiteSpace(c)));
     }
 }
