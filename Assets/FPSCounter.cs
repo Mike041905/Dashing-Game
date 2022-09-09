@@ -20,7 +20,7 @@ public class FPSCounter : MonoBehaviour
 
         if(timer <= 0)
         {
-            text.text = $"FPS: {1 / Time.deltaTime} ({Time.deltaTime * 1000}ms)";
+            text.text = $"FPS: {1 / Time.unscaledDeltaTime} ({Time.unscaledDeltaTime * 1000}ms)";
             timer = .2f;
         }
     }

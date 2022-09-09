@@ -47,7 +47,6 @@ public class EnemyAI : MonoBehaviour
         //asign player to target variable
         target = GameObject.FindGameObjectWithTag("Player").transform;
 
-        GetComponent<Health>().OnDeath.AddListener(OnDeath);
         GetComponent<Health>().health *= difficultyMultiplier;
         projectileDamage *= difficultyMultiplier;
     }
@@ -72,9 +71,8 @@ public class EnemyAI : MonoBehaviour
 
     void ShootIfAble()
     {
-        if (target.gameObject.GetHealth() && shootingDistance >= Vector2.Distance(transform.position, target.position) && shotDelayTimer >= delayBetweenShots)
+        if (target.gameObject.activeSelf && shootingDistance >= Vector2.Distance(transform.position, target.position) && shotDelayTimer >= delayBetweenShots)
         {
-            gameObject.GetHealth();
             if (burst) StartCoroutine(FireBurst(projectilesPerBurst, delay)); else Shoot();
         }
     }
@@ -114,7 +112,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void OnDeath()
+    private void OnDestroy()
     {
         room.EndFightIfEnemiesDead();
     }

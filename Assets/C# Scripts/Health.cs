@@ -4,19 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public static class GameObjectHealthExtention
-{
-    public static Health health;
-    public static Health GetHealth(this GameObject go)
-    {
-        if(health == null)
-        {
-            health = go.GetComponent<Health>();
-        }
-
-        return health;
-    }
-}
 
 public class Health : MonoBehaviour
 {

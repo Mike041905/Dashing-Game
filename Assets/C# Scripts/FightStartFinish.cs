@@ -6,10 +6,13 @@ public class FightStartFinish : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI text;
 
+    Coroutine activeText;
+
     public void StartFight()
     {
         //bruh this is a mess!
-        StartCoroutine(Animation(
+        if(activeText != null) { StopCoroutine(activeText); }
+        activeText = StartCoroutine(Animation(
             "FIGHT!",
             new Vector2(1.5f, 1.5f),
             new Color(255, 0, 0, 0),
@@ -23,6 +26,7 @@ public class FightStartFinish : MonoBehaviour
     public void EndFight()
     {
         //bruh this is a mess!
+        if (activeText != null) { StopCoroutine(activeText); }
         StartCoroutine(Animation(
             "ROOM COMPLETE!",
             new Vector2(1.5f, 1.5f),
@@ -44,7 +48,7 @@ public class FightStartFinish : MonoBehaviour
         text.color = initialColor;
         text.text = textString;
 
-        while (true)
+        while (true) // this freezes if timescale is set to 0 but wont unfreez if reverted.
         {
             deactivationDelay -= Time.deltaTime;
 

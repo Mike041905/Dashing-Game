@@ -65,8 +65,8 @@ MonoBehaviour:
   collectionEffect: {fileID: 7890909979121165634, guid: dfa15404f96f88e42b8a7e000d2e45e6, type: 3}
   coinsPerPickup: 1
   gemsPerPickup: 0
-  homingRange: 7
-  homingSpeed: 5
+  homingRange: 10
+  homingSpeed: 6
   activationDelay: 0.25
   _isPowerUp: 0
   _powerUpLootTable: []

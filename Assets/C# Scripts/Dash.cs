@@ -238,6 +238,7 @@ public class Dash : MonoBehaviour
 
     public void OnDeath()
     {
+        cameraTarget.position = transform.position;
         lineRenderer.enabled = false;
         directionIndicator.enabled = false;
         if (currentDash != null) { StopCoroutine(currentDash); }
