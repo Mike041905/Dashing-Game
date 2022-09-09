@@ -19,7 +19,7 @@ public class Health : MonoBehaviour
     [SerializeField] float immuneTime = .2f;
 
 
-    float maxhealth;
+    public float maxhealth;
     public bool Dead { get; private set; }
 
     bool immune = false;
