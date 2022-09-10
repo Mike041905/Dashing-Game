@@ -12,7 +12,7 @@ public class YellowEnemy : EnemyAI
 
     private State currentState = State.Attacking;
 
-    Vector2[] path = new Vector2[3];
+    Vector2[] path = new Vector2[2];
     int currentPathTargetIndex = 0;
     public int PathIndex { get => currentPathTargetIndex; set { currentPathTargetIndex = value; if (currentPathTargetIndex >= path.Length) { currentPathTargetIndex = 0; } } }
 
@@ -79,7 +79,6 @@ public class YellowEnemy : EnemyAI
     {
         Path1();
         Path2();
-        Path3();
     }
 
     bool ValidateRoute(Vector2 finalPosition, Transform[] exclusions)
@@ -100,7 +99,8 @@ public class YellowEnemy : EnemyAI
     {
         // left -1, right 1
         int dir = Random.Range(-1, 2);
-        Vector2 position = transform.position + transform.right * dir * 5;
+        Vector2 position = transform.position + transform.right * dir * 7;
+
         for (int i = 0; i < 2; i++)
         {
             if (ValidateRoute(position, new Transform[] { transform })) { path[0] = position; return; }
@@ -110,46 +110,39 @@ public class YellowEnemy : EnemyAI
 
         for (int i = 0; i < 10; i++)
         {
+            //Generate pos
             position = MikeRandom.RandomVector2(-10, 10, -10, 10) + (Vector2)transform.position;
-            if (ValidateRoute(position, new Transform[] { transform } )) { path[0] = position; return; }
+
+            // find pos far from player
+            if(Vector2.Distance(position, (Vector2)target.position) > 7)
+            {
+                //check if doesnt hit anything
+                if (ValidateRoute(position, new Transform[] { transform } )) { path[0] = position; return; }
+            }
         }
     }
 
     void Path2()
     {
-        Vector2 position = path[0] + (Vector2)transform.up;
+        Vector2 position = Vector2.zero;
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(path[0], position);
-
-        foreach (RaycastHit2D hit in hits)
+        for (int i = 0; i < 10; i++)
         {
-            if(hit.transform == transform) { continue; }
-            if (hit.transform.CompareTag("Barrier") && Vector2.Distance(hit.point, path[0]) < 15)
+            position = path[0] + (Vector2)transform.up * 15 + MikeRandom.RandomVector2(-10, 10);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(path[0], position);
+
+            foreach (RaycastHit2D hit in hits)
             {
-                path[1] = hit.point - (Vector2) transform.up;
-                return;
+                if (hit.transform == transform) { continue; }
+                if (hit.transform.CompareTag("Barrier") && Vector2.Distance(hit.point, path[0]) < 15)
+                {
+                    path[1] = hit.point - (Vector2)transform.up * 2;
+                    return;
+                }
             }
+            path[1] = position;
         }
 
-        path[1] = path[0] + (Vector2)transform.up * 15;
-    }
-
-    void Path3()
-    {
-        Vector2 position = path[1] + (Vector2)transform.right;
-
-        RaycastHit2D[] hits = Physics2D.RaycastAll(path[1], position);
-
-        foreach (RaycastHit2D hit in hits)
-        {
-            if (hit.transform.CompareTag("Barrier") && Vector2.Distance(hit.point, path[1]) < 5)
-            {
-                path[2] = hit.point - (Vector2)transform.right;
-                return;
-            }
-        }
-
-        path[2] = path[1] + (Vector2)transform.right * 5;
     }
 
 
@@ -163,10 +156,8 @@ public class YellowEnemy : EnemyAI
     {
         Gizmos.DrawLine(transform.position, path[currentPathTargetIndex]);
         Gizmos.DrawLine(path[0], path[1]);
-        Gizmos.DrawLine(path[1], path[2]);
 
         Gizmos.DrawSphere(path[0], pointPositionTolerance);
         Gizmos.DrawSphere(path[1], pointPositionTolerance);
-        Gizmos.DrawSphere(path[2], pointPositionTolerance);
     }
 }

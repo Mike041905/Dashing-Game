@@ -173,7 +173,7 @@ MonoBehaviour:
   inaccuracy: 5
   burst: 1
   projectilesPerBurst: 10
-  delay: 2
+  delay: 5
   movementSpeed: 10
   playerAvoidanceSpeed: 0.1
   stopRange: 7
