@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpName: Bombardment
   description: death from above
-  icon: {fileID: 21300000, guid: b684491cf3193f640bf29cca028cfdc0, type: 3}
+  icon: {fileID: 21300000, guid: 1ec1afdf2ea0f9644b580348b52756e6, type: 3}
   stats:
   - statName: Interval
     statValue: 0.25

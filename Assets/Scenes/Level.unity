@@ -4903,8 +4903,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 7070746043108465200, guid: 9c0d0ff55c5b5dc49a67ef1e4f293fe5, type: 3}
-  initiaChanceOfRoomSpawnPrc: 85
-  roomChanceDeprecation: 1.75
+  initiaChanceOfRoomSpawnPrc: 67
+  roomChanceDeprecation: 1.85
   maxBranch: 3
   rooms: []
 --- !u!4 &1440050883
@@ -4935,6 +4935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coin: {fileID: 1449947554712204251, guid: 07a654ad39c44b04e94023f2230c9440, type: 3}
+  portal: {fileID: 7702841250052584895, guid: dd9004bad68f6ca48a53e5b0bab6225e, type: 3}
   coinConter: {fileID: 596919559}
   gemConter: {fileID: 1068067287}
   scoreCounter: {fileID: 0}

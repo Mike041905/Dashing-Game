@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject coin;
 
+    [SerializeField] private GameObject portal;
+
     [SerializeField] private TextMeshProUGUI coinConter;
     [SerializeField] private TextMeshProUGUI gemConter;
     [SerializeField] private TextMeshProUGUI scoreCounter;
@@ -136,19 +138,19 @@ public class GameManager : MonoBehaviour
         if (levelCounter != null) levelCounter.text = "Level: " + Level.ToString();
     }
 
-    public void MoveToNextLevelIfEligible(Room sender)
+    public void SpawnPortal(Room sender)
     {
-        //insert code in "MoveToNextLevel()" mothode NOT here!
+        //insert code in "MoveToNextLevel()" mothod NOT here!
 
         foreach (Room room in LevelGanerator.Instance.rooms)
         {
             if (room != sender && room.enabled) { return; }
         }
 
-        MoveToNextLevel();
+        Instantiate(portal, sender.transform.position, Quaternion.identity);
     }
 
-    void MoveToNextLevel()
+    public void MoveToNextLevel()
     {
         StartCoroutine(NextLevel());
     }

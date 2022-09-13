@@ -74,7 +74,7 @@ public class Room : MonoBehaviour
             GameObject.FindGameObjectWithTag("RoomText").GetComponent<FightStartFinish>().EndFight();
             OpenOpenableDoors();
             transform.GetChild(2).GetChild(0).GetComponent<SpriteRenderer>().color = new Color(.25f, .25f, .25f);
-            GameManager.Insatnce.MoveToNextLevelIfEligible(this);
+            GameManager.Insatnce.SpawnPortal(this);
             enabled = false;
         }
     }
