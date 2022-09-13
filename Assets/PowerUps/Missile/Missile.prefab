@@ -136,6 +136,7 @@ MonoBehaviour:
   speed: 15
   rotSpeed: 180
   hitEffect: {fileID: 1518020747397404029, guid: 79d43f36675b4f848bd2819a69224317, type: 3}
+  trail: {fileID: 5676547036465115752}
 --- !u!114 &185238064042372014
 MonoBehaviour:
   m_ObjectHideFlags: 0

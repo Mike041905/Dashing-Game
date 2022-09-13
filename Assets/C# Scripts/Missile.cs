@@ -10,6 +10,7 @@ public class Missile : MonoBehaviour
     [SerializeField] private float speed = 5;
     [SerializeField] private float rotSpeed = 180;
     [SerializeField] private GameObject hitEffect;
+    [SerializeField] private ParticleSystem trail;
 
     private float currentSpeed = 0;
 
@@ -61,6 +62,10 @@ public class Missile : MonoBehaviour
     {
         if (hitEffect != null) { Instantiate(hitEffect, transform.position, Quaternion.identity); }
 
+        trail.transform.parent = null;
+        trail.loop = false;
+
+        Destroy(trail.gameObject, 2);
         Destroy(gameObject);
     }
 }
