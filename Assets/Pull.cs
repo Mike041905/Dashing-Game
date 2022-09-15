@@ -16,6 +16,8 @@ public class Pull : MonoBehaviour
         if (!collision.transform.CompareTag("Player")) { return; }
         if (collision.GetComponent<Dash>().currentDash != null) { return; }
 
-        collision.transform.position = Vector2.MoveTowards(collision.transform.position, transform.position, (1 - Vector2.Distance(transform.position, collision.ClosestPoint(transform.position)) / size) * force * Time.deltaTime);
+        float distancePerc = (1 - Vector2.Distance(transform.position, collision.ClosestPoint(transform.position)) / size);
+        EZCameraShake.CameraShaker.Instance.ShakeOnce(Mathf.Pow(distancePerc, 2) * 0.5f, 10, 0.1f, 0.1f);
+        collision.transform.position = Vector2.MoveTowards(collision.transform.position, transform.position, distancePerc * force * Time.deltaTime);
     }
 }
