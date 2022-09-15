@@ -3,7 +3,7 @@ using Mike;
 
 public class PowerUpAdder : MonoBehaviour
 {
-    public PowerUp[] PowerUps { get; private set; }
+    public static PowerUp[] PowerUps { get; private set; }
 
     static PowerUpAdder _instance;
     public static PowerUpAdder Instance { get => _instance;  }

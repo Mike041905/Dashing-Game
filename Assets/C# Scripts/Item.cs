@@ -127,6 +127,7 @@ public class Item : MonoBehaviour
         if(index >= 0)
         {
             PowerUpAdder.Instance.AddOrUpgradePowerUp(_powerUpLootTable[choiceIndexes[index]].item);
+            Debug.Log(_powerUpLootTable[choiceIndexes[index]].item.GetComponent<PowerUp>().powerUpName);
         }
     }
 }

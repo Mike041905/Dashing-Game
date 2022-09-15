@@ -9,6 +9,7 @@ public abstract class PowerUp : MonoBehaviour
         public float statValue;
         public float statUpgradeOffset;
         public float statUpgradeMultiplier;
+        public int statLevel;
     }
 
     [Header("ID")]
@@ -18,14 +19,17 @@ public abstract class PowerUp : MonoBehaviour
 
     [Header("Stats")]
     public Stat[] stats;
+    public int powerUpLevel = 1;
 
-    public virtual void Upgrade(float times = 1)
+    public virtual void Upgrade(int times = 1)
     {
+        powerUpLevel += times;
         for (int i1 = 0; i1 < stats.Length; i1++)
         {
             for (int i = 0; i < times; i++)
             {
                 stats[i1].statValue += stats[i1].statUpgradeOffset + stats[i1].statValue * stats[i1].statUpgradeMultiplier;
+                stats[i1].statLevel++;
             }
         }
     }
