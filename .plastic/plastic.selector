@@ -1,4 +1,0 @@
-repository "Dashing Game@Small_Dev_Studio@cloud"
-  path "/"
-    br "/main"
-    co "/main"
