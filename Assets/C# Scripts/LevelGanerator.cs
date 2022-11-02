@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class LevelGanerator : MonoBehaviour
     [Range(0f, 100f)] public float initiaChanceOfRoomSpawnPrc = 15f;
     public float roomChanceDeprecation = 1.5f;
     public int maxBranch = 4;
+    public int minRooms = 3;
 
 
     //----------------------------------------
@@ -68,5 +70,13 @@ public class LevelGanerator : MonoBehaviour
         rooms = new Room[rooms.Length + 1];
         temp.CopyTo(rooms, 0);
         rooms[rooms.Length - 1] = room;
+    }
+
+    internal void RegenerateLevel()
+    {
+        for (int i = 0; i < rooms.Length; i++)
+        {
+            Destroy(rooms[i]);
+        }
     }
 }

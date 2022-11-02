@@ -7,6 +7,8 @@ public class GenerateRoom : MonoBehaviour
     private GameObject roomPrefab;
     private float chanceOfRoomSpawnPrc;
 
+    Room room;
+
     [HideInInspector] public float chanceMultiplier = 1;
 
     enum Side
@@ -19,11 +21,13 @@ public class GenerateRoom : MonoBehaviour
 
     private void Start()
     {
-        LevelGanerator.Instance.AddRoom(GetComponent<Room>());
+        room = GetComponent<Room>();
+
+        LevelGanerator.Instance.AddRoom(room);
         roomPrefab = LevelGanerator.Instance.roomPrefab;
         chanceOfRoomSpawnPrc = LevelGanerator.Instance.initiaChanceOfRoomSpawnPrc * chanceMultiplier;
 
-        if(GetComponent<Room>() != null && GetComponent<Room>().descendant < LevelGanerator.Instance.maxBranch) GenerateRooms();
+        if(room != null && room.descendant < LevelGanerator.Instance.maxBranch) GenerateRooms();
     }
 
     public void GenerateRooms()
@@ -36,7 +40,7 @@ public class GenerateRoom : MonoBehaviour
 
     void SpawnRoom(Side side)
     {
-        if (!GetComponent<Room>().enabled && side == Side.Top) { }
+        if (room.enabled && side == Side.Top) { }
         else if(Random.Range(0f, 100f) > chanceOfRoomSpawnPrc) { return; }
 
         //initializ variable
@@ -87,8 +91,8 @@ public class GenerateRoom : MonoBehaviour
         go.transform.GetChild(0).rotation = Quaternion.Euler(Vector3.zero);
         go.transform.GetChild(0).GetChild(unlockDoor).GetComponent<BoxCollider2D>().isTrigger = true;
         go.transform.GetChild(0).GetChild(unlockDoor).tag = "Door";
-        GetComponent<Room>().SetInitialDoorStates();
-        if (GetComponent<Room>() != null) go.GetComponent<Room>().descendant = GetComponent<Room>().descendant + 1;
+        room.SetInitialDoorStates();
+        if (room != null) go.GetComponent<Room>().descendant = room.descendant + 1;
 
         //add spawn position to occuipants array
         LevelGanerator.Instance.AddOccupiedPosition(spawnPosition);

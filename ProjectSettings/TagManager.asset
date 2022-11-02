@@ -16,6 +16,7 @@ TagManager:
   - ChoiceSelector
   - PowerUpHolder
   - CameraTarget
+  - StartingRoom
   layers:
   - Default
   - TransparentFX

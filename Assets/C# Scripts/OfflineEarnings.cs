@@ -53,11 +53,11 @@ public class OfflineEarnings : MonoBehaviour
     {
         if(Mathf.RoundToInt((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalHours) >= 10f)
         {
-            GameManager.Insatnce.AddCoins(Mathf.RoundToInt(432 * PlayerPrefs.GetInt("Offline Earnings")));
+            GameManager.Insatnce.AddCoins((ulong)Mathf.RoundToInt(432 * PlayerPrefs.GetInt("Offline Earnings")));
         }
         else
         {
-            GameManager.Insatnce.AddCoins(Mathf.RoundToInt( (float) (DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date")) ).TotalSeconds / 100 * PlayerPrefs.GetInt("Offline Earnings")));
+            GameManager.Insatnce.AddCoins((ulong)Mathf.RoundToInt( (float) (DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date")) ).TotalSeconds / 100 * PlayerPrefs.GetInt("Offline Earnings")));
         }
 
         SetNewLastLoginDate();

@@ -24,7 +24,7 @@ public class Dash : MonoBehaviour
     public float staminaRecharge = 2;
 
     [Header("Options")]
-    [SerializeField] private bool usePcControls = false;
+    [SerializeField] private bool usePcControls = false; // TODO: this should set automaticaly
 
 
     //-----------------------------
@@ -58,9 +58,6 @@ public class Dash : MonoBehaviour
 
     private void Awake()
     {
-        if (GameObject.FindGameObjectsWithTag("Player").Length > 1) { Destroy(gameObject); return; }
-        else { DontDestroyOnLoad(gameObject); }
-
         InitializeVariables();
     }
 

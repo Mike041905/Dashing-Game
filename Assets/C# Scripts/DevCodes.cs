@@ -36,12 +36,12 @@ public class DevCodes : MonoBehaviour
         }
         else if (Code.StartsWith("coins="))
         {
-            GameManager.Insatnce.AddCoins(int.Parse(Code.Remove(0, Code.IndexOf("=") + 1)) - GameManager.Insatnce.Coins);
+            GameManager.Insatnce.AddCoins(ulong.Parse(Code.Remove(0, Code.IndexOf("=") + 1)) - GameManager.Insatnce.Coins);
             return;
         }
         else if (Code.StartsWith("gems="))
         {
-            GameManager.Insatnce.AddGems(int.Parse(Code.Remove(0, Code.IndexOf("=") + 1)) - GameManager.Insatnce.Gems);
+            GameManager.Insatnce.AddGems(ulong.Parse(Code.Remove(0, Code.IndexOf("=") + 1)) - GameManager.Insatnce.Gems);
             return;
         }
         else if (Code == "resetprogress()")

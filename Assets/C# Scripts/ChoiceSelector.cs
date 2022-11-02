@@ -23,6 +23,18 @@ public class ChoiceSelector : MonoBehaviour
         }
     }
 
+    struct ChoiceQueueData
+    {
+        public ChoiceData[] data;
+        public UnityAction<int> callback;
+
+        public ChoiceQueueData(ChoiceData[] data, UnityAction<int> callback)
+        {
+            this.data = data;
+            this.callback = callback;
+        }
+    }
+
     public GameObject choiceHolder;
     public GameObject background;
     public Choice choiceTemplate;
@@ -35,6 +47,7 @@ public class ChoiceSelector : MonoBehaviour
     [SerializeField] UnityEvent OnEndChoice;
 
     bool activeChoice;
+    List<ChoiceQueueData> queue = new();
 
     public void OnChoiceSelected(int choiceIndex)
     {
@@ -50,6 +63,7 @@ public class ChoiceSelector : MonoBehaviour
         OnSelect?.Invoke(choiceIndex);
         OnSelect -= OnSelect;
         OnEndChoice?.Invoke();
+        DisplayChoiceFromQueue();
     }
 
     private void Awake()
@@ -100,17 +114,27 @@ public class ChoiceSelector : MonoBehaviour
     /// <param name="CallBack"></param>
     public void DisplayChoice(ChoiceData[] choices, UnityAction<int> CallBack)
     {
+        queue.Add(new ChoiceQueueData(choices, CallBack));
+        DisplayChoiceFromQueue();
+    }
+
+    void DisplayChoiceFromQueue()
+    {
+        if(queue.Count <= 0) { return; }
+
         background.SetActive(true);
         activeChoice = true;
 
         OnStartChoice?.Invoke();
-        OnSelect += CallBack;
+        OnSelect += queue[0].callback;
 
-        for (int i = 0; i < choices.Length; i++)
+        for (int i = 0; i < queue[0].data.Length; i++)
         {
             Choice choice = Instantiate(choiceTemplate.gameObject, choiceHolder.transform).GetComponent<Choice>();
-            choice.SetAsChoice(choices[i], i);
+            choice.SetAsChoice(queue[0].data[i], i);
             choice.gameObject.SetActive(true);
         }
+
+        queue.RemoveAt(0);
     }
 }

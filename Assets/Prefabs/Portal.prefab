@@ -9721,7 +9721,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 15
 --- !u!199 &6795190272177275304
 ParticleSystemRenderer:
   serializedVersion: 6

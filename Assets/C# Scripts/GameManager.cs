@@ -22,11 +22,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject portal;
 
-    [SerializeField] private TextMeshProUGUI coinConter;
-    [SerializeField] private TextMeshProUGUI gemConter;
-    [SerializeField] private TextMeshProUGUI scoreCounter;
-    [SerializeField] private TextMeshProUGUI levelCounter;
-
     [SerializeField] private float difficultyPreRoomMultiplier;
     [SerializeField] private float difficultyPreLevel;
 
@@ -35,36 +30,28 @@ public class GameManager : MonoBehaviour
     //----------------------------------------------
 
 
-    public int Coins { get; private set; }
-    public int Gems { get; private set; }
+    public ulong Coins { get; private set; }
+    public ulong Gems { get; private set; }
     public int Level { get; private set; }
     public float DifficultyPreRoomMultiplier { get; private set; }
     public float DifficultyPreLevel { get; private set; }
 
 
     //----------------------------------------------
-    /* Notes:
-     int32 can hold a number up to about: 2 bilion
-     */
-    //----------------------------------------------
 
 
     private void Awake()
     {
-        if(Insatnce != null && SceneManager.GetActiveScene().buildIndex != 0) { return; }
-
         _Instance = this;
 
         Application.targetFrameRate = 9999;
-        SceneManager.activeSceneChanged += OnSceneChange;
 
         Initialize();
-        UpdateUI();
+    }
 
-        if(SceneManager.GetActiveScene().buildIndex == 0 && GameObject.FindGameObjectWithTag("Player") != null)
-        {
-            Destroy(GameObject.FindGameObjectWithTag("Player"));
-        }
+    private void Start()
+    {
+        InputManager.Instance.UpdateUI();
     }
 
     private void OnApplicationQuit()
@@ -85,28 +72,28 @@ public class GameManager : MonoBehaviour
 
         Level = PlayerPrefs.GetInt("Current Level");
 
-        Gems = PlayerPrefs.GetInt("Gems", 0);
-        Coins = PlayerPrefs.GetInt("Coins", 0);
+        Gems = ulong.Parse(PlayerPrefs.GetString("Gems", "0"));
+        Coins = ulong.Parse(PlayerPrefs.GetString("Coins", "0"));
         coinsF = Coins;//bruh I'm retarded ;)
     }
 
     void SaveCoins()
     {
-        PlayerPrefs.SetInt("Coins", Coins);
+        PlayerPrefs.SetString("Coins", Coins.ToString("G20"));
     }
     
     void SaveGems()
     {
-        PlayerPrefs.SetInt("Gems", Gems);
+        PlayerPrefs.SetString("Gems", Gems.ToString("G20"));
     }
 
-    public void AddCoins(int ammount)
+    public void AddCoins(ulong ammount)
     {
-        if (Coins + ammount > 2000000000)
+        if (Coins + ammount > ulong.MaxValue)
         {
-            Coins = 2000000000;
+            Coins = ulong.MaxValue;
             SaveCoins();
-            UpdateUI();
+            InputManager.Instance.UpdateUI();
             return;
         }
 
@@ -114,39 +101,42 @@ public class GameManager : MonoBehaviour
         {
             Coins = 0;
             SaveCoins();
-            UpdateUI();
+            InputManager.Instance.UpdateUI();
             return;
         }
 
         Coins += ammount;
 
         SaveCoins();
-        UpdateUI();
+        InputManager.Instance.UpdateUI();
     }
 
-    public void AddGems(int ammount)
+    public void AddGems(ulong ammount)
     {
+        if (Gems + ammount > ulong.MaxValue)
+        {
+            Gems = ulong.MaxValue;
+            SaveGems();
+            InputManager.Instance.UpdateUI();
+            return;
+        }
+
+        if (Gems + ammount < 0)
+        {
+            Gems = 0;
+            SaveGems();
+            InputManager.Instance.UpdateUI();
+            return;
+        }
+
         Gems += ammount;
-        SaveGems();
-        UpdateUI();
-    }
 
-    void UpdateUI()
-    {
-        if (coinConter != null) coinConter.text = MikeString.ConvertNumberToString(Coins);
-        if (gemConter != null) gemConter.text = MikeString.ConvertNumberToString(Gems);
-        if (levelCounter != null) levelCounter.text = "Level: " + Level.ToString();
+        SaveGems();
+        InputManager.Instance.UpdateUI();
     }
 
     public void SpawnPortal(Room sender)
     {
-        //insert code in "MoveToNextLevel()" mothod NOT here!
-
-        foreach (Room room in LevelGanerator.Instance.rooms)
-        {
-            if (room != sender && room.enabled) { return; }
-        }
-
         Instantiate(portal, sender.transform.position, Quaternion.identity);
     }
 
@@ -164,17 +154,12 @@ public class GameManager : MonoBehaviour
         if (player.GetComponent<Dash>().currentDash != null) { StopCoroutine(player.GetComponent<Dash>().currentDash); }
 
         PlayerPrefs.SetInt("Current Level", PlayerPrefs.GetInt("Current Level", 1) + 1);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
 
-    private void OnSceneChange(Scene s, Scene s2)
-    {
-        Initialize();
-        UpdateUI();
-    }
+        LevelGanerator.Instance.RegenerateLevel();
 
-    private void OnDestroy()
-    {
-        SceneManager.activeSceneChanged -= OnSceneChange;
+        //////////// AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH...
+        /////ICANT CONCENTRATE!
+        /////////MY HEAD HURTS!!
+        ////// CLASS TOO LOUD!!!
     }
 }

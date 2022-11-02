@@ -9,6 +9,6 @@ public class Trigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        sendTo.SendMessage(method, collision, SendMessageOptions.RequireReceiver);
+        sendTo.SendMessage(method, collision, SendMessageOptions.DontRequireReceiver);
     }
 }
