@@ -153,7 +153,7 @@ public class Room : MonoBehaviour
 
             //spawn Enemy
             EnemyAI newEnemy = Instantiate(enemy.prefab, spawnPosition, Quaternion.identity).GetComponent<EnemyAI>();
-            newEnemy.difficultyMultiplier = GameManager.Insatnce.DifficultyPreRoomMultiplier + PlayerPrefs.GetInt("Current Level") * GameManager.Insatnce.DifficultyPreLevel;
+            newEnemy.difficultyMultiplier = GameManager.Insatnce.Difficulty;
             newEnemy.room = this;
 
             //add spawned enemy to array

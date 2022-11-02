@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2156419311774682547}
   - component: {fileID: 8572107484308317994}
   - component: {fileID: 9127801577203945375}
-  - component: {fileID: 8920456812721461878}
+  - component: {fileID: 2920330361925942488}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 321293213050378132}
-  m_LocalRotation: {x: 0, y: 0, z: -0.4887065, w: -0.87244827}
+  m_LocalRotation: {x: 0, y: 0, z: 0.9794641, w: -0.20161878}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4814,7 +4814,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &8920456812721461878
+--- !u!114 &2920330361925942488
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4826,8 +4826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78b2e1fddbd71349b900c60f8a9aa20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 0
-  rotationOverTime: {x: 0, y: 0, z: 90}
+  rotation: {x: 0, y: 0, z: 110}
 --- !u!1 &4200291419948470098
 GameObject:
   m_ObjectHideFlags: 0

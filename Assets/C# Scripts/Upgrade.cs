@@ -1,16 +1,18 @@
-using UnityEngine;
-using TMPro;
 using Mike;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public struct UpgradeData
 {
-    public string variable;
+    public string variableSaveKey;
     public VariableType variableType;
     public float startingValue;
     public float upgradeAdditionValue;
     public float upgradeMultiplier;
     public float costMultiplier;
+    public float costOffset;
 
     [System.Serializable]
     public enum VariableType
@@ -23,59 +25,70 @@ public struct UpgradeData
 public class Upgrade : MonoBehaviour
 {
     [Header("Referencess")]
-    [SerializeField] public InputManager inputManager;
-    [SerializeField] public TextMeshProUGUI stats;
-    [SerializeField] public TextMeshProUGUI cost;
+    public TextMeshProUGUI upgradeName;
+    public TextMeshProUGUI stats;
+    public TextMeshProUGUI cost;
+    public Button upgradeButton;
 
-    [Header("Stats")]
-    public UpgradeData upgradeData;
+    UpgradeData upgradeData;
+    public UpgradeData UpgradeData { get => upgradeData; set { upgradeData = value; Initialize(); } }
 
     //----------------------------------------------------
 
 
-    private void Awake()
+    /// <summary>
+    /// Automaticaly converts to correct value
+    /// </summary>
+    public float UpgradeValue
     {
-        InitializeVariable();
+        get
+        {
+            return UpgradeData.variableType == UpgradeData.VariableType.Integer
+                ? PlayerPrefs.GetInt(UpgradeData.variableSaveKey, Mathf.RoundToInt(UpgradeData.startingValue))
+                : PlayerPrefs.GetFloat(UpgradeData.variableSaveKey, UpgradeData.startingValue);
+        }
+        set
+        {
+            if (UpgradeData.variableType == UpgradeData.VariableType.Integer)
+            {
+                PlayerPrefs.SetInt(UpgradeData.variableSaveKey, Mathf.RoundToInt(value));
+            }
+            else
+            {
+                PlayerPrefs.SetFloat(UpgradeData.variableSaveKey, value);
+            }
+        }
+    }
+    public int Cost { get => Mathf.CeilToInt(UpgradeValue * UpgradeData.costMultiplier + UpgradeData.costOffset); }
+
+
+    //----------------------------------------------------
+
+
+    void Initialize()
+    {
         UpdateUpgradeDetails();
+        UpdateUpgradeButton();
+
+        InputManager.Instance.OnUpgrade += UpdateUpgradeButton;
     }
 
 
-    //----------------------------------------------------
-
+    private void UpdateUpgradeButton()
+    {
+        upgradeButton.interactable = GameManager.Insatnce.Coins < Mathf.Round(PlayerPrefs.GetInt(UpgradeData.variableSaveKey) * UpgradeData.costMultiplier);
+    }
 
     public void Up()
     {
-        inputManager.Upgrade(upgradeData.variable, upgradeData.variableType, upgradeData.upgradeAdditionValue, upgradeData.upgradeMultiplier, upgradeData.costMultiplier);
+        InputManager.Instance.Upgrade(UpgradeData);
         UpdateUpgradeDetails();
     }
 
-    public void InitializeVariable()
+    private void UpdateUpgradeDetails()
     {
-        if(PlayerPrefs.HasKey(upgradeData.variable)) { return; }
-        switch (upgradeData.variableType)
-        {
-            case UpgradeData.VariableType.Integer:
-                PlayerPrefs.SetInt(upgradeData.variable, Mathf.RoundToInt(upgradeData.startingValue));
-                break;
-            case UpgradeData.VariableType.Float:
-                PlayerPrefs.SetFloat(upgradeData.variable, upgradeData.startingValue);
-                break;
-        }
-    }
-
-    void UpdateUpgradeDetails()
-    {
-        switch (upgradeData.variableType)
-        {
-            case UpgradeData.VariableType.Integer:
-                stats.text = PlayerPrefs.GetInt(upgradeData.variable) + " > " + Mathf.Round(PlayerPrefs.GetInt(upgradeData.variable) * upgradeData.upgradeMultiplier + upgradeData.upgradeAdditionValue);
-                cost.text = MikeString.ConvertNumberToString(Mathf.Round(PlayerPrefs.GetInt(upgradeData.variable) * upgradeData.costMultiplier));
-                break;
-
-            case UpgradeData.VariableType.Float:
-                stats.text = MikeString.ConvertNumberToString(MikeMath.Round(PlayerPrefs.GetFloat(upgradeData.variable), 2)) + " > " + MikeString.ConvertNumberToString(MikeMath.Round(PlayerPrefs.GetFloat(upgradeData.variable) * upgradeData.upgradeMultiplier + upgradeData.upgradeAdditionValue, 2));
-                cost.text = MikeString.ConvertNumberToString(Mathf.Round(PlayerPrefs.GetFloat(upgradeData.variable) * upgradeData.costMultiplier));
-                break;
-        }
+        upgradeName.text = UpgradeData.variableSaveKey;
+        stats.text = MikeString.ConvertNumberToString(UpgradeValue) + " >> " + MikeString.ConvertNumberToString(UpgradeValue * UpgradeData.upgradeMultiplier + UpgradeData.upgradeAdditionValue);
+        cost.text = MikeString.ConvertNumberToString(Cost);
     }
 }

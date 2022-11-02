@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Mike;
 using System.Collections;
+using Unity.Mathematics;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     //----------------------------------------------
 
-    // I'm unsure if i should use BigInt or ulong instead of int (I'm lazy and dont want to refactor more code)
+    // I'm unsure if i should use BigInt or double/ulong instead of int (I'm lazy and dont want to refactor more code)
 
     public GameObject coin;
 
@@ -26,7 +27,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float difficultyPreRoomMultiplier;
     [SerializeField] private float difficultyPreLevel;
 
-    private float coinsF;
+    private double coinsDouble;
 
     
     //----------------------------------------------
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     public int Level { get; private set; }
     public float DifficultyPreRoomMultiplier { get; private set; }
     public float DifficultyPreLevel { get; private set; }
+    public float Difficulty { get => GameManager.Insatnce.DifficultyPreRoomMultiplier + Level * GameManager.Insatnce.DifficultyPreLevel; }
 
 
     //----------------------------------------------
@@ -79,7 +81,7 @@ public class GameManager : MonoBehaviour
 
         Gems = ulong.Parse(PlayerPrefs.GetString("Gems", "0"));
         Coins = ulong.Parse(PlayerPrefs.GetString("Coins", "0"));
-        coinsF = Coins;//bruh I'm retarded ;)
+        coinsDouble = Coins;
     }
 
     /// <summary>
@@ -87,7 +89,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void SaveCoins()
     {
-        PlayerPrefs.SetString("Coins", Coins.ToString("G20"));
+        PlayerPrefs.SetString("Coins", math.round((double) coinsDouble).ToString("G20"));
     }
 
     /// <summary>
@@ -120,21 +122,20 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-
     //----------------------------------------------
 
 
-    public void AddCoins(ulong ammount)
+    public void AddCoins(double ammount)
     {
-        if (Coins + ammount > ulong.MaxValue)
+        if (coinsDouble + ammount > double.MaxValue)
         {
-            Coins = ulong.MaxValue;
+            coinsDouble = double.MaxValue;
             SaveCoins();
             InputManager.Instance.UpdateUI();
             return;
         }
 
-        if (Coins + ammount < 0)
+        if (coinsDouble + ammount < 0)
         {
             Coins = 0;
             SaveCoins();
@@ -142,7 +143,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        Coins += ammount;
+        coinsDouble += ammount;
 
         SaveCoins();
         InputManager.Instance.UpdateUI();
@@ -181,5 +182,4 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(NextLevel());
     }
-
 }

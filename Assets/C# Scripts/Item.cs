@@ -14,7 +14,7 @@ public class Item : MonoBehaviour
 
     [Header("General")]
     [SerializeField] private GameObject collectionEffect;
-    public int coinsPerPickup = 0;
+    public float coinsPerPickup = 0;
     public int gemsPerPickup = 0;
     public float homingRange = 0;
     public float homingSpeed = 5;
@@ -61,7 +61,7 @@ public class Item : MonoBehaviour
 
         if (_isPowerUp) { ChoosePowerUp(); }
 
-        GameManager.Insatnce.AddCoins((ulong)coinsPerPickup);
+        GameManager.Insatnce.AddCoins(coinsPerPickup * GameManager.Insatnce.Difficulty);
         GameManager.Insatnce.AddGems((ulong)gemsPerPickup);
 
         if (collectionEffect != null) Instantiate(collectionEffect, transform.position, Quaternion.identity);

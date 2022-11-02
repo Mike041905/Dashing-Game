@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System;
 using Mike;
+using UnityEngine.Events;
 
 public class InputManager : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class InputManager : MonoBehaviour
         _instance = this;
     }
 
+
+    //---------------------------------------
+
+    public event UnityAction OnUpgrade;
 
     //---------------------------------------
 
@@ -50,35 +55,37 @@ public class InputManager : MonoBehaviour
         SceneManager.LoadScene(scene);
     }
 
-    public void Upgrade(string upgrade, UpgradeData.VariableType variableType, float addValue, float upgradeMultiplier = 2, float costMultiplier = 2)
+    public void Upgrade(UpgradeData data)
     {
-        switch (variableType)
+        switch (data.variableType)
         {
             case UpgradeData.VariableType.Integer:
 
                 //check if player has enough coins
-                if (GameManager.Insatnce.Coins - Mathf.Round(PlayerPrefs.GetInt(upgrade, 10) * costMultiplier) >= 0)
+                if (GameManager.Insatnce.Coins - Mathf.Ceil(PlayerPrefs.GetInt(data.variableSaveKey, 10) * data.costMultiplier) >= 0)
                 {
                     //remove coins
-                    GameManager.Insatnce.AddCoins((ulong)Mathf.RoundToInt(-PlayerPrefs.GetInt(upgrade, 10) * costMultiplier));
+                    GameManager.Insatnce.AddCoins((ulong)Mathf.Ceil(-PlayerPrefs.GetInt(data.variableSaveKey, 10) * data.costMultiplier));
 
                     //change value
-                    PlayerPrefs.SetInt(upgrade, Mathf.RoundToInt(PlayerPrefs.GetInt(upgrade) * upgradeMultiplier + addValue));
+                    PlayerPrefs.SetInt(data.variableSaveKey, Mathf.CeilToInt(PlayerPrefs.GetInt(data.variableSaveKey) * data.upgradeMultiplier + data.upgradeAdditionValue));
                 }
                 break;
 
             case UpgradeData.VariableType.Float:
 
-                if (GameManager.Insatnce.Coins - Mathf.Round(PlayerPrefs.GetFloat(upgrade, 10) * costMultiplier) >= 0)
+                if (GameManager.Insatnce.Coins - Mathf.Ceil(PlayerPrefs.GetFloat(data.variableSaveKey, 10) * data.costMultiplier) >= 0)
                 {
                     //remove coins
-                    GameManager.Insatnce.AddCoins((ulong)Mathf.RoundToInt(-PlayerPrefs.GetFloat(upgrade, 10) * costMultiplier));
+                    GameManager.Insatnce.AddCoins((ulong)Mathf.Ceil(-PlayerPrefs.GetFloat(data.variableSaveKey, 10) * data.costMultiplier));
 
                     //change value
-                    PlayerPrefs.SetFloat(upgrade, PlayerPrefs.GetFloat(upgrade) * upgradeMultiplier + addValue);
+                    PlayerPrefs.SetFloat(data.variableSaveKey, PlayerPrefs.GetFloat(data.variableSaveKey) * data.upgradeMultiplier + data.upgradeAdditionValue);
                 }
                 break;
         }
+
+        OnUpgrade?.Invoke();
     }
 
     public void SetTimeScale(float scale = 1)
