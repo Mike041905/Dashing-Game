@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     //----------------------------------------------
 
+    // I'm unsure if i should use BigInt or ulong instead of int (I'm lazy and dont want to refactor more code)
 
     public GameObject coin;
 
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     private float coinsF;
 
+    
     //----------------------------------------------
 
 
@@ -64,28 +66,63 @@ public class GameManager : MonoBehaviour
     //----------------------------------------------
 
 
+    #region Private methods
+    /// <summary>
+    /// Sets up GameManager
+    /// </summary>
     void Initialize()
     {
-
         DifficultyPreLevel = difficultyPreLevel;
         DifficultyPreRoomMultiplier = difficultyPreRoomMultiplier;
 
-        Level = PlayerPrefs.GetInt("Current Level");
+        Level = StorageManager.StartingLevel;
 
         Gems = ulong.Parse(PlayerPrefs.GetString("Gems", "0"));
         Coins = ulong.Parse(PlayerPrefs.GetString("Coins", "0"));
         coinsF = Coins;//bruh I'm retarded ;)
     }
 
+    /// <summary>
+    /// Saves Coins
+    /// </summary>
     void SaveCoins()
     {
         PlayerPrefs.SetString("Coins", Coins.ToString("G20"));
     }
-    
+
+    /// <summary>
+    /// Saves Gems
+    /// </summary>
     void SaveGems()
     {
         PlayerPrefs.SetString("Gems", Gems.ToString("G20"));
     }
+
+    /// <summary>
+    /// handles level transition and acounts for all variables involved
+    /// </summary>
+    IEnumerator NextLevel()
+    {
+        yield return new WaitForSeconds(2f);
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.position = Vector3.zero;
+        if (player.GetComponent<Dash>().currentDash != null) { StopCoroutine(player.GetComponent<Dash>().currentDash); }
+
+        Level++;
+
+        LevelGanerator.Instance.RegenerateLevel();
+
+        //////////// AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH...
+        /////ICANT CONCENTRATE!
+        /////////MY HEAD HURTS!!
+        ////// CLASS TOO LOUD!!!
+    }
+    #endregion
+
+
+    //----------------------------------------------
+
 
     public void AddCoins(ulong ammount)
     {
@@ -145,21 +182,4 @@ public class GameManager : MonoBehaviour
         StartCoroutine(NextLevel());
     }
 
-    IEnumerator NextLevel()
-    {
-        yield return new WaitForSeconds(2f);
-
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.transform.position = Vector3.zero;
-        if (player.GetComponent<Dash>().currentDash != null) { StopCoroutine(player.GetComponent<Dash>().currentDash); }
-
-        PlayerPrefs.SetInt("Current Level", PlayerPrefs.GetInt("Current Level", 1) + 1);
-
-        LevelGanerator.Instance.RegenerateLevel();
-
-        //////////// AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH...
-        /////ICANT CONCENTRATE!
-        /////////MY HEAD HURTS!!
-        ////// CLASS TOO LOUD!!!
-    }
 }

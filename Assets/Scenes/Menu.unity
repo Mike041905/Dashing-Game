@@ -2607,12 +2607,13 @@ MonoBehaviour:
   inputManager: {fileID: 849586396}
   stats: {fileID: 343138575}
   cost: {fileID: 1761348128}
-  variable: Stamina Recharge
-  variableType: 1
-  defaultValue: 1.5
-  upgradeAdditionValue: 0
-  upgradeMultiplier: 1.05
-  costMultiplier: 10
+  upgradeData:
+    variable: 
+    variableType: 0
+    startingValue: 0
+    upgradeAdditionValue: 0
+    upgradeMultiplier: 0
+    costMultiplier: 0
 --- !u!114 &195013297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5634,12 +5635,13 @@ MonoBehaviour:
   inputManager: {fileID: 849586396}
   stats: {fileID: 932229741}
   cost: {fileID: 368700113}
-  variable: Health
-  variableType: 1
-  defaultValue: 100
-  upgradeAdditionValue: 0
-  upgradeMultiplier: 1.1
-  costMultiplier: 0.5
+  upgradeData:
+    variable: 
+    variableType: 0
+    startingValue: 0
+    upgradeAdditionValue: 0
+    upgradeMultiplier: 0
+    costMultiplier: 0
 --- !u!114 &513522708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5873,12 +5875,13 @@ MonoBehaviour:
   inputManager: {fileID: 849586396}
   stats: {fileID: 1184531950}
   cost: {fileID: 276700964}
-  variable: Health On Kill
-  variableType: 1
-  defaultValue: 5
-  upgradeAdditionValue: 0
-  upgradeMultiplier: 1.1
-  costMultiplier: 2
+  upgradeData:
+    variable: 
+    variableType: 0
+    startingValue: 0
+    upgradeAdditionValue: 0
+    upgradeMultiplier: 0
+    costMultiplier: 0
 --- !u!114 &603674945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6623,12 +6626,13 @@ MonoBehaviour:
   inputManager: {fileID: 849586396}
   stats: {fileID: 185783652}
   cost: {fileID: 387835744}
-  variable: Starting Level
-  variableType: 0
-  defaultValue: 1
-  upgradeAdditionValue: 1
-  upgradeMultiplier: 1
-  costMultiplier: 50
+  upgradeData:
+    variable: 
+    variableType: 0
+    startingValue: 0
+    upgradeAdditionValue: 0
+    upgradeMultiplier: 0
+    costMultiplier: 0
 --- !u!114 &682376648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8572,10 +8576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coin: {fileID: 0}
-  coinConter: {fileID: 19996471}
-  gemConter: {fileID: 297164638}
-  scoreCounter: {fileID: 0}
-  levelCounter: {fileID: 0}
+  portal: {fileID: 0}
   difficultyPreRoomMultiplier: 0
   difficultyPreLevel: 0
 --- !u!114 &849586396
@@ -8590,8 +8591,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e9c3e44e5d5c394680890ead34c18d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateNotes: {fileID: 1886817440}
-  upgrades: {fileID: 1794336294}
+  coinCounter: {fileID: 0}
+  gemCounter: {fileID: 0}
+  scoreCounter: {fileID: 0}
+  levelCounter: {fileID: 0}
 --- !u!1 &853324696
 GameObject:
   m_ObjectHideFlags: 0
@@ -8688,12 +8691,13 @@ MonoBehaviour:
   inputManager: {fileID: 849586396}
   stats: {fileID: 970538357}
   cost: {fileID: 429364636}
-  variable: Offline Earnings
-  variableType: 0
-  defaultValue: 1
-  upgradeAdditionValue: 1
-  upgradeMultiplier: 1
-  costMultiplier: 25
+  upgradeData:
+    variable: 
+    variableType: 0
+    startingValue: 0
+    upgradeAdditionValue: 0
+    upgradeMultiplier: 0
+    costMultiplier: 0
 --- !u!114 &864512453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9270,12 +9274,13 @@ MonoBehaviour:
   inputManager: {fileID: 849586396}
   stats: {fileID: 1930261529}
   cost: {fileID: 1260750442}
-  variable: Damage
-  variableType: 1
-  defaultValue: 10
-  upgradeAdditionValue: 0
-  upgradeMultiplier: 1.1
-  costMultiplier: 1
+  upgradeData:
+    variable: 
+    variableType: 0
+    startingValue: 0
+    upgradeAdditionValue: 0
+    upgradeMultiplier: 0
+    costMultiplier: 0
 --- !u!1 &970538356
 GameObject:
   m_ObjectHideFlags: 0
@@ -14996,6 +15001,7 @@ GameObject:
   - component: {fileID: 1794336295}
   - component: {fileID: 1794336297}
   - component: {fileID: 1794336296}
+  - component: {fileID: 1794336298}
   m_Layer: 5
   m_Name: Upgrades & Stuff
   m_TagString: Untagged
@@ -15066,6 +15072,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794336294}
   m_CullTransparentMesh: 1
+--- !u!114 &1794336298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794336294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82dd5c270d49c9941ad97f3f68a5ecd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  template: {fileID: 0}
+  upgrades: []
 --- !u!1 &1800446454
 GameObject:
   m_ObjectHideFlags: 0

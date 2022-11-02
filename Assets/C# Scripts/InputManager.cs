@@ -9,8 +9,8 @@ using Mike;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI coinConter;
-    [SerializeField] private TextMeshProUGUI gemConter;
+    [SerializeField] private TextMeshProUGUI coinCounter;
+    [SerializeField] private TextMeshProUGUI gemCounter;
     [SerializeField] private TextMeshProUGUI scoreCounter;
     [SerializeField] private TextMeshProUGUI levelCounter;
 
@@ -37,8 +37,8 @@ public class InputManager : MonoBehaviour
 
     internal void UpdateUI()
     {
-        if (coinConter != null) coinConter.text = MikeString.ConvertNumberToString(GameManager.Insatnce.Coins);
-        if (gemConter != null) gemConter.text = MikeString.ConvertNumberToString(GameManager.Insatnce.Gems);
+        if (coinCounter != null) coinCounter.text = MikeString.ConvertNumberToString(GameManager.Insatnce.Coins);
+        if (gemCounter != null) gemCounter.text = MikeString.ConvertNumberToString(GameManager.Insatnce.Gems);
         if (levelCounter != null) levelCounter.text = "Level: " + GameManager.Insatnce.Level.ToString();
     }
 
@@ -50,11 +50,11 @@ public class InputManager : MonoBehaviour
         SceneManager.LoadScene(scene);
     }
 
-    public void Upgrade(string upgrade, Upgrade.VariableType variableType, float addValue, float upgradeMultiplier = 2, float costMultiplier = 2)
+    public void Upgrade(string upgrade, UpgradeData.VariableType variableType, float addValue, float upgradeMultiplier = 2, float costMultiplier = 2)
     {
         switch (variableType)
         {
-            case global::Upgrade.VariableType.Integer:
+            case UpgradeData.VariableType.Integer:
 
                 //check if player has enough coins
                 if (GameManager.Insatnce.Coins - Mathf.Round(PlayerPrefs.GetInt(upgrade, 10) * costMultiplier) >= 0)
@@ -67,7 +67,7 @@ public class InputManager : MonoBehaviour
                 }
                 break;
 
-            case global::Upgrade.VariableType.Float:
+            case UpgradeData.VariableType.Float:
 
                 if (GameManager.Insatnce.Coins - Mathf.Round(PlayerPrefs.GetFloat(upgrade, 10) * costMultiplier) >= 0)
                 {
@@ -79,8 +79,6 @@ public class InputManager : MonoBehaviour
                 }
                 break;
         }
-
-        PlayerPrefs.SetInt("Current Level", PlayerPrefs.GetInt("Starting Level", 1));
     }
 
     public void SetTimeScale(float scale = 1)
