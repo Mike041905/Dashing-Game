@@ -16,6 +16,8 @@ public class Room : MonoBehaviour
 
     [Header("Essential")]
     [SerializeField] private Enemy[] enemies = new Enemy[0];
+    [SerializeField] Door[] doors;
+    [SerializeField] GameObject corridorPrefab;
 
     [Header("Options")]
     [SerializeField] private int enemySpawnTickets = 20;
@@ -27,8 +29,12 @@ public class Room : MonoBehaviour
     //---------------------
 
     [HideInInspector] public int descendant = 1;
-    private bool[] doors = new bool[4];
     private GameObject[] spawnedEnemies = new GameObject[0];
+
+    public Vector2Int PositionInGrid 
+    {
+        get => new(Mathf.RoundToInt(transform.position.x / GenerateRoom.spawnDistance), Mathf.RoundToInt(transform.position.y / GenerateRoom.spawnDistance));
+    }
 
 
     //---------------------
@@ -36,28 +42,28 @@ public class Room : MonoBehaviour
 
     private void Start()
     {
-        SetInitialDoorStates();
         SetEnemyTickets();
     }
 
 
     //---------------------
 
+    void SetDoorType(GenerateRoom.Side side, Door.DoorType doorType, bool open = true)
+    {
+        for (int i = 0; i < doors.Length; i++)
+        {
+            if (doors[i].side == side) { doors[i].Type = doorType; doors[i].IsOpen = open; }
+        }
+    }
+
+    public bool IsNeighbourTo(Room other)
+    {
+        return (PositionInGrid - other.PositionInGrid).magnitude == 1;
+    }
 
     void SetEnemyTickets()
     {
         enemySpawnTickets = Mathf.RoundToInt(enemySpawnTickets + GameManager.Insatnce.Level * 0.05f);
-    }
-
-    public void SetInitialDoorStates()
-    {
-        transform.GetChild(0).rotation = Quaternion.Euler(Vector3.zero);
-
-        for (int i = 0; i < 4; i++)
-        {
-            doors[i] = transform.GetChild(0).GetChild(i).GetComponent<BoxCollider2D>().isTrigger;
-            if (transform.GetChild(0).GetChild(i).GetComponent<BoxCollider2D>().isTrigger) { transform.GetChild(0).GetChild(i).tag = "Door"; }
-        }
     }
 
     public void EndFightIfEnemiesDead() 
@@ -72,20 +78,18 @@ public class Room : MonoBehaviour
             }
 
             GameObject.FindGameObjectWithTag("RoomText").GetComponent<FightStartFinish>().EndFight();
-            OpenOpenableDoors();
+            OpenDoors();
             transform.GetChild(2).GetChild(0).GetComponent<SpriteRenderer>().color = new Color(.25f, .25f, .25f);
             GameManager.Insatnce.SpawnPortal(this);
             enabled = false;
         }
     }
 
-    void OpenOpenableDoors()
+    void OpenDoors()
     {
-        for (int i = 0; i < 4; i++)
+        foreach (Door door in doors)
         {
-            transform.GetChild(0).GetChild(i).GetComponent<BoxCollider2D>().isTrigger = doors[i];
-            if (doors[i]) transform.GetChild(0).GetChild(i).tag = "Door";
-            if (doors[i]) transform.GetChild(0).GetChild(i).GetChild(0).gameObject.SetActive(false);
+            door.IsOpen = true;
         }
     }
 
@@ -180,5 +184,39 @@ public class Room : MonoBehaviour
 
             Instantiate(crate, spawnPosition, Mike.MikeRandom.RandomAngle(0, 360));
         }
+    }
+
+    public void ConnectRoom(Room other, bool spawnCorridor = true)
+    {
+        if (!IsNeighbourTo(other)) { return; }
+
+        GenerateRoom.Side sideTwardsOther = GetRelativeSideTo(other);
+        if (spawnCorridor)
+        {
+            // this is hard to read :/
+
+            Vector2 spawnPosition = transform.position;
+
+            // Add room size offset acounting for relative position to other room (this wont work if [scale.x ? scale.y])
+            spawnPosition += (Vector2)(PositionInGrid - other.PositionInGrid) * (transform.lossyScale.x / 2);
+
+            // Add corridor size offset acounting for relative position to other room
+            spawnPosition += (Vector2)(PositionInGrid - other.PositionInGrid) * (corridorPrefab.transform.lossyScale.y / 2);
+
+            Instantiate(corridorPrefab, spawnPosition, Quaternion.Euler(0, 0, (int)sideTwardsOther % 2 == 0 ? 0 : 90));
+        }
+
+        SetDoorType(sideTwardsOther, Door.DoorType.Door);
+        other.ConnectRoom(other, !spawnCorridor);
+    }
+
+    GenerateRoom.Side GetRelativeSideTo(Room other)
+    {
+        Vector2Int relativePos = PositionInGrid - other.PositionInGrid;
+
+        if(relativePos.y > 0) { return GenerateRoom.Side.Top; }
+        else if (relativePos.x > 0) { return GenerateRoom.Side.right; }
+        else if (relativePos.y < 0) { return GenerateRoom.Side.bottom; }
+        else { return GenerateRoom.Side.left; }
     }
 }

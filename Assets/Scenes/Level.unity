@@ -4612,6 +4612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89288e4ee2bf521499963476fdeef25b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  room: {fileID: 0}
   chanceMultiplier: 1
 --- !u!114 &1209498132
 MonoBehaviour:
@@ -4626,6 +4627,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies: []
+  doors: []
+  corridorPrefab: {fileID: 0}
   enemySpawnTickets: 20
   crate: {fileID: 0}
   crateSpawnChance: 20
@@ -5065,6 +5068,7 @@ MonoBehaviour:
   roomChanceDeprecation: 1.85
   maxBranch: 3
   minRooms: 3
+  startingRoom: {fileID: 1209498131}
   rooms: []
 --- !u!4 &1440050883
 Transform:

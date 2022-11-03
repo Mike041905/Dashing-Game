@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public GameObject coin;
 
     [SerializeField] private GameObject portal;
+    private GameObject portalInstance;
 
     [SerializeField] private float difficultyPreRoomMultiplier;
     [SerializeField] private float difficultyPreLevel;
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour
     public int Level { get; private set; }
     public float DifficultyPreRoomMultiplier { get; private set; }
     public float DifficultyPreLevel { get; private set; }
-    public float Difficulty { get => GameManager.Insatnce.DifficultyPreRoomMultiplier + Level * GameManager.Insatnce.DifficultyPreLevel; }
+    public float Difficulty { get => DifficultyPreRoomMultiplier + Level * DifficultyPreLevel; }
 
 
     //----------------------------------------------
@@ -211,7 +212,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPortal(Room sender)
     {
-        Instantiate(portal, sender.transform.position, Quaternion.identity);
+        portalInstance = Instantiate(portal, sender.transform.position, Quaternion.identity);
     }
 
     public void MoveToNextLevel()
