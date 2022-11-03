@@ -7,7 +7,7 @@ public class LevelGanerator : MonoBehaviour
 {
     [Header("Essential")]
     public GameObject roomPrefab;
-    [Range(0f, 100f)] public float initiaChanceOfRoomSpawnPrc = 15f;
+    [Range(0f, 100f)] public float initialChanceOfRoomSpawnPrc = 15f;
     public float roomChanceDeprecation = 1.5f;
     public int maxBranch = 4;
     public int minRooms = 3;
@@ -44,7 +44,10 @@ public class LevelGanerator : MonoBehaviour
 
     private void Start()
     {
-        startingRoom.GenerateRooms();
+        while (rooms.Length < minRooms)
+        {
+            startingRoom.GenerateRooms();
+        }
     }
 
 
@@ -96,10 +99,19 @@ public class LevelGanerator : MonoBehaviour
     {
         for (int i = 0; i < rooms.Length; i++)
         {
-            Destroy(rooms[i]);
+            Destroy(rooms[i].gameObject);
+        }
+        rooms = new Room[0];
+
+        GameObject[] connectors = GameObject.FindGameObjectsWithTag("RoomConnector");
+        for (int i = 0; i < connectors.Length; i++)
+        {
+            Destroy(connectors[i]);
         }
 
-        rooms = new Room[0];
+        startingRoom.room.ResetDoors();
+
+        startingRoom.GenerateRooms();
     }
 
     internal void SpawnRoom(GenerateRoom parentRoom, GenerateRoom.Side side)

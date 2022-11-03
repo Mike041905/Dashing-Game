@@ -2390,9 +2390,6 @@ MonoBehaviour:
   maxStamina: 10
   staminaRecharge: 2
   usePcControls: 1
-  slowMoUpgradeEnabled: 0
-  explodeUpgradeEnabled: 0
-  chainLightningUpgradeEnabled: 0
 --- !u!114 &602972575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2460,7 +2457,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 602972571}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -2470,7 +2467,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 1
-  m_SleepingMode: 1
+  m_SleepingMode: 2
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!120 &602972577
@@ -2656,6 +2653,7 @@ GameObject:
   m_Component:
   - component: {fileID: 613377195}
   - component: {fileID: 613377196}
+  - component: {fileID: 613377197}
   m_Layer: 0
   m_Name: Right
   m_TagString: Barrier
@@ -2676,7 +2674,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1215398270}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
 --- !u!61 &613377196
 BoxCollider2D:
@@ -2704,6 +2702,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 12, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &613377197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613377194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8156072a6d646445bcbf45c237607cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorSprite: {fileID: 613377194}
+  side: 1
 --- !u!1 &630530558
 GameObject:
   m_ObjectHideFlags: 0
@@ -3602,6 +3614,7 @@ GameObject:
   m_Component:
   - component: {fileID: 794468899}
   - component: {fileID: 794468900}
+  - component: {fileID: 794468901}
   m_Layer: 0
   m_Name: Left
   m_TagString: Barrier
@@ -3622,7 +3635,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1215398270}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!61 &794468900
 BoxCollider2D:
@@ -3650,6 +3663,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 12, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &794468901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794468898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8156072a6d646445bcbf45c237607cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorSprite: {fileID: 794468898}
+  side: 3
 --- !u!1 &897310275
 GameObject:
   m_ObjectHideFlags: 0
@@ -4064,6 +4091,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1005795737}
   - component: {fileID: 1005795738}
+  - component: {fileID: 1005795739}
   m_Layer: 0
   m_Name: Top
   m_TagString: Barrier
@@ -4112,6 +4140,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 12, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &1005795739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005795736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8156072a6d646445bcbf45c237607cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorSprite: {fileID: 1005795736}
+  side: 0
 --- !u!1 &1029254202
 GameObject:
   m_ObjectHideFlags: 0
@@ -4627,7 +4669,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies: []
-  doors: []
+  doors:
+  - {fileID: 1005795739}
+  - {fileID: 613377197}
+  - {fileID: 2040704910}
+  - {fileID: 794468901}
   connectorPrefab: {fileID: 5559781198437212066, guid: ff8d877195b781149ae053b48f3ee8f3, type: 3}
   enemySpawnTickets: 20
   crate: {fileID: 0}
@@ -4663,9 +4709,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1005795737}
-  - {fileID: 794468899}
-  - {fileID: 2040704908}
   - {fileID: 613377195}
+  - {fileID: 2040704908}
+  - {fileID: 794468899}
   m_Father: {fileID: 1209498130}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5064,8 +5110,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 7070746043108465200, guid: 9c0d0ff55c5b5dc49a67ef1e4f293fe5, type: 3}
-  initiaChanceOfRoomSpawnPrc: 67
-  roomChanceDeprecation: 1.85
+  initialChanceOfRoomSpawnPrc: 35
+  roomChanceDeprecation: 2
   maxBranch: 3
   minRooms: 3
   startingRoom: {fileID: 1209498131}
@@ -5101,6 +5147,7 @@ MonoBehaviour:
   portal: {fileID: 7702841250052584895, guid: dd9004bad68f6ca48a53e5b0bab6225e, type: 3}
   difficultyPreRoomMultiplier: 0
   difficultyPreLevel: 1
+  player: {fileID: 0}
 --- !u!1 &1465705985
 GameObject:
   m_ObjectHideFlags: 0
@@ -5152,7 +5199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 0.23921569}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.039215688}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6449,7 +6496,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -7398,6 +7445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2040704908}
   - component: {fileID: 2040704909}
+  - component: {fileID: 2040704910}
   m_Layer: 0
   m_Name: Bottom
   m_TagString: Barrier
@@ -7446,6 +7494,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 12, y: 5}
   m_EdgeRadius: 0
+--- !u!114 &2040704910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040704907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8156072a6d646445bcbf45c237607cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorSprite: {fileID: 2040704907}
+  side: 2
 --- !u!1 &2046778026
 GameObject:
   m_ObjectHideFlags: 0

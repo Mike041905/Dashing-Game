@@ -30,12 +30,6 @@ public class Dash : MonoBehaviour
     //-----------------------------
 
 
-    // Deprecated
-    [HideInInspector] public bool slowMoUpgradeEnabled = false;
-    [HideInInspector] public bool explodeUpgradeEnabled = false;
-    [HideInInspector] public bool chainLightningUpgradeEnabled = false;
-    //
-
     public event Action OnStartAiming;
     public event Action OnAiming;
     public event Action OnEndAiming;
@@ -45,13 +39,16 @@ public class Dash : MonoBehaviour
 
     public event Action<GameObject> OnHitEnemy;
 
+    private bool isAiming = false;
     private Vector2 firstTouchPosition;
     private Vector2 secondTouchPosition;
-    private bool setFirstTouchPosition = false;
     private Vector2 lastDashPosition;
     private float stamina = 0;
 
     public Coroutine currentDash;
+
+    Rigidbody2D rb;
+    Rigidbody2D Rb { get { if (rb == null) { rb = GetComponent<Rigidbody2D>(); } return rb; } }
 
 
     //-----------------------------
@@ -65,7 +62,9 @@ public class Dash : MonoBehaviour
     {
         SetPositionsAndDash(usePcControls);
         RechargeStamina();
+
         ManageLineRenderer();
+        ManageDirectionIndicator();
     }
 
 
@@ -91,8 +90,19 @@ public class Dash : MonoBehaviour
         }
     }
 
+    void ManageDirectionIndicator()
+    {
+        if (!isAiming) { directionIndicator.enabled = false; return; }
+
+        directionIndicator.enabled = true;
+        directionIndicator.SetPosition(0, transform.position);
+        directionIndicator.SetPosition(1, (secondTouchPosition - firstTouchPosition).normalized * 3 + (Vector2)transform.position);
+    }
+
     void InitializeVariables()
     {
+        rb = GetComponent<Rigidbody2D>();
+
         damage = PlayerPrefs.GetFloat("Damage");
         staminaRecharge = PlayerPrefs.GetFloat("Stamina Recharge");
 
@@ -107,26 +117,16 @@ public class Dash : MonoBehaviour
         staminaSlider.value = stamina;
     }
 
-    void DealKnockback(Rigidbody2D targetRigidbody2D, Vector2 direction, float force)
-    {
-        targetRigidbody2D.AddForce(-direction * force, ForceMode2D.Impulse);
-    }
-
-    void DealDamage(Health target, float damage)
-    {
-        target.TakeDamage(damage);
-    }
-
     public void SetPositionsAndDash(bool pcControls = false)
     {
         if (pcControls == true ? Input.GetMouseButton(0) : Input.touchCount > 0)
         {
             OnAiming?.Invoke();
 
-            if (!setFirstTouchPosition)
+            if (!isAiming)
             {
+                isAiming = true;
                 firstTouchPosition = pcControls == true ? (Vector2)Input.mousePosition : Input.GetTouch(0).position;
-                setFirstTouchPosition = true;
             }
             else
             {
@@ -135,16 +135,12 @@ public class Dash : MonoBehaviour
                 cameraTarget.position = (secondTouchPosition - firstTouchPosition).normalized * dashDistance / 2 + (Vector2)transform.position;
 
                 if ((secondTouchPosition - firstTouchPosition).normalized != Vector2.zero) transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, (secondTouchPosition - firstTouchPosition).normalized + (Vector2)transform.position);
-
-                directionIndicator.enabled = true;
-                directionIndicator.SetPosition(0, transform.position);
-                directionIndicator.SetPosition(1, (secondTouchPosition - firstTouchPosition).normalized * 3 + (Vector2)transform.position);
-            }
+           }
         }
-        else if(setFirstTouchPosition)
+        else if(isAiming)
         {
+            isAiming = false;
             directionIndicator.enabled = false;
-            setFirstTouchPosition = false;
             UseDash(dashSpeed, dashDistance);
         }
     }
@@ -152,72 +148,64 @@ public class Dash : MonoBehaviour
     void UseDash(float speed, float distance)//checks if player has enough stamina and prevents from using the dash multiple times
     {
         Time.timeScale = 1;
-        if (stamina < staminaDrain) { return; }
+        if (stamina < staminaDrain) 
+        {
+            staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+            (
+                new Color(1,1,1,.2f),
+                .1f,
+                () => 
+                { 
+                    staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+                    (
+                        new Color(1, 1, 1, 1f),
+                        .1f,
+                        () =>
+                        {
+                            staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+                            (
+                                new Color(1, 1, 1, .2f),
+                                .1f, 
+                                () =>
+                                {
+                                    staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+                                    (
+                                        new Color(1, 1, 1, 1f),
+                                        .3f
+                                    );
+                                }
+                            );
+                        }
+                    ); 
+                }
+            );
+
+            return; 
+        }
         if(currentDash != null) StopCoroutine(currentDash);
+
         currentDash = StartCoroutine(StartDash(speed, distance));
     }
 
+    Vector2 dashTargetPosition;
+    Vector2 dashStartPosition;
     IEnumerator StartDash(float speed, float distance)
     {
         cameraTarget.localPosition = Vector3.zero;
+        Vector2 truePosition = transform.position;
+        dashStartPosition = transform.position;
 
         stamina -= staminaDrain;
-        Vector2 finalPosition = (secondTouchPosition - firstTouchPosition).normalized * distance + (Vector2)transform.position;
-        transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, finalPosition);
-
-        Collider2D lastHitBarrier = GetComponent<Collider2D>();
+        dashTargetPosition = (secondTouchPosition - firstTouchPosition).normalized * distance + Rb.position;
+        Rb.MoveRotation(MikeTransform.Rotation.LookTwards(Rb.position, dashTargetPosition));
 
         while (true)
         {
-            lastDashPosition = transform.position;
-            transform.position = Vector2.MoveTowards(transform.position, finalPosition, speed * Time.deltaTime);
-            RaycastHit2D[] collider2Ds = Physics2D.CircleCastAll(transform.position, .55f, lastDashPosition, Vector2.Distance(transform.position, lastDashPosition));
-            foreach (RaycastHit2D item in collider2Ds)
-            {
-                if (item.transform.CompareTag("Enemy"))
-                {
-                    Health enemy = item.transform.GetComponent<Health>();
-                    DealDamage(enemy, damage);
-                    DealKnockback(item.rigidbody, (Vector2) item.transform.position - item.point, knockbackForce);
-                    CameraShaker.Instance.ShakeOnce(1, 3, .1f, .1f);
+            truePosition = Vector2.MoveTowards(truePosition, dashTargetPosition, speed * Time.deltaTime);
+            Rb.MovePosition(truePosition);
+            if (Rb.position == dashTargetPosition) { currentDash = null; break; }
 
-                    OnHitEnemy?.Invoke(item.transform.gameObject);
-                }
-                if (item.transform.CompareTag("Barrier") && item.collider != lastHitBarrier) 
-                {
-                    transform.position = item.centroid;
-                    lastHitBarrier = item.collider;
-
-                    CameraShaker.Instance.ShakeOnce(1, 3, .1f, .1f);
-                    Vector2 bounceDir = Vector2.Reflect(transform.up, item.normal);
-
-                    distance /= 2;
-                    speed /= 2;
-                    finalPosition = bounceDir * distance + (Vector2)transform.position;
-
-                    transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, finalPosition);
-                }
-            }
-            if ((Vector2)transform.position == finalPosition) { currentDash = null; break; }
             yield return null;
-        }
-
-        // Prevent Being Stuck in a wall
-        bool checkForBarriers = true;
-        for (int i = 0; checkForBarriers; i++)
-        {
-            checkForBarriers = false;
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, .6f);
-            foreach (Collider2D hit in hits)
-            {
-                if (!hit.CompareTag("Barrier")) { continue; }
-                transform.position += (Vector3) ((Vector2)transform.position - hit.ClosestPoint(transform.position)).normalized * .6f;
-                checkForBarriers = true;
-                break;
-            }
-
-            if(i > 10) { transform.position += (Vector3) ((Vector2) MikeGameObject.GetClosestTargetWithTag(transform.position, "Room").transform.position - (Vector2) transform.position).normalized; }
-            if(i > 100) { break; } //percaution
         }
     }
 
@@ -248,5 +236,22 @@ public class Dash : MonoBehaviour
     {
         GetComponent<Collider2D>().enabled = true;
         PowerUpAdder.Instance.gameObject.SetActive(true);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision == null) { return; }
+
+        if(collision.transform.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<Health>().TakeDamage(damage);
+            CameraShaker.Instance.ShakeOnce(1, 3, .1f, .1f);
+        }
+        else if (collision.transform.CompareTag("Barrier"))
+        {
+            float distanceLeft = dashDistance - Vector2.Distance(dashStartPosition, collision.GetContact(0).point);
+            dashTargetPosition = collision.GetContact(0).point - Vector2.Reflect(((Vector2)transform.position - dashTargetPosition).normalized, collision.GetContact(0).normal) * distanceLeft;
+            rb.rotation = (MikeRotation.Vector2ToAngle(rb.position - dashTargetPosition) + 180);
+        }
     }
 }

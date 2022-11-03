@@ -52,6 +52,7 @@ namespace Mike
 
         public void Stop()
         {
+            if(transition == null) { return; }
             graphic.StopCoroutine(transition);
         }
     }

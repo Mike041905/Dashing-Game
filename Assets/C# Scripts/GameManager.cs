@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviour
     public float DifficultyPreLevel { get; private set; }
     public float Difficulty { get => DifficultyPreRoomMultiplier + Level * DifficultyPreLevel; }
 
+    public GameObject player;
+    public GameObject Player { get { if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); } return player; } }
+
 
     //----------------------------------------------
 
@@ -108,20 +111,19 @@ public class GameManager : MonoBehaviour
     /// </summary>
     IEnumerator NextLevel()
     {
+        EZCameraShake.CameraShaker.Instance.ShakeOnce(15, 25, 4f, 1f);
+        Player.GetComponent<Dash>().enabled = false;
         yield return new WaitForSeconds(2f);
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.transform.position = Vector3.zero;
-        if (player.GetComponent<Dash>().currentDash != null) { StopCoroutine(player.GetComponent<Dash>().currentDash); }
+        Player.transform.position = Vector3.zero;
+        if (Player.GetComponent<Dash>().currentDash != null) { StopCoroutine(Player.GetComponent<Dash>().currentDash); }
 
         Level++;
-
+        InputManager.Instance.UpdateUI();
+        Destroy(portalInstance);
         LevelGanerator.Instance.RegenerateLevel();
+        Player.GetComponent<Dash>().enabled = true;
 
-        //////////// AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH...
-        /////ICANT CONCENTRATE!
-        /////////MY HEAD HURTS!!
-        ////// CLASS TOO LOUD!!!
     }
     #endregion
 
@@ -210,9 +212,15 @@ public class GameManager : MonoBehaviour
         InputManager.Instance.UpdateUI();
     }
 
-    public void SpawnPortal(Room sender)
+    public bool TrySpawnPortal(Room sender)
     {
+        for (int i = 0; i < LevelGanerator.Instance.rooms.Length; i++)
+        {
+            if (LevelGanerator.Instance.rooms[i].enabled && LevelGanerator.Instance.rooms[i] != sender) { return false; }
+        }
+
         portalInstance = Instantiate(portal, sender.transform.position, Quaternion.identity);
+        return true;
     }
 
     public void MoveToNextLevel()

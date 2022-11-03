@@ -10,19 +10,26 @@ public class Door : MonoBehaviour
         Barrier
     }
 
+    [SerializeField] GameObject doorSprite;
     public GenerateRoom.Side side;
+
 
     DoorType doorType = DoorType.Barrier;
     public DoorType Type { get => doorType; set { doorType = value; BoxCollider.isTrigger = doorType == 0 ; } }
-    public bool IsOpen { get => BoxCollider.isTrigger; set { if (Type == DoorType.Door) { BoxCollider.isTrigger = value; } } } 
+    
+    public bool IsOpen { get => BoxCollider.isTrigger; set { if (Type == DoorType.Door) { BoxCollider.isTrigger = value; doorSprite.SetActive(!value); } } } 
 
     BoxCollider2D boxCollider;
     public BoxCollider2D BoxCollider { get { if (boxCollider == null) { boxCollider = GetComponent<BoxCollider2D>(); } return boxCollider; } }
 
-    public event UnityAction<Collision2D> OnEnteredThroughDoor;
+    public event UnityAction<Collider2D> OnEnteredThroughDoor;
 
-    private void OnCollisionExit2D(Collision2D collision)
+
+    //--------------
+
+
+    private void OnTriggerExit2D(Collider2D collider)
     {
-        OnEnteredThroughDoor?.Invoke(collision);
+        OnEnteredThroughDoor?.Invoke(collider);
     }
 }

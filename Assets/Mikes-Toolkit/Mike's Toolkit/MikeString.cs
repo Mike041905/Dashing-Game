@@ -13,19 +13,19 @@ namespace Mike
         /// <returns></returns>
         public static string ConvertNumberToString(double number = 0)
         {
-            if(number < 1000 || number > (numberSuffixes.Length + 1) * 1000000) { return number.ToString("0.##"); }
+            if(number < 1000) { return number.ToString("0.##"); }
+            if(number > Mathf.Pow(1000000, numberSuffixes.Length)) { return number.ToString("E"); }
 
-            string text = number.ToString("G20");
+            string text = number.ToString("G99");
             bool coma = false;
 
             if (text.Contains(",")) { text = text.Replace(',', '.'); coma = true; }
 
             for (int i = 1; i < numberSuffixes.Length + 1; i++)
             {
-
                 string suffix = numberSuffixes[i - 1];
 
-                if (number >= i * 1000 && number < i * 1000000)
+                if (number >= 1000 * Mathf.Pow(1000, i - 1) && number < 1000000 * Mathf.Pow(1000, i - 1))
                 {
                     if (text.Contains(".")) text = text.Remove(text.IndexOf("."));
                     return text.Remove(text.Length - i * 3) + "." + text.Remove(0, text.Length - i * 3).Remove(2) + suffix;

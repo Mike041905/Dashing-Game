@@ -50,6 +50,15 @@ public class Room : MonoBehaviour
 
     //---------------------
 
+
+    public void ResetDoors()
+    {
+        for (int i = 0; i < doors.Length; i++)
+        {
+            doors[i].Type = Door.DoorType.Barrier;
+        }
+    }
+
     void SetDoorType(GenerateRoom.Side side, Door.DoorType doorType, bool open = true)
     {
         for (int i = 0; i < doors.Length; i++)
@@ -87,7 +96,7 @@ public class Room : MonoBehaviour
             GameObject.FindGameObjectWithTag("RoomText").GetComponent<FightStartFinish>().EndFight();
             OpenDoors();
             transform.GetChild(2).GetChild(0).GetComponent<SpriteRenderer>().color = new Color(.25f, .25f, .25f);
-            GameManager.Insatnce.SpawnPortal(this);
+            GameManager.Insatnce.TrySpawnPortal(this);
             enabled = false;
         }
     }
@@ -97,6 +106,14 @@ public class Room : MonoBehaviour
         foreach (Door door in doors)
         {
             door.IsOpen = true;
+        }
+    }
+    
+    void CloseDoors()
+    {
+        foreach (Door door in doors)
+        {
+            door.IsOpen = false;
         }
     }
 
@@ -112,20 +129,14 @@ public class Room : MonoBehaviour
         return true;
     }
 
-    public void ReciveTrigger(Collision2D collision)
+    public void ReciveTrigger(Collider2D collider)
     {
         if(!enabled) { return; }
-        if(!collision.collider.CompareTag("Player") || Vector2.Distance(collision.transform.position, transform.position) >= 26) { return; }
+        if(!collider.CompareTag("Player") || Vector2.Distance(collider.transform.position, transform.position) >= 26) { return; }
 
         CameraShaker.Instance.ShakeOnce(1, 15, .25f, .25f);
-
-        foreach (Transform item in transform.GetChild(0))
-        {
-            if(item.CompareTag("Door")) item.GetChild(0).gameObject.SetActive(true);
-
-            item.GetComponent<BoxCollider2D>().isTrigger = false;
-            item.tag = "Barrier";
-        }
+        
+        CloseDoors();
         StartFight();
     }
 
@@ -211,10 +222,10 @@ public class Room : MonoBehaviour
             spawnPosition += (Vector2)(other.PositionInGrid - PositionInGrid) * (connectorPrefab.transform.lossyScale.y / 2);
 
             Instantiate(connectorPrefab, spawnPosition, Quaternion.Euler(0, 0, (int)sideTwardsOther % 2 == 0 ? 0 : 90));
+            other.ConnectRoom(this, false);
         }
 
         SetDoorType(sideTwardsOther, Door.DoorType.Door);
-        other.ConnectRoom(other, !spawnConnector);
     }
 
     GenerateRoom.Side GetRelativeSideTo(Room other)
