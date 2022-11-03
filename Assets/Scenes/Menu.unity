@@ -1882,7 +1882,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 183570608}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1812970515}
+        m_TargetAssemblyTypeName: Upgrade, Assembly-CSharp
+        m_MethodName: Up
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &183570608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5584,8 +5596,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e9c3e44e5d5c394680890ead34c18d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinCounter: {fileID: 0}
-  gemCounter: {fileID: 0}
+  coinCounter: {fileID: 19996471}
+  gemCounter: {fileID: 297164638}
   scoreCounter: {fileID: 0}
   levelCounter: {fileID: 0}
 --- !u!1 &959703075
@@ -7946,7 +7958,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1771355729}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63bb426c2b2c39f4b92feb6a756ceea6, type: 3}
+  m_Script: {fileID: 0}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1771355732
@@ -8175,7 +8187,7 @@ MonoBehaviour:
       costOffset: 10
   - name: Game
     upgrades:
-    - variableSaveKey: Starting level
+    - variableSaveKey: Starting Level
       variableType: 0
       startingValue: 1
       upgradeAdditionValue: 1

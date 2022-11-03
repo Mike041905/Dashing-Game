@@ -29,11 +29,13 @@ public class GameManager : MonoBehaviour
 
     private double coinsDouble;
 
-    
+
     //----------------------------------------------
 
-
-    public ulong Coins { get; private set; }
+    /// <summary>
+    /// Returns 
+    /// </summary>
+    public long Coins { get => (long) coinsDouble; }
     public ulong Gems { get; private set; }
     public int Level { get; private set; }
     public float DifficultyPreRoomMultiplier { get; private set; }
@@ -80,7 +82,7 @@ public class GameManager : MonoBehaviour
         Level = StorageManager.StartingLevel;
 
         Gems = ulong.Parse(PlayerPrefs.GetString("Gems", "0"));
-        Coins = ulong.Parse(PlayerPrefs.GetString("Coins", "0"));
+        coinsDouble = double.Parse(PlayerPrefs.GetString("Coins", "0"));
         coinsDouble = Coins;
     }
 
@@ -89,7 +91,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void SaveCoins()
     {
-        PlayerPrefs.SetString("Coins", math.round((double) coinsDouble).ToString("G20"));
+        PlayerPrefs.SetString("Coins", math.round(coinsDouble).ToString("G20"));
     }
 
     /// <summary>
@@ -125,11 +127,20 @@ public class GameManager : MonoBehaviour
     //----------------------------------------------
 
 
+    public void SetCoins(double ammount)
+    {
+        coinsDouble = ammount;
+
+        SaveCoins();
+        InputManager.Instance.UpdateUI();
+    }
+    
     public void AddCoins(double ammount)
     {
+        // NOTE: double "-" operator returns a double and (double.MaxValue + 1 < 0) as it overloads the variable!
         if (coinsDouble + ammount > double.MaxValue)
         {
-            coinsDouble = double.MaxValue;
+            coinsDouble = 0;
             SaveCoins();
             InputManager.Instance.UpdateUI();
             return;
@@ -137,13 +148,38 @@ public class GameManager : MonoBehaviour
 
         if (coinsDouble + ammount < 0)
         {
-            Coins = 0;
+            coinsDouble = double.MaxValue;
             SaveCoins();
             InputManager.Instance.UpdateUI();
             return;
         }
 
         coinsDouble += ammount;
+
+        SaveCoins();
+        InputManager.Instance.UpdateUI();
+    }
+    
+    public void RemoveCoins(double ammount)
+    {
+        // NOTE: double "-" operator returns a double and (double.MaxValue + 1 < 0) as it overloads the variable!
+        if (coinsDouble - ammount > double.MaxValue)
+        {
+            coinsDouble = double.MaxValue;
+            SaveCoins();
+            InputManager.Instance.UpdateUI();
+            return;
+        }
+
+        if (coinsDouble - ammount < 0)
+        {
+            coinsDouble = 0;
+            SaveCoins();
+            InputManager.Instance.UpdateUI();
+            return;
+        }
+
+        coinsDouble -= ammount;
 
         SaveCoins();
         InputManager.Instance.UpdateUI();

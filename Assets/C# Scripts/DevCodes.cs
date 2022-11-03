@@ -14,17 +14,17 @@ public class DevCodes : MonoBehaviour
     {
         Code = ToLowerNoSpaces(Code);
 
-        if (Code.StartsWith("PlayerPrefs.SetInt("))
+        if (Code.StartsWith("playerprefs.setint("))
         {
             ModifyPlayerPrefsInt(Code);
             return;
         }
-        else if (Code.StartsWith("PlayerPrefs.SetFloat("))
+        else if (Code.StartsWith("playerprefs.setfloat("))
         {
             ModifyPlayerPrefsFloat(Code);
             return;
         }
-        else if (Code.StartsWith("PlayerPrefs.SetString("))
+        else if (Code.StartsWith("playerprefs.setstring("))
         {
             ModifyPlayerPrefsString(Code);
             return;
@@ -36,7 +36,7 @@ public class DevCodes : MonoBehaviour
         }
         else if (Code.StartsWith("coins="))
         {
-            GameManager.Insatnce.AddCoins(ulong.Parse(Code.Remove(0, Code.IndexOf("=") + 1)) - GameManager.Insatnce.Coins);
+            GameManager.Insatnce.SetCoins(double.Parse(Code.Remove(0, Code.IndexOf("=") + 1)));
             return;
         }
         else if (Code.StartsWith("gems="))

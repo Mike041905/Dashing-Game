@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 0}
-  health: 5
+  health: 0.5
   deathEffect: {fileID: 1518020747397404029, guid: 14b45edba86b0d8478f8e6957ea77a3b, type: 3}
   destroyOnDeath: 1
   minCoinsOnDeath: 0

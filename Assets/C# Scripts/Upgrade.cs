@@ -1,5 +1,6 @@
 using Mike;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,11 +15,64 @@ public struct UpgradeData
     public float costMultiplier;
     public float costOffset;
 
+    /// <summary>
+    /// Automaticaly converts to correct value
+    /// </summary>
+    public float UpgradeValue
+    {
+        get
+        {
+            return variableType == VariableType.Integer
+                ? GetIntWithDefault(variableSaveKey, Mathf.RoundToInt(startingValue))
+                : GetFloatWithDefault(variableSaveKey, startingValue);
+        }
+        set
+        {
+            if (variableType == VariableType.Integer)
+            {
+                PlayerPrefs.SetInt(variableSaveKey, Mathf.RoundToInt(value));
+            }
+            else
+            {
+                PlayerPrefs.SetFloat(variableSaveKey, value);
+            }
+        }
+    }
+    public float NextUpgradeValue 
+    {
+        get
+        {
+            if(variableType == VariableType.Integer)
+            {
+                return math.ceil(UpgradeValue * upgradeMultiplier + upgradeAdditionValue);
+            }
+            else
+            {
+                return UpgradeValue * upgradeMultiplier + upgradeAdditionValue;
+            }
+        }
+    }
+    public long Cost { get => Mathf.CeilToInt(UpgradeValue * costMultiplier + costOffset); }
+
     [System.Serializable]
     public enum VariableType
     {
         Integer,
         Float,
+    }
+
+    // IDK why unity wont asign these values on GetInt Automaticaly.
+    int GetIntWithDefault(string key, int defaultValue)
+    {
+        if (!PlayerPrefs.HasKey(key)) { PlayerPrefs.SetInt(key, defaultValue); return defaultValue; }
+
+        return PlayerPrefs.GetInt(key);
+    }
+    float GetFloatWithDefault(string key, float defaultValue)
+    {
+        if (!PlayerPrefs.HasKey(key)) { PlayerPrefs.SetFloat(key, defaultValue); return defaultValue; }
+
+        return PlayerPrefs.GetFloat(key);
     }
 }
 
@@ -34,37 +88,7 @@ public class Upgrade : MonoBehaviour
     public UpgradeData UpgradeData { get => upgradeData; set { upgradeData = value; Initialize(); } }
 
     //----------------------------------------------------
-
-
-    /// <summary>
-    /// Automaticaly converts to correct value
-    /// </summary>
-    public float UpgradeValue
-    {
-        get
-        {
-            return UpgradeData.variableType == UpgradeData.VariableType.Integer
-                ? PlayerPrefs.GetInt(UpgradeData.variableSaveKey, Mathf.RoundToInt(UpgradeData.startingValue))
-                : PlayerPrefs.GetFloat(UpgradeData.variableSaveKey, UpgradeData.startingValue);
-        }
-        set
-        {
-            if (UpgradeData.variableType == UpgradeData.VariableType.Integer)
-            {
-                PlayerPrefs.SetInt(UpgradeData.variableSaveKey, Mathf.RoundToInt(value));
-            }
-            else
-            {
-                PlayerPrefs.SetFloat(UpgradeData.variableSaveKey, value);
-            }
-        }
-    }
-    public int Cost { get => Mathf.CeilToInt(UpgradeValue * UpgradeData.costMultiplier + UpgradeData.costOffset); }
-
-
-    //----------------------------------------------------
-
-
+     
     void Initialize()
     {
         UpdateUpgradeDetails();
@@ -76,7 +100,7 @@ public class Upgrade : MonoBehaviour
 
     private void UpdateUpgradeButton()
     {
-        upgradeButton.interactable = GameManager.Insatnce.Coins < Mathf.Round(PlayerPrefs.GetInt(UpgradeData.variableSaveKey) * UpgradeData.costMultiplier);
+        upgradeButton.interactable = GameManager.Insatnce.Coins >= UpgradeData.Cost;
     }
 
     public void Up()
@@ -88,7 +112,7 @@ public class Upgrade : MonoBehaviour
     private void UpdateUpgradeDetails()
     {
         upgradeName.text = UpgradeData.variableSaveKey;
-        stats.text = MikeString.ConvertNumberToString(UpgradeValue) + " >> " + MikeString.ConvertNumberToString(UpgradeValue * UpgradeData.upgradeMultiplier + UpgradeData.upgradeAdditionValue);
-        cost.text = MikeString.ConvertNumberToString(Cost);
+        stats.text = MikeString.ConvertNumberToString(UpgradeData.UpgradeValue) + " >> " + MikeString.ConvertNumberToString(UpgradeData.NextUpgradeValue);
+        cost.text = MikeString.ConvertNumberToString(UpgradeData.Cost);
     }
 }

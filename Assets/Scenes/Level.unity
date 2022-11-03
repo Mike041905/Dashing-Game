@@ -7724,8 +7724,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e9c3e44e5d5c394680890ead34c18d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinConter: {fileID: 596919559}
-  gemConter: {fileID: 1068067287}
+  coinCounter: {fileID: 596919559}
+  gemCounter: {fileID: 1068067287}
   scoreCounter: {fileID: 0}
   levelCounter: {fileID: 1900891983}
 --- !u!114 &2064148766

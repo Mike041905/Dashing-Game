@@ -57,30 +57,32 @@ public class InputManager : MonoBehaviour
 
     public void Upgrade(UpgradeData data)
     {
+        // I have no idea why im handling this in a seperate class ¯\_(?)_/¯
+
         switch (data.variableType)
         {
             case UpgradeData.VariableType.Integer:
 
                 //check if player has enough coins
-                if (GameManager.Insatnce.Coins - Mathf.Ceil(PlayerPrefs.GetInt(data.variableSaveKey, 10) * data.costMultiplier) >= 0)
+                if (GameManager.Insatnce.Coins - data.Cost >= 0)
                 {
                     //remove coins
-                    GameManager.Insatnce.AddCoins((ulong)Mathf.Ceil(-PlayerPrefs.GetInt(data.variableSaveKey, 10) * data.costMultiplier));
+                    GameManager.Insatnce.RemoveCoins(data.Cost);
 
                     //change value
-                    PlayerPrefs.SetInt(data.variableSaveKey, Mathf.CeilToInt(PlayerPrefs.GetInt(data.variableSaveKey) * data.upgradeMultiplier + data.upgradeAdditionValue));
+                    PlayerPrefs.SetInt(data.variableSaveKey, (int) data.NextUpgradeValue);
                 }
                 break;
 
             case UpgradeData.VariableType.Float:
 
-                if (GameManager.Insatnce.Coins - Mathf.Ceil(PlayerPrefs.GetFloat(data.variableSaveKey, 10) * data.costMultiplier) >= 0)
+                if (GameManager.Insatnce.Coins - data.Cost >= 0)
                 {
                     //remove coins
-                    GameManager.Insatnce.AddCoins((ulong)Mathf.Ceil(-PlayerPrefs.GetFloat(data.variableSaveKey, 10) * data.costMultiplier));
+                    GameManager.Insatnce.RemoveCoins(data.Cost);
 
                     //change value
-                    PlayerPrefs.SetFloat(data.variableSaveKey, PlayerPrefs.GetFloat(data.variableSaveKey) * data.upgradeMultiplier + data.upgradeAdditionValue);
+                    PlayerPrefs.SetFloat(data.variableSaveKey, data.NextUpgradeValue);
                 }
                 break;
         }

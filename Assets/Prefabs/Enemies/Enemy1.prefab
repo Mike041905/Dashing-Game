@@ -251,7 +251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1810532768877956804, guid: 785f925833c2b6a4ab381ad77af75632, type: 3}
   muzzle: {fileID: 3997293795890969470}
-  projectileDamage: 5
+  projectileDamage: 10
   projectileSpeed: 10
   delayBetweenShots: 3
   projectilesPerShot: 1
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 0}
-  health: 8
+  health: 1
   deathEffect: {fileID: 1518020747397404029, guid: 79d43f36675b4f848bd2819a69224317, type: 3}
   destroyOnDeath: 1
   minCoinsOnDeath: 0
