@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class Door : MonoBehaviour
@@ -12,13 +13,16 @@ public class Door : MonoBehaviour
     public GenerateRoom.Side side;
 
     DoorType doorType = DoorType.Barrier;
-    public DoorType Type { get => doorType; set { doorType = value; boxCollider.isTrigger = doorType == 0 ? true : false ; } }
-    public bool IsOpen { get => boxCollider.isTrigger; set { if (Type == DoorType.Door) { boxCollider.isTrigger = value; } } } 
+    public DoorType Type { get => doorType; set { doorType = value; BoxCollider.isTrigger = doorType == 0 ; } }
+    public bool IsOpen { get => BoxCollider.isTrigger; set { if (Type == DoorType.Door) { BoxCollider.isTrigger = value; } } } 
 
     BoxCollider2D boxCollider;
+    public BoxCollider2D BoxCollider { get { if (boxCollider == null) { boxCollider = GetComponent<BoxCollider2D>(); } return boxCollider; } }
 
-    private void Start()
+    public event UnityAction<Collision2D> OnEnteredThroughDoor;
+
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        boxCollider = GetComponent<BoxCollider2D>();
+        OnEnteredThroughDoor?.Invoke(collision);
     }
 }

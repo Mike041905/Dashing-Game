@@ -4628,7 +4628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies: []
   doors: []
-  corridorPrefab: {fileID: 0}
+  connectorPrefab: {fileID: 5559781198437212066, guid: ff8d877195b781149ae053b48f3ee8f3, type: 3}
   enemySpawnTickets: 20
   crate: {fileID: 0}
   crateSpawnChance: 20

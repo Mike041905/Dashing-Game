@@ -112,10 +112,13 @@ public class LevelGanerator : MonoBehaviour
         }
 
         //instantiate room and lower spawn chance
-        GameObject newRoom = Instantiate(roomPrefab, (Vector3)parentRoom.GetSpawnPosition(side) + new Vector3(0, 0, GenerateRoom.Z_OFFSET), Quaternion.identity);
-        newRoom.GetComponent<GenerateRoom>().chanceMultiplier = parentRoom.chanceMultiplier / roomChanceDeprecation;
+        GenerateRoom newRoom = Instantiate(roomPrefab, (Vector3)parentRoom.GetSpawnPosition(side) + new Vector3(0, 0, GenerateRoom.Z_OFFSET), Quaternion.identity).GetComponent<GenerateRoom>();
+        newRoom.chanceMultiplier = parentRoom.chanceMultiplier / roomChanceDeprecation;
 
-        AddRoom(newRoom.GetComponent<Room>());
-        if (parentRoom.room != null) newRoom.GetComponent<Room>().descendant = parentRoom.room.descendant + 1;
+        AddRoom(newRoom.room);
+        if (parentRoom.room != null) newRoom.room.descendant = parentRoom.room.descendant + 1;
+
+        parentRoom.room.ConnectRoom(newRoom.room);
+        newRoom.GenerateRooms();
     }
 }

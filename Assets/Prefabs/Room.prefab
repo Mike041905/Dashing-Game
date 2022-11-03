@@ -1122,7 +1122,7 @@ MonoBehaviour:
   - {fileID: 5392855409983869127}
   - {fileID: 879086907802939612}
   - {fileID: 8148482991193746812}
-  corridorPrefab: {fileID: 5559781198437212066, guid: ff8d877195b781149ae053b48f3ee8f3, type: 3}
+  connectorPrefab: {fileID: 5559781198437212066, guid: ff8d877195b781149ae053b48f3ee8f3, type: 3}
   enemySpawnTickets: 15
   crate: {fileID: 4568372071385289940, guid: 5cf7f28d212e32548af00a58fea60484, type: 3}
   crateSpawnChance: 40
