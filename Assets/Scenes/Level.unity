@@ -2410,20 +2410,20 @@ MonoBehaviour:
   maxCoinsOnDeath: 3
   immuneTime: 0.2
   maxhealth: 0
-  OnDeath:
+  OnDeathEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 602972574}
-        m_TargetAssemblyTypeName: Dash, Assembly-CSharp
-        m_MethodName: OnDeath
-        m_Mode: 1
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 602972578}
         m_TargetAssemblyTypeName: DelayedExecute, Assembly-CSharp
@@ -2435,11 +2435,14 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1499545625}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+  OnReviveEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 602972574}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2447,7 +2450,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!50 &602972576
 Rigidbody2D:
@@ -5147,8 +5150,9 @@ MonoBehaviour:
   coin: {fileID: 1449947554712204251, guid: 07a654ad39c44b04e94023f2230c9440, type: 3}
   portal: {fileID: 7702841250052584895, guid: dd9004bad68f6ca48a53e5b0bab6225e, type: 3}
   difficultyPreRoomMultiplier: 0
-  difficultyPreLevel: 1
-  player: {fileID: 0}
+  difficultyPreLevelMultiplier: 0.1
+  difficultyPreLevelOffset: 0.9
+  player: {fileID: 602972571}
 --- !u!114 &1440050885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5161,6 +5165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f276d854a47086740997562c4ef9568c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  includeCilldern: 0
   persistingObjects:
   - {fileID: 751479198}
   - {fileID: 2064148760}

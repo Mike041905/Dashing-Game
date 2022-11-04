@@ -55,7 +55,10 @@ public class Health : MonoBehaviour
     List<Immunity> immunities = new();
 
     public event UnityAction OnDeath;
+    [SerializeField] UnityEvent OnDeathEvent;
+
     public event UnityAction OnRevive;
+    [SerializeField] UnityEvent OnReviveEvent;
 
     public event UnityAction<float> OnHealthChanged;
     /// <summary>
@@ -69,8 +72,9 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
+        Dead = false;
         if (CompareTag("Player")) CurrentHealth = PlayerPrefs.GetFloat("Health");
-        maxhealth = CurrentHealth;
+
         if(healthSlider != null) healthSlider.maxValue = maxhealth;
         if (healthSlider != null) healthSlider.value = CurrentHealth;
     }
@@ -107,10 +111,8 @@ public class Health : MonoBehaviour
 
         AddImmunity(immuneTime, damager);
         CurrentHealth -= damage;
-        OnTakeDamage?.Invoke(damage, damager);
 
-        if (healthSlider != null) healthSlider.value = CurrentHealth;
-        if (CurrentHealth <= 0) Die();
+        OnTakeDamage?.Invoke(damage, damager);
     }
 
     void SetHealth(float health, bool allowRevive = false)
@@ -119,7 +121,13 @@ public class Health : MonoBehaviour
 
         if (Dead) { return; }
 
+        if(maxhealth <= 0) { maxhealth = health; }
+
         this.health = Mathf.Clamp(health, 0, maxhealth);
+
+        if (healthSlider != null) healthSlider.value = CurrentHealth;
+        if (CurrentHealth <= 0) Die();
+
         OnHealthChanged?.Invoke(health);
     }
 
@@ -132,7 +140,9 @@ public class Health : MonoBehaviour
         gameObject.SetActive(true);
         Dead = false;
         CurrentHealth = health.Value;
+
         OnRevive?.Invoke();
+        OnReviveEvent?.Invoke();
     }
 
     private bool CheckIfImmune(GameObject damager)
@@ -153,6 +163,7 @@ public class Health : MonoBehaviour
         Dead = true;
 
         OnDeath?.Invoke();
+        OnDeathEvent?.Invoke();
 
         int coinAmmount = Random.Range(minCoinsOnDeath, maxCoinsOnDeath);
         for (int i = 0; i < coinAmmount; i++) // idk if coinAmmount is a copy in a for loop or not and im to lazy to look it up

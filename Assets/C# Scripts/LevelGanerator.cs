@@ -42,17 +42,16 @@ public class LevelGanerator : MonoBehaviour
         _Instance = this;
     }
 
-    private void Start()
+
+    //----------------------------------------
+
+    public void GenerateLevel()
     {
         while (rooms.Length < minRooms)
         {
             startingRoom.GenerateRooms();
         }
     }
-
-
-    //----------------------------------------
-
 
     public bool TryGetRoomAtPosition(Vector2 worldPosition, out Room outRoom)
     {
@@ -97,21 +96,10 @@ public class LevelGanerator : MonoBehaviour
 
     internal void RegenerateLevel()
     {
-        for (int i = 0; i < rooms.Length; i++)
-        {
-            Destroy(rooms[i].gameObject);
-        }
+        PersistenceManager.Instance.WipeLevel();
         rooms = new Room[0];
-
-        GameObject[] connectors = GameObject.FindGameObjectsWithTag("RoomConnector");
-        for (int i = 0; i < connectors.Length; i++)
-        {
-            Destroy(connectors[i]);
-        }
-
         startingRoom.room.ResetDoors();
-
-        startingRoom.GenerateRooms();
+        GenerateLevel();
     }
 
     internal void SpawnRoom(GenerateRoom parentRoom, GenerateRoom.Side side)

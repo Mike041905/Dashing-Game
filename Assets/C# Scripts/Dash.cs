@@ -5,6 +5,7 @@ using Mike;
 using UnityEngine.UI;
 using System;
 using EZCameraShake;
+using UnityEngine.Events;
 
 public class Dash : MonoBehaviour
 {
@@ -30,14 +31,14 @@ public class Dash : MonoBehaviour
     //-----------------------------
 
 
-    public event Action OnStartAiming;
-    public event Action OnAiming;
-    public event Action OnEndAiming;
+    public event UnityAction OnStartAiming;
+    public event UnityAction OnAiming;
+    public event UnityAction OnEndAiming;
 
-    public event Action OnStartDash;
-    public event Action OnEndDash;
+    public event UnityAction OnStartDash;
+    public event UnityAction OnEndDash;
 
-    public event Action<GameObject> OnHitEnemy;
+    public event UnityAction<GameObject> OnHitEnemy;
 
     private bool isAiming = false;
     private Vector2 firstTouchPosition;

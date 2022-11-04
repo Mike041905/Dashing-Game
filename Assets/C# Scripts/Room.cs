@@ -11,11 +11,12 @@ public class Room : MonoBehaviour
     {
         public GameObject prefab;
         public float spwanChance;
-        public int ticketLossPerSpawnedUnit;
+        public int ticketCost;
+        public int minimumLevel;
     }
 
     [Header("Essential")]
-    [SerializeField] private Enemy[] enemies = new Enemy[0];
+    [SerializeField] private Enemy[] enemyRoster = new Enemy[0];
     [SerializeField] Door[] doors;
     [SerializeField] GameObject connectorPrefab;
 
@@ -37,6 +38,23 @@ public class Room : MonoBehaviour
     }
 
     public const float ROOM_SIZE_X = 50f;
+
+    Enemy[] avaliableEnemies = new Enemy[0];
+    public Enemy[] AvaliableEnemies
+    {
+        get
+        {
+            if(avaliableEnemies.Length == 0)
+            {
+                foreach (Enemy enemy in enemyRoster)
+                {
+                    if (GameManager.Insatnce.Level >= enemy.minimumLevel) { avaliableEnemies = avaliableEnemies.Append(enemy); };
+                }
+            }
+
+            return avaliableEnemies;
+        }
+    }
 
 
     //---------------------
@@ -152,17 +170,17 @@ public class Room : MonoBehaviour
         while (enemySpawnTickets > 0)//run until tickets are depleated
         {
             //initilaze variables
-            Enemy enemy = enemies[0];
+            Enemy enemy = AvaliableEnemies[0];
             Vector2 spawnPosition = Mike.MikeRandom.RandomVector2(-20, 20, -20, 20) + (Vector2)transform.position;
             float[] weights = new float[0];
 
             //asign random enemy baised on their spawn chance
-            foreach (Enemy item in enemies)
+            foreach (Enemy item in AvaliableEnemies)
             {
                 weights = MikeArray.Append(weights, item.spwanChance);
             }
 
-            enemy = enemies[MikeRandom.RandomIntByWeights(weights)];
+            enemy = AvaliableEnemies[MikeRandom.RandomIntByWeights(weights)];
 
             //set random position until the distance between the player and the spawn position is more than 10
             while (Vector2.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, spawnPosition) <= 15)
@@ -171,7 +189,7 @@ public class Room : MonoBehaviour
             }
 
             //check if enemy span tickets are suficien to spawn currenly selected enemy
-            if(enemySpawnTickets - enemy.ticketLossPerSpawnedUnit < 0) { return; }
+            if(enemySpawnTickets - enemy.ticketCost < 0) { return; }
 
             //spawn Enemy
             EnemyAI newEnemy = Instantiate(enemy.prefab, spawnPosition, Quaternion.identity).GetComponent<EnemyAI>();
@@ -182,7 +200,7 @@ public class Room : MonoBehaviour
             spawnedEnemies = MikeArray.Append(spawnedEnemies, newEnemy.gameObject);
             
             //remove tickets
-            enemySpawnTickets -= enemy.ticketLossPerSpawnedUnit;
+            enemySpawnTickets -= enemy.ticketCost;
         }
     }
 

@@ -1110,16 +1110,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 677a820582a01e449a976a2b7ebd8de2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies:
+  enemyRoster:
   - prefab: {fileID: 9040167499389947992, guid: 3d3644d34b9d03048a8d8ff8675040f5, type: 3}
     spwanChance: 4
-    ticketLossPerSpawnedUnit: 1
+    ticketCost: 1
+    minimumLevel: 1
   - prefab: {fileID: 9040167499389947992, guid: d05ce751f858de649aed30e67318ea63, type: 3}
     spwanChance: 2
-    ticketLossPerSpawnedUnit: 1
+    ticketCost: 1
+    minimumLevel: 2
   - prefab: {fileID: 9040167499389947992, guid: 2919d26f918a24c41b21dc4cde86a41c, type: 3}
     spwanChance: 1
-    ticketLossPerSpawnedUnit: 2
+    ticketCost: 2
+    minimumLevel: 3
   doors:
   - {fileID: 744313018308354570}
   - {fileID: 5392855409983869127}

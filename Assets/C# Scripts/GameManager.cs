@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
     private GameObject portalInstance;
 
     [SerializeField] private float difficultyPreRoomMultiplier;
-    [SerializeField] private float difficultyPreLevel;
+    [SerializeField] private float difficultyPreLevelMultiplier;
+    [SerializeField] private float difficultyPreLevelOffset;
 
     private double coinsDouble;
 
@@ -39,9 +40,10 @@ public class GameManager : MonoBehaviour
     public long Coins { get => (long) coinsDouble; }
     public ulong Gems { get; private set; }
     public int Level { get; private set; }
-    public float DifficultyPreRoomMultiplier { get; private set; }
-    public float DifficultyPreLevel { get; private set; }
-    public float Difficulty { get => DifficultyPreRoomMultiplier + Level * DifficultyPreLevel; }
+    public float DifficultyPreRoomMultiplier { get => difficultyPreRoomMultiplier; }
+    public float DifficultyPreLevelMultiplier { get => difficultyPreLevelMultiplier; }
+    public float DifficultyPreLevelOffset { get => difficultyPreLevelOffset; }
+    public float Difficulty { get => DifficultyPreRoomMultiplier + DifficultyPreLevelOffset + Level * DifficultyPreLevelMultiplier; }
 
     public GameObject player;
     public GameObject Player { get { if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); } return player; } }
@@ -62,6 +64,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         InputManager.Instance.UpdateUI();
+        if(LevelGanerator.Instance != null) { LevelGanerator.Instance.GenerateLevel(); }
     }
 
     private void OnApplicationQuit()
@@ -80,9 +83,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void Initialize()
     {
-        DifficultyPreLevel = difficultyPreLevel;
-        DifficultyPreRoomMultiplier = difficultyPreRoomMultiplier;
-
         Level = StorageManager.StartingLevel;
 
         Gems = ulong.Parse(PlayerPrefs.GetString("Gems", "0"));

@@ -25,7 +25,7 @@ public class PersistenceManager : MonoBehaviour
         {
             if (CompareTags(objects[i], persistingObjectsWithTags)) { continue; }
             if (CompareObjects(objects[i], persistingObjects)) { continue; }
-            if (includeCilldern && objects[i].transform.root != null) { continue; }
+            if (!includeCilldern && objects[i].transform.parent != null) { continue; }
 
             Destroy(objects[i]);
         }
