@@ -15,6 +15,7 @@ public struct UpgradeData
     public float costMultiplier;
     public float costOffset;
 
+    // LMAO why can Properties return values bigger that their soposed max value
     /// <summary>
     /// Automaticaly converts to correct value
     /// </summary>
@@ -52,7 +53,7 @@ public struct UpgradeData
             }
         }
     }
-    public long Cost { get => Mathf.CeilToInt(UpgradeValue * costMultiplier + costOffset); }
+    public float Cost { get => math.ceil(UpgradeValue * costMultiplier + costOffset); }
 
     [System.Serializable]
     public enum VariableType

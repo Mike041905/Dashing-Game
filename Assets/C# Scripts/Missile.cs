@@ -53,7 +53,7 @@ public class Missile : MonoBehaviour
         if (hit.transform.CompareTag("Projectile")) { return; }
         if (hit.transform.CompareTag("Coin")) { return; }
 
-        if(hit.transform.GetComponent<Health>() != null) { hit.transform.GetComponent<Health>().TakeDamage(damage * PlayerPrefs.GetFloat("Damage")); }
+        if(hit.transform.GetComponent<Health>() != null) { hit.transform.GetComponent<Health>().TakeDamage(damage * PlayerPrefs.GetFloat("Damage"), gameObject); }
 
         Hit();
     }

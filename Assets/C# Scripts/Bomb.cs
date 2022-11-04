@@ -83,7 +83,7 @@ public class Bomb : MonoBehaviour
                 float finalDamage = (radius - Vector2.Distance(transform.position, collider.transform.position) * 1 / radius) * damage * PlayerPrefs.GetFloat("Damage");
 
                 //deal damage
-                collider.GetComponent<Health>().TakeDamage(finalDamage);
+                collider.GetComponent<Health>().TakeDamage(finalDamage, gameObject);
             }
         }
     }

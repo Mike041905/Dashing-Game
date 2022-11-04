@@ -38,7 +38,7 @@ public class Projectile : MonoBehaviour
 
         if(other.CompareTag("Player"))
         {
-            other.GetComponent<Health>().TakeDamage(damage);
+            other.GetComponent<Health>().TakeDamage(damage, gameObject);
         }
 
         if (HitEffect != null) Instantiate(HitEffect, transform.position, Quaternion.identity);

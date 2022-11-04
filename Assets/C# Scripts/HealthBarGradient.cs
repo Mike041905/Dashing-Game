@@ -9,16 +9,18 @@ public class HealthBarGradient : MonoBehaviour
     [SerializeField] Health playerHealth;
     [SerializeField] float playerHealthPercentage;
     [SerializeField] Image healthBarImage;
-    // Start is called before the first frame update
+
     void Start()
     {
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+        playerHealth.OnTakeDamage += UpdateHealthBarColor;
     }
 
-    // Update is called once per frame
-    void Update()
+    void UpdateHealthBarColor(float damage, GameObject damager)
     {
-        playerHealthPercentage = playerHealth.health / playerHealth.maxhealth;
+        if(playerHealth.maxhealth == 0 || playerHealth.maxhealth == float.PositiveInfinity) { return; }
+
+        playerHealthPercentage = playerHealth.CurrentHealth / playerHealth.maxhealth;
         healthBarImage.color = gradient.Evaluate(playerHealthPercentage);
     }
 }

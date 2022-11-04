@@ -1008,37 +1008,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 64371291}
   m_CullTransparentMesh: 1
---- !u!1 &80523880
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 80523881}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &80523881
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 80523880}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.26669896, y: 0.7364068, z: 108.102684}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &82889216
 GameObject:
   m_ObjectHideFlags: 0
@@ -2983,7 +2952,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7639194015801660674, guid: f2fc3495e3312ad44bdd2b2efa87bfde, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7639194015801660674, guid: f2fc3495e3312ad44bdd2b2efa87bfde, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2991,7 +2960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7639194015801660674, guid: f2fc3495e3312ad44bdd2b2efa87bfde, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7639194015801660674, guid: f2fc3495e3312ad44bdd2b2efa87bfde, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3019,11 +2988,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7639194015801660674, guid: f2fc3495e3312ad44bdd2b2efa87bfde, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 145.335
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7639194015801660674, guid: f2fc3495e3312ad44bdd2b2efa87bfde, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -13.81
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2fc3495e3312ad44bdd2b2efa87bfde, type: 3}
@@ -5584,6 +5553,7 @@ MonoBehaviour:
   portal: {fileID: 0}
   difficultyPreRoomMultiplier: 0
   difficultyPreLevel: 0
+  player: {fileID: 0}
 --- !u!114 &849586396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8155,36 +8125,6 @@ MonoBehaviour:
   upgradeHolder: {fileID: 1983827283}
   upgradeHolderTemplate: {fileID: 611892081}
   tabs:
-  - name: Player
-    upgrades:
-    - variableSaveKey: Damage
-      variableType: 1
-      startingValue: 1
-      upgradeAdditionValue: 0
-      upgradeMultiplier: 1.1
-      costMultiplier: 1
-      costOffset: 0
-    - variableSaveKey: Health
-      variableType: 1
-      startingValue: 100
-      upgradeAdditionValue: 0
-      upgradeMultiplier: 1.1
-      costMultiplier: 1
-      costOffset: -90
-    - variableSaveKey: Health On Kill
-      variableType: 1
-      startingValue: 10
-      upgradeAdditionValue: 0
-      upgradeMultiplier: 1.1
-      costMultiplier: 1
-      costOffset: -9
-    - variableSaveKey: Stamina Recharge
-      variableType: 1
-      startingValue: 2
-      upgradeAdditionValue: 0
-      upgradeMultiplier: 1.05
-      costMultiplier: 1.2
-      costOffset: 10
   - name: Game
     upgrades:
     - variableSaveKey: Starting Level
@@ -8201,6 +8141,94 @@ MonoBehaviour:
       upgradeMultiplier: 1.1
       costMultiplier: 1.2
       costOffset: 10
+  - name: Player
+    upgrades:
+    - variableSaveKey: Damage
+      variableType: 1
+      startingValue: 1
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 1.1
+      costMultiplier: 1
+      costOffset: 0
+    - variableSaveKey: Health
+      variableType: 1
+      startingValue: 100
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 1.1
+      costMultiplier: 1
+      costOffset: -99
+    - variableSaveKey: Health On Kill
+      variableType: 1
+      startingValue: 10
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 1.1
+      costMultiplier: 1
+      costOffset: -9
+    - variableSaveKey: Stamina Recharge
+      variableType: 1
+      startingValue: 2
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 1.05
+      costMultiplier: 500
+      costOffset: -990
+  - name: Cheats
+    upgrades:
+    - variableSaveKey: AddCoins 1
+      variableType: 0
+      startingValue: 0
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 0
+      costMultiplier: 0
+      costOffset: -1
+    - variableSaveKey: AddCoins 10
+      variableType: 0
+      startingValue: 0
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 0
+      costMultiplier: 0
+      costOffset: -10
+    - variableSaveKey: AddCoins 100
+      variableType: 0
+      startingValue: 0
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 0
+      costMultiplier: 0
+      costOffset: -100
+    - variableSaveKey: AddCoins Exponential
+      variableType: 1
+      startingValue: 1
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 2
+      costMultiplier: -1
+      costOffset: 0
+    - variableSaveKey: TakeCoins Exponential
+      variableType: 1
+      startingValue: 1
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 2
+      costMultiplier: 1
+      costOffset: 0
+    - variableSaveKey: TakeCoins 100
+      variableType: 0
+      startingValue: 0
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 0
+      costMultiplier: 0
+      costOffset: 100
+    - variableSaveKey: TakeCoins 10
+      variableType: 0
+      startingValue: 0
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 0
+      costMultiplier: 0
+      costOffset: 10
+    - variableSaveKey: TakeCoins 1
+      variableType: 0
+      startingValue: 0
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 0
+      costMultiplier: 0
+      costOffset: 1
 --- !u!1 &1800446454
 GameObject:
   m_ObjectHideFlags: 0
@@ -9811,10 +9839,10 @@ RectTransform:
   m_Father: {fileID: 1683265144}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 121.875, y: -13.81}
-  m_SizeDelta: {x: 18.42, y: 27.62}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2054909778
 MonoBehaviour:

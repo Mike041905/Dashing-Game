@@ -46,7 +46,7 @@ public class EnemyAI : MonoBehaviour
         //asign player to target variable
         target = GameObject.FindGameObjectWithTag("Player").transform;
 
-        GetComponent<Health>().health *= difficultyMultiplier;
+        GetComponent<Health>().CurrentHealth *= difficultyMultiplier;
         projectileDamage *= difficultyMultiplier;
     }
 

@@ -46,7 +46,7 @@ public class ChainLightning : MonoBehaviour
         }
         else 
         {
-            currentTarget.GetComponent<Health>().TakeDamage(damage); currentTarget = null; 
+            currentTarget.GetComponent<Health>().TakeDamage(damage, gameObject); currentTarget = null; 
         }
     }
 

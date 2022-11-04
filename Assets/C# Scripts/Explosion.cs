@@ -37,7 +37,7 @@ public class Explosion : MonoBehaviour
                 float finalDamage = (radius - Vector2.Distance(transform.position, collider.transform.position) * damageDropOffMultiplier / radius) * damage * PlayerPrefs.GetFloat("Damage");
 
                 //deal damage
-                collider.GetComponent<Health>().TakeDamage(finalDamage);
+                collider.GetComponent<Health>().TakeDamage(finalDamage, gameObject);
             }
         }
     }

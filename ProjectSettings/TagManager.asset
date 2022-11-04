@@ -18,6 +18,8 @@ TagManager:
   - CameraTarget
   - StartingRoom
   - RoomConnector
+  - Crate
+  - PowerUp
   layers:
   - Default
   - TransparentFX

@@ -244,7 +244,7 @@ public class Dash : MonoBehaviour
 
         if(collision.transform.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<Health>().TakeDamage(damage);
+            collision.gameObject.GetComponent<Health>().TakeDamage(damage, gameObject);
             CameraShaker.Instance.ShakeOnce(1, 3, .1f, .1f);
         }
         else if (collision.transform.CompareTag("Barrier"))
