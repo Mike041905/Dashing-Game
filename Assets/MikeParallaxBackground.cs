@@ -4,180 +4,64 @@ using UnityEngine;
 
 namespace Mike
 {
-    // I'm leaving this to you future Mike
-    // as I am to tired to figure this out
-    // UGH... why do I need to make things optmized and super modular
-    // I miss the old days when i would just hardcode everything
-    // And then give up cuz my code was spaghetti :C
+    [ExecuteAlways]
     public class MikeParallaxBackground : MonoBehaviour
     {
-        [System.Serializable]
-        struct ParalaxLayer
+        public struct ParallaxLayer
         {
-            [HideInInspector] public Transform transform;
+            public Sprite sprite;
 
-            [SerializeField] Sprite bgSprite;
-            [SerializeField] float depth;
+            public SortingLayer sortingLayer;
+            public float depth;
 
-            Transform layerParent;
-            public Transform LayerParent
+            public ParallaxLayer(Sprite sprite, SortingLayer sortingLayer, float depth)
             {
-                get
-                {
-                    if (layerParent == null)
-                    {
-                        layerParent = new GameObject("BackgroundHolder" + depth).transform;
-                        layerParent.SetParent(transform);
-                        layerParent.localPosition = Vector3.zero;
-                        layerParent.localScale = Vector3.one;
-                        layerParent.rotation = Quaternion.identity;
-                    }
-
-                    return layerParent;
-                }
-            }
-
-            float CameraHeight { get => Camera.main.orthographicSize; }
-            float CameraWidth { get => CameraHeight * Camera.main.pixelWidth / Camera.main.pixelHeight; }
-
-            //IDK if I'll use this later or not. I'll just leave it just in case
-            float CameraBoundUp { get => Camera.main.transform.position.y + CameraHeight; }
-            float CameraBoundRight { get => Camera.main.transform.position.x + CameraWidth; }
-            float CameraBoundDown { get => Camera.main.transform.position.y - CameraHeight; }
-            float CameraBoundLeft { get => Camera.main.transform.position.x - CameraWidth; }
-
-            float BGWidth { get => bgSprite.texture.width / bgSprite.pixelsPerUnit; }
-
-            Vector2 CamPos { get => Camera.main.transform.position; }
-
-            //--------------
-
-            List<SpriteRenderer> bgs;
-            List<SpriteRenderer> Bgs { get { if (bgs == null) { bgs = new(); } return bgs; } set => bgs = value; }
-
-            Vector2 GetDifference(Vector2 pos)
-            {
-                return (CamPos - pos);
-            }
-
-            public void Initialize(Transform transform)
-            {
-                lastCoveredPos = Vector2.positiveInfinity;
-                this.transform = transform;
-
-                layerParent = new GameObject("Layer").transform;
-                layerParent.SetParent(transform, false);
-            }
-
-            SpriteRenderer GetFreeBG()
-            {
-                if(Bgs == null) { Bgs = new(); }
-
-                for (int i = 0; i < Bgs.Count; i++)
-                {
-                    if (!Bgs[i].enabled) 
-                    { 
-                        Bgs[i].enabled = true; 
-                        return Bgs[i]; 
-                    }
-                }
-
-                return CreateNewBG();
-            }
-
-            SpriteRenderer CreateNewBG()
-            {
-                SpriteRenderer newBG = new GameObject("BG").AddComponent<SpriteRenderer>();
-                newBG.transform.SetParent(LayerParent, false);
-                newBG.sprite = bgSprite;
-                Bgs.Add(newBG);
-
-                return newBG;
-            }
-
-            void DeactivateBGs()
-            {
-                for (int i = 0; i < Bgs.Count; i++)
-                {
-                    if(Mathf.Abs(GetDifference(Bgs[i].transform.position).x) > BGWidth + CameraWidth)
-                    {
-                        Bgs[i].enabled = false;
-                    }
-                }
-            }
-
-            Vector2 SetLayerParentPosition(bool x, bool y)
-            {
-                if (x)
-                {
-                    float newX = CamPos.x * -depth;
-                    layerParent.position = new Vector3(newX, layerParent.position.y, 0);
-                }
-
-                return layerParent.position;
-            }
-
-            Vector2 lastCoveredPos;
-            Vector2 lastCamPosition;
-            public void UpdatePosition(bool x, bool y)
-            {
-                if(Mathf.Sign(lastCamPosition.x) != Mathf.Sign(lastCoveredPos.x)) { lastCoveredPos = CamPos; }
-
-                Vector2 difference = GetDifference(lastCoveredPos) * depth;
-
-                SetLayerParentPosition(x, y);
-                DeactivateBGs();
-
-                if (Mathf.Abs(difference.x) >= BGWidth / 2)
-                {
-                    lastCoveredPos = CamPos;
-                    GetFreeBG().transform.position = CamPos + new Vector2(BGWidth / 2 + CameraWidth, 0) * Mathf.Sign(difference.x);
-                }
-
-                lastCamPosition = CamPos;
+                this.sprite = sprite;
+                this.sortingLayer = sortingLayer;
+                this.depth = depth;
             }
         }
 
 
-        //-----------------
+        [SerializeField] ParallaxLayer[] layers = new ParallaxLayer[1] { new(null, SortingLayer.layers[0], 0) };
+        public ParallaxLayer[] Layers { get => layers; set { layers = value; SetBackgroundObjects(); } }
 
 
-        [SerializeField] ParalaxLayer[] layers;
-        [SerializeField] SortingLayer sortingLayer;
-
-        [SerializeField] bool xAxis;
-        [SerializeField] bool yAxis;
+        List<MikeBackgroundObject> backgrounds = new();
 
 
-        //----------------
+        //------------------------
 
 
-        private void Start()
+        private void Awake()
         {
-            Initialize();
-        }
-        void LateUpdate()
-        {
-            UpdateBGs();
+            SetBackgroundObjects();
         }
 
 
-        //--------------
+        //---------------------
 
 
-        private void Initialize()
+        // Issue: This sets orderInLayer based on index and not actual layer
+        // TODO: Fix this!
+        void SetBackgroundObjects()
         {
-            for (int i = 0; i < layers.Length; i++)
+            for (int i = 0; i < Layers.Length; i++)
             {
-                layers[i].Initialize(transform);
-            }
-        }
+                MikeBackgroundObject background;
 
-        void UpdateBGs()
-        {
-            for (int i = 0; i < layers.Length; i++)
-            {
-                layers[i].UpdatePosition(xAxis, yAxis);
+                if (i < backgrounds.Count)
+                {
+                    background = backgrounds[i];
+                }
+                else
+                {
+                    background = new GameObject("BackgroundLayer").AddComponent<MikeBackgroundObject>();
+                    background.transform.SetParent(transform, false);
+                }
+
+                background.Set(Layers[i], i);
+                backgrounds.Add(background);
             }
         }
     }
