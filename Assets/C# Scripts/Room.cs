@@ -39,6 +39,7 @@ public class Room : MonoBehaviour
 
     public const float ROOM_SIZE_X = 50f;
 
+    //TODO: Put this in its own script to save on performance
     Enemy[] avaliableEnemies = new Enemy[0];
     public Enemy[] AvaliableEnemies
     {
@@ -139,12 +140,14 @@ public class Room : MonoBehaviour
     {
         if(spawnedEnemies.Length == 0) { return false; }
 
+        int enemiesLeft = 0;
         foreach (var item in spawnedEnemies)
         {
-            if (item != null && !item.GetComponent<Health>().Dead) { return false; }
+            if (item != null && !item.GetComponent<Health>().Dead) { enemiesLeft++; }
         }
 
-        return true;
+        EnemyCounter.Instance.ChangeAmmount(enemiesLeft);
+        return enemiesLeft <= 0;
     }
 
     public void ReciveTrigger(Collider2D collider)
@@ -202,6 +205,8 @@ public class Room : MonoBehaviour
             //remove tickets
             enemySpawnTickets -= enemy.ticketCost;
         }
+
+        EnemyCounter.Instance.ChangeAmmount(spawnedEnemies.Length);
     }
 
     void SpawnCrates()

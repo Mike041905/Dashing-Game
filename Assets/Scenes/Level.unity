@@ -1236,7 +1236,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4568372071385289936, guid: 5cf7f28d212e32548af00a58fea60484, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4568372071385289936, guid: 5cf7f28d212e32548af00a58fea60484, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1989,7 +1989,7 @@ Transform:
   m_Children:
   - {fileID: 1578025210}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &557006520
 GameObject:
@@ -2337,7 +2337,7 @@ Transform:
   - {fileID: 744869240}
   - {fileID: 229012769}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &602972573
 PolygonCollider2D:
@@ -2390,7 +2390,7 @@ MonoBehaviour:
   staminaDrain: 1
   maxStamina: 10
   staminaRecharge: 2
-  usePcControls: 0
+  usePcControls: 1
 --- !u!114 &602972575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3439,6 +3439,7 @@ GameObject:
   - component: {fileID: 730640863}
   - component: {fileID: 730640865}
   - component: {fileID: 730640864}
+  - component: {fileID: 730640866}
   m_Layer: 5
   m_Name: EnemyCounter
   m_TagString: Untagged
@@ -3495,8 +3496,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 16777215
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3563,6 +3564,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730640862}
   m_CullTransparentMesh: 1
+--- !u!114 &730640866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730640862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73d12096dcc9aed49b452c55a1e067e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  preffix: 'Enemies Remaining: '
+  counterText: {fileID: 730640864}
 --- !u!1 &744869239
 GameObject:
   m_ObjectHideFlags: 0
@@ -3830,7 +3845,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &903842973
 GameObject:
@@ -8401,7 +8416,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1001 &1829912143817340334
 PrefabInstance:
