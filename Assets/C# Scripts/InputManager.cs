@@ -55,38 +55,8 @@ public class InputManager : MonoBehaviour
         SceneManager.LoadScene(scene);
     }
 
-    public void Upgrade(UpgradeData data)
+    public void Upgrade()
     {
-        // I have no idea why im handling this in a seperate class ¯\_(?)_/¯
-
-        switch (data.variableType)
-        {
-            case UpgradeData.VariableType.Integer:
-
-                //check if player has enough coins
-                if (GameManager.Insatnce.Coins - data.Cost >= 0)
-                {
-                    //remove coins
-                    GameManager.Insatnce.RemoveCoins(data.Cost);
-
-                    //change value
-                    PlayerPrefs.SetInt(data.variableSaveKey, (int) data.NextUpgradeValue);
-                }
-                break;
-
-            case UpgradeData.VariableType.Float:
-
-                if (GameManager.Insatnce.Coins - data.Cost >= 0)
-                {
-                    //remove coins
-                    GameManager.Insatnce.RemoveCoins(data.Cost);
-
-                    //change value
-                    PlayerPrefs.SetFloat(data.variableSaveKey, data.NextUpgradeValue);
-                }
-                break;
-        }
-
         OnUpgrade?.Invoke();
     }
 

@@ -7,73 +7,86 @@ using UnityEngine.UI;
 [System.Serializable]
 public struct UpgradeData
 {
-    public string variableSaveKey;
-    public VariableType variableType;
-    public float startingValue;
-    public float upgradeAdditionValue;
-    public float upgradeMultiplier;
-    public float costMultiplier;
-    public float costOffset;
+    public const string UPGRADE_SAVEKEY_SUFFIX = "_Upgrade";
+    public const string UPGRADE_SAVEKEY_VALUE_SUFFIX = "_Value";
 
-    // LMAO why can Properties return values bigger that their soposed max value
-    /// <summary>
-    /// Automaticaly converts to correct value
-    /// </summary>
-    public float UpgradeValue
-    {
-        get
-        {
-            return variableType == VariableType.Integer
-                ? GetIntWithDefault(variableSaveKey, Mathf.RoundToInt(startingValue))
-                : GetFloatWithDefault(variableSaveKey, startingValue);
-        }
-        set
-        {
-            if (variableType == VariableType.Integer)
-            {
-                PlayerPrefs.SetInt(variableSaveKey, Mathf.RoundToInt(value));
-            }
-            else
-            {
-                PlayerPrefs.SetFloat(variableSaveKey, value);
-            }
-        }
-    }
-    public float NextUpgradeValue 
-    {
-        get
-        {
-            if(variableType == VariableType.Integer)
-            {
-                return math.ceil(UpgradeValue * upgradeMultiplier + upgradeAdditionValue);
-            }
-            else
-            {
-                return UpgradeValue * upgradeMultiplier + upgradeAdditionValue;
-            }
-        }
-    }
-    public float Cost { get => math.ceil(UpgradeValue * costMultiplier + costOffset); }
+    public string SaveKeyLevel { get => (variableType == VariableType.Integer ? "I" : "F") + "_" + upgradeKey + UPGRADE_SAVEKEY_SUFFIX; }
+    public string SaveKeyValue { get => SaveKeyLevel + UPGRADE_SAVEKEY_VALUE_SUFFIX; }
+    public static string GetSaveKeyLevel(VariableType type, string upgradeKey) => (type == VariableType.Integer ? "I" : "F") + "_" + upgradeKey + UPGRADE_SAVEKEY_SUFFIX;
+    public static string GetSaveKeyValue(VariableType type, string upgradeKey) => GetSaveKeyLevel(type, upgradeKey) + UPGRADE_SAVEKEY_VALUE_SUFFIX;
+
 
     [System.Serializable]
     public enum VariableType
     {
         Integer,
-        Float,
+        Float
     }
 
-    // IDK why unity wont asign these values on GetInt Automaticaly.
-    int GetIntWithDefault(string key, int defaultValue)
-    {
-        if (!PlayerPrefs.HasKey(key)) { PlayerPrefs.SetInt(key, defaultValue); return defaultValue; }
+    [SerializeField] string upgradeKey;
+    [SerializeField] string name;
+    [SerializeField] VariableType variableType;
+    [SerializeField] float startingValue;
+    [SerializeField] float upgradeAdditionValue;
+    [SerializeField] float upgradeMultiplier;
+    [SerializeField] float costMultiplier;
+    [SerializeField] float costOffset;
+    [SerializeField] int maxLevel;
 
-        return PlayerPrefs.GetInt(key);
+    // LMAO why can Properties return values bigger that their soposed max value
+    public string UpgradeName { get => name; }
+
+    public int Level { get => GetLevel(upgradeKey, variableType); set => SetLevel(value); }
+    public bool MaxLevelReached { get => Level >= maxLevel; }
+
+    /// <summary>
+    /// Automaticaly converts to correct value
+    /// </summary>
+    public float UpgradeValue
+    {
+        get => LevelToUpgradeValue(Level);
     }
-    float GetFloatWithDefault(string key, float defaultValue)
+    public float NextUpgradeValue 
     {
-        if (!PlayerPrefs.HasKey(key)) { PlayerPrefs.SetFloat(key, defaultValue); return defaultValue; }
+        get => LevelToUpgradeValue(Level + 1);
+    }
 
-        return PlayerPrefs.GetFloat(key);
+    public float Cost { get => math.ceil(UpgradeValue * costMultiplier + costOffset); }
+
+
+    //--------------------------
+
+
+    public static int GetLevel(string key, VariableType type)
+    {
+        if (!PlayerPrefs.HasKey(GetSaveKeyLevel(type, key))) 
+        { 
+            PlayerPrefs.SetInt(GetSaveKeyLevel(type, key), 1); 
+            return 1; 
+        }
+
+        return PlayerPrefs.GetInt(GetSaveKeyLevel(type, key));
+    }
+    void SetLevel(int val)
+    {
+        PlayerPrefs.SetInt(SaveKeyLevel, val);
+        SaveUpgradeValue();
+    }
+
+    float LevelToUpgradeValue(int level)
+    {
+        float val = startingValue * Mathf.Pow(upgradeMultiplier + upgradeAdditionValue, level - 1);
+        return variableType == VariableType.Integer ? Mathf.Ceil(val) : val;
+    }
+
+    void SaveUpgradeValue() => PlayerPrefs.SetFloat(SaveKeyValue, UpgradeValue);
+    public static float GetUpgradeValue(string upgradeKey, VariableType type) => PlayerPrefs.GetFloat(GetSaveKeyValue(type, upgradeKey));
+
+    public void Upgrade()
+    {
+        if (MaxLevelReached) { return; }
+
+        Level++;
     }
 }
 
@@ -95,25 +108,37 @@ public class Upgrade : MonoBehaviour
         UpdateUpgradeDetails();
         UpdateUpgradeButton();
 
+        if (UpgradeData.MaxLevelReached) { enabled = false; return; }
+
         InputManager.Instance.OnUpgrade += UpdateUpgradeButton;
     }
 
 
     private void UpdateUpgradeButton()
     {
-        upgradeButton.interactable = GameManager.Insatnce.Coins >= UpgradeData.Cost;
+        upgradeButton.interactable = GameManager.Insatnce.Coins >= UpgradeData.Cost && !UpgradeData.MaxLevelReached;
     }
 
     public void Up()
     {
-        InputManager.Instance.Upgrade(UpgradeData);
+        if (GameManager.Insatnce.Coins - UpgradeData.Cost < 0 || UpgradeData.MaxLevelReached) { return; }
+
+        GameManager.Insatnce.RemoveCoins(UpgradeData.Cost);
+        UpgradeData.Upgrade();
+
+        InputManager.Instance.Upgrade();
         UpdateUpgradeDetails();
     }
 
     private void UpdateUpgradeDetails()
     {
-        upgradeName.text = UpgradeData.variableSaveKey;
+        upgradeName.text = UpgradeData.UpgradeName;
         stats.text = MikeString.ConvertNumberToString(UpgradeData.UpgradeValue) + " >> " + MikeString.ConvertNumberToString(UpgradeData.NextUpgradeValue);
         cost.text = MikeString.ConvertNumberToString(UpgradeData.Cost);
+    }
+
+    public static float GetUpgrade(string upgradeKey)
+    {
+        return PlayerPrefs.GetFloat(upgradeKey + UpgradeData.UPGRADE_SAVEKEY_SUFFIX);
     }
 }
