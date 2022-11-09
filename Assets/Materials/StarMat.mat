@@ -116,7 +116,7 @@ Material:
     - _BlendOp: 0
     - _BumpScale: 1
     - _CameraFadingEnabled: 0
-    - _CameraFarFadeDistance: 0.03
+    - _CameraFarFadeDistance: 0
     - _CameraNearFadeDistance: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -125,10 +125,10 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistortionBlend: 0
+    - _DistortionBlend: 0.65
     - _DistortionEnabled: 1
-    - _DistortionStrength: -4.72
-    - _DistortionStrengthScaled: -0.47199997
+    - _DistortionStrength: 1
+    - _DistortionStrengthScaled: 0.1
     - _DstBlend: 10
     - _EmissionEnabled: 0
     - _EnableExternalAlpha: 0
@@ -150,8 +150,8 @@ Material:
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 0
-    - _SoftParticlesFarFadeDistance: 1
-    - _SoftParticlesNearFadeDistance: 1
+    - _SoftParticlesFarFadeDistance: 0
+    - _SoftParticlesNearFadeDistance: 0
     - _SpecSource: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
