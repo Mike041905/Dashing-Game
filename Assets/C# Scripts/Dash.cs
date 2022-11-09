@@ -104,8 +104,8 @@ public class Dash : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        damage = PlayerPrefs.GetFloat("Damage");
-        staminaRecharge = PlayerPrefs.GetFloat("Stamina Recharge");
+        damage = Upgrade.GetUpgrade("Damage", UpgradeData.VariableType.Float);
+        staminaRecharge = Upgrade.GetUpgrade("Stamina Recharge", UpgradeData.VariableType.Float);
 
         stamina = maxStamina;
         staminaSlider.maxValue = maxStamina;

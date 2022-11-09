@@ -36,11 +36,11 @@ public class OfflineEarnings : MonoBehaviour
         InitializeOfflineEarnings();
         if (Mathf.RoundToInt((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalHours) >= 10f)
         {
-            coinsGained.text = MikeString.ConvertNumberToString(Mathf.RoundToInt(432 * PlayerPrefs.GetFloat("Offline Earnings")));
+            coinsGained.text = MikeString.ConvertNumberToString(Mathf.RoundToInt(432 * Upgrade.GetUpgrade("Offline Earnings", UpgradeData.VariableType.Float)));
         }
         else
         {
-            coinsGained.text = MikeString.ConvertNumberToString(Mathf.RoundToInt((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalSeconds / 100 * PlayerPrefs.GetFloat("Offline Earnings")));
+            coinsGained.text = MikeString.ConvertNumberToString(Mathf.RoundToInt((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalSeconds / 100 * Upgrade.GetUpgrade("Offline Earnings",UpgradeData.VariableType.Float)));
         }
 
         if(coinsGained.text != "0")
@@ -53,11 +53,11 @@ public class OfflineEarnings : MonoBehaviour
     {
         if(Mathf.RoundToInt((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalHours) >= 10f)
         {
-            GameManager.Insatnce.AddCoins((ulong)Mathf.RoundToInt(432 * PlayerPrefs.GetFloat("Offline Earnings")));
+            GameManager.Insatnce.AddCoins((ulong)Mathf.RoundToInt(432 * Upgrade.GetUpgrade("Offline Earnings", UpgradeData.VariableType.Float)));
         }
         else
         {
-            GameManager.Insatnce.AddCoins((ulong)Mathf.RoundToInt( (float) (DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date")) ).TotalSeconds / 100 * PlayerPrefs.GetFloat("Offline Earnings")));
+            GameManager.Insatnce.AddCoins((ulong)Mathf.RoundToInt( (float) (DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date")) ).TotalSeconds / 100 * Upgrade.GetUpgrade("Offline Earnings", UpgradeData.VariableType.Float)));
         }
 
         SetNewLastLoginDate();

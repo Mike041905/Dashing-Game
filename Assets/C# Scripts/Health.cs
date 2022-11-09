@@ -73,7 +73,7 @@ public class Health : MonoBehaviour
     private void Start()
     {
         Dead = false;
-        if (CompareTag("Player")) CurrentHealth = PlayerPrefs.GetFloat("Health");
+        if (CompareTag("Player")) CurrentHealth = Upgrade.GetUpgrade("Health", UpgradeData.VariableType.Float);
 
         if(healthSlider != null) healthSlider.maxValue = maxhealth;
         if (healthSlider != null) healthSlider.value = CurrentHealth;
@@ -100,7 +100,7 @@ public class Health : MonoBehaviour
         Health player = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
         if(player == null || player == this) { return; }
 
-        player.CurrentHealth += PlayerPrefs.GetFloat("Health On Kill");
+        player.CurrentHealth += Upgrade.GetUpgrade("Health On Kill", UpgradeData.VariableType.Float);
         if (player.CurrentHealth > player.maxhealth) player.CurrentHealth = player.maxhealth;
         if (player.healthSlider != null) player.healthSlider.value = player.CurrentHealth;
     }

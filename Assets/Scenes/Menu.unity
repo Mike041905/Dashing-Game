@@ -8418,108 +8418,136 @@ MonoBehaviour:
   tabs:
   - name: Game
     upgrades:
-    - variableSaveKey: Starting Level
+    - upgradeKey: Starting Level
+      name: Starting Level
       variableType: 0
       startingValue: 1
       upgradeAdditionValue: 1
       upgradeMultiplier: 1
       costMultiplier: 10
       costOffset: 0
-    - variableSaveKey: Offline Earnings
+      maxLevel: 0
+    - upgradeKey: Offline Earnings
+      name: Offline Earnings
       variableType: 1
       startingValue: 1
       upgradeAdditionValue: 0
       upgradeMultiplier: 1.1
       costMultiplier: 1.2
-      costOffset: 10
+      costOffset: 98
+      maxLevel: 0
   - name: Player
     upgrades:
-    - variableSaveKey: Damage
+    - upgradeKey: Damage
+      name: Damage
       variableType: 1
       startingValue: 1
       upgradeAdditionValue: 0
       upgradeMultiplier: 1.1
       costMultiplier: 1
-      costOffset: 0
-    - variableSaveKey: Health
+      costOffset: 9
+      maxLevel: 0
+    - upgradeKey: Health
+      name: Health
       variableType: 1
       startingValue: 100
       upgradeAdditionValue: 0
       upgradeMultiplier: 1.1
       costMultiplier: 1
-      costOffset: -99
-    - variableSaveKey: Health On Kill
+      costOffset: -90
+      maxLevel: 0
+    - upgradeKey: Health On Kill
+      name: Life Steal
       variableType: 1
       startingValue: 10
       upgradeAdditionValue: 0
       upgradeMultiplier: 1.1
       costMultiplier: 1
-      costOffset: -9
-    - variableSaveKey: Stamina Recharge
+      costOffset: 0
+      maxLevel: 0
+    - upgradeKey: Stamina Recharge
+      name: Stamina Recharge
       variableType: 1
       startingValue: 2
       upgradeAdditionValue: 0
       upgradeMultiplier: 1.05
       costMultiplier: 500
-      costOffset: -990
+      costOffset: -950
+      maxLevel: 50
   - name: Cheats
     upgrades:
-    - variableSaveKey: AddCoins 1
+    - upgradeKey: 
+      name: 
       variableType: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
       costMultiplier: 0
       costOffset: -1
-    - variableSaveKey: AddCoins 10
+      maxLevel: 0
+    - upgradeKey: 
+      name: 
       variableType: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
       costMultiplier: 0
       costOffset: -10
-    - variableSaveKey: AddCoins 100
+      maxLevel: 0
+    - upgradeKey: 
+      name: 
       variableType: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
       costMultiplier: 0
       costOffset: -100
-    - variableSaveKey: AddCoins Exponential
+      maxLevel: 0
+    - upgradeKey: 
+      name: 
       variableType: 1
       startingValue: 1
       upgradeAdditionValue: 0
       upgradeMultiplier: 2
       costMultiplier: -1
       costOffset: 0
-    - variableSaveKey: TakeCoins Exponential
+      maxLevel: 0
+    - upgradeKey: 
+      name: 
       variableType: 1
       startingValue: 1
       upgradeAdditionValue: 0
       upgradeMultiplier: 2
       costMultiplier: 1
       costOffset: 0
-    - variableSaveKey: TakeCoins 100
+      maxLevel: 0
+    - upgradeKey: 
+      name: 
       variableType: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
       costMultiplier: 0
       costOffset: 100
-    - variableSaveKey: TakeCoins 10
+      maxLevel: 0
+    - upgradeKey: 
+      name: 
       variableType: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
       costMultiplier: 0
       costOffset: 10
-    - variableSaveKey: TakeCoins 1
+      maxLevel: 0
+    - upgradeKey: 
+      name: 
       variableType: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
       costMultiplier: 0
       costOffset: 1
+      maxLevel: 0
 --- !u!1 &1800446454
 GameObject:
   m_ObjectHideFlags: 0

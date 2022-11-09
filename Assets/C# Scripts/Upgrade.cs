@@ -36,8 +36,8 @@ public struct UpgradeData
     // LMAO why can Properties return values bigger that their soposed max value
     public string UpgradeName { get => name; }
 
-    public int Level { get => GetLevel(upgradeKey, variableType); set => SetLevel(value); }
-    public bool MaxLevelReached { get => Level >= maxLevel; }
+    public int Level { get => GetLevel(); set { SetLevel(value); SaveUpgradeValue(); } }
+    public bool MaxLevelReached { get => maxLevel > 0 && Level >= maxLevel; }
 
     /// <summary>
     /// Automaticaly converts to correct value
@@ -57,6 +57,18 @@ public struct UpgradeData
     //--------------------------
 
 
+    float LevelToUpgradeValue(int level)
+    {
+        float val = startingValue * Mathf.Pow(upgradeMultiplier, level - 1) + upgradeAdditionValue * (level - 1);
+        return variableType == VariableType.Integer ? Mathf.Ceil(val) : val;
+    }
+
+    int GetLevel()
+    {
+        int level = GetLevel(upgradeKey, variableType);
+        SaveUpgradeValue(level);
+        return level;
+    }
     public static int GetLevel(string key, VariableType type)
     {
         if (!PlayerPrefs.HasKey(GetSaveKeyLevel(type, key))) 
@@ -73,14 +85,10 @@ public struct UpgradeData
         SaveUpgradeValue();
     }
 
-    float LevelToUpgradeValue(int level)
-    {
-        float val = startingValue * Mathf.Pow(upgradeMultiplier + upgradeAdditionValue, level - 1);
-        return variableType == VariableType.Integer ? Mathf.Ceil(val) : val;
-    }
-
     void SaveUpgradeValue() => PlayerPrefs.SetFloat(SaveKeyValue, UpgradeValue);
+    void SaveUpgradeValue(int level) => PlayerPrefs.SetFloat(SaveKeyValue, LevelToUpgradeValue(level));
     public static float GetUpgradeValue(string upgradeKey, VariableType type) => PlayerPrefs.GetFloat(GetSaveKeyValue(type, upgradeKey));
+
 
     public void Upgrade()
     {
@@ -137,8 +145,8 @@ public class Upgrade : MonoBehaviour
         cost.text = MikeString.ConvertNumberToString(UpgradeData.Cost);
     }
 
-    public static float GetUpgrade(string upgradeKey)
+    public static float GetUpgrade(string upgradeKey, UpgradeData.VariableType type)
     {
-        return PlayerPrefs.GetFloat(upgradeKey + UpgradeData.UPGRADE_SAVEKEY_SUFFIX);
+        return UpgradeData.GetUpgradeValue(upgradeKey, type);
     }
 }
