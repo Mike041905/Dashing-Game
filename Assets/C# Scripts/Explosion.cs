@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    [SerializeField] float damage = 10;
+    public float damage = 1;
     public float radius = 2;
     [SerializeField] float damageDropOffMultiplier = 1;
 
     private void Start()
     {
-        transform.localScale = Vector3.one * radius;
+        transform.localScale = Vector3.one * radius / 1.5f;
         Explode();
     }
 
@@ -36,12 +36,12 @@ public class Explosion : MonoBehaviour
             if(!collider.CompareTag("Player") && collider.GetComponent<Health>() != null)//check for health component
             {
                 //calculate final damage
-                float finalDamage = (radius - Vector2.Distance(transform.position, collider.transform.position) * damageDropOffMultiplier / radius) * damage * Upgrade.GetUpgrade("Damage", UpgradeData.VariableType.Float);
+                float finalDamage = (radius - Vector2.Distance(transform.position, collider.ClosestPoint(transform.position)) * damageDropOffMultiplier / radius) * damage * Upgrade.GetUpgrade("Damage", UpgradeData.VariableType.Float);
 
                 //deal damage
                 collider.GetComponent<Health>().TakeDamage(finalDamage, gameObject);
-                CameraShaker.Instance.ShakeOnce(radius * 1.5f, radius * 2, .5f, .2f);
-                AndroidManager.HapticFeedback();
+                CameraShaker.Instance.ShakeOnce(radius, radius * 2, .5f * radius, .2f * radius);
+                HapticFeedback.Vibrate(Mathf.RoundToInt(100 * radius));
             }
         }
     }

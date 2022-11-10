@@ -22,10 +22,8 @@ public class PowerUpBombardment : PowerUp
         if (Random.Range(0f, 1f) > GetStat("ChancePerc").statValue) { return; } //roll dice
         if (GameObject.FindGameObjectWithTag("Enemy") == null) { return; } //check if any enemy alive
 
-        Vector2 currentRoom = Mike.MikeGameObject.GetClosestTargetWithTag(transform.position, "Room").transform.position;
+        Bomb bomb = Instantiate(bombPrefab).GetComponent<Bomb>();//spawn bomb
 
-        Bomb bomb = Instantiate(bombPrefab, transform.position, Quaternion.identity).GetComponent<Bomb>();//spawn bomb
-
-        bomb.targetPosition = currentRoom + Mike.MikeRandom.RandomVector2(-20, 20, -20, 20);
+        bomb.targetPosition = (Vector2)Player.Instance.CurrentRoom.GetRandomEnemy().transform.position + Mike.MikeRandom.RandomVector2(GetStat("Spread").statValue, GetStat("Spread").statValue);
     }
 }

@@ -44,13 +44,13 @@ public class EnemyAI : MonoBehaviour
     public virtual void Start()
     {
         //asign player to target variable
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        target = Player.Instance.transform;
 
         GetComponent<Health>().CurrentHealth *= difficultyMultiplier;
         projectileDamage *= difficultyMultiplier;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         UpdateTimers();
         ShootIfAble();
@@ -69,7 +69,7 @@ public class EnemyAI : MonoBehaviour
 
     private void UpdateTimers()
     {
-        if (shotDelayTimer < delayBetweenShots) shotDelayTimer += Time.deltaTime;
+        if (shotDelayTimer < delayBetweenShots) shotDelayTimer += Time.fixedDeltaTime;
     }
 
     private void ShootIfAble()
@@ -107,11 +107,11 @@ public class EnemyAI : MonoBehaviour
     {
         if (Vector2.Distance(transform.position, target.position) > stopRange)
         {
-            transform.position += movementSpeed * Time.deltaTime * transform.up;
+            transform.position += movementSpeed * Time.fixedDeltaTime * transform.up;
         }
         else if (Vector2.Distance(transform.position, target.position) < backupRange)
         {
-            transform.position -= playerAvoidanceSpeed * Time.deltaTime * transform.up;
+            transform.position -= playerAvoidanceSpeed * Time.fixedDeltaTime * transform.up;
         }
     }
 

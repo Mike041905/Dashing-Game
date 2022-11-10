@@ -52,8 +52,16 @@ MonoBehaviour:
     statValue: 0.25
     statUpgradeOffset: 0
     statUpgradeMultiplier: -0.1
+    statLevel: 0
   - statName: ChancePerc
     statValue: 0.15
     statUpgradeOffset: 0
     statUpgradeMultiplier: 0.05
+    statLevel: 0
+  - statName: Spread
+    statValue: 5
+    statUpgradeOffset: 0
+    statUpgradeMultiplier: -0.15
+    statLevel: 0
+  powerUpLevel: 1
   bombPrefab: {fileID: 1281403807000855016, guid: c52c35c4f30af71478923d990fc612f9, type: 3}

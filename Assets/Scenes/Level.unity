@@ -2030,6 +2030,7 @@ GameObject:
   - component: {fileID: 602972577}
   - component: {fileID: 602972578}
   - component: {fileID: 602972579}
+  - component: {fileID: 602972580}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2374,6 +2375,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd7f08f7a14ef2f4496aa00aabb955e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &602972580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602972571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae200ecc29f50142a3cffb03900108d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &610417432
@@ -5902,7 +5915,6 @@ MonoBehaviour:
   difficultyPreRoomMultiplier: 0
   difficultyPreLevelMultiplier: 0.1
   difficultyPreLevelOffset: 0.9
-  player: {fileID: 602972571}
 --- !u!114 &1440050885
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,11 +15,13 @@ public class Missile : MonoBehaviour
     [SerializeField] private ParticleSystem trail;
     [SerializeField] GameObject explosionPrefab;
 
+    [SerializeField] float boostTime = 0.3f;
+    [SerializeField] float boostDeceleration = 1.5f;
+
     private float currentSpeed = 0;
     private bool initialBoost = true;
     private float boostTimer = 0;
 
-    const float boostTime = 0.15f;
 
     private void Start()
     {
@@ -31,7 +33,7 @@ public class Missile : MonoBehaviour
     {
         if(currentSpeed < speed)
         {
-            currentSpeed += 10f * Time.deltaTime + currentSpeed * 1.1f * Time.deltaTime;
+            currentSpeed += 10f * Time.fixedDeltaTime + currentSpeed * 1.1f * Time.fixedDeltaTime;
 
             if(currentSpeed > speed) { currentSpeed = speed; }
         }
@@ -50,18 +52,12 @@ public class Missile : MonoBehaviour
             } 
         }
 
-        if(target == null) 
-        {
-            if (hitEffect != null) { Instantiate(hitEffect, transform.position, Quaternion.identity); }
-            Destroy(gameObject);
-        }
+        transform.position += currentSpeed * Time.fixedDeltaTime * transform.up;
 
-        if(target != null) transform.position += currentSpeed * Time.deltaTime * transform.up;
-
-        if(initialBoost && boostTimer < boostTime) { boostTimer += Time.deltaTime; currentSpeed -= currentSpeed * Time.deltaTime; return; }
+        if(initialBoost && boostTimer < boostTime) { boostTimer += Time.fixedDeltaTime; currentSpeed -= currentSpeed * Time.deltaTime; return; }
         else if(initialBoost) { initialBoost = false; trail.Play(); currentSpeed = 0; }
 
-        if(target != null) transform.rotation = Quaternion.RotateTowards(transform.rotation, Mike.MikeTransform.Rotation.LookTwards(transform.position, target.position), rotSpeed * Time.deltaTime);
+        if(target != null) transform.rotation = Quaternion.RotateTowards(transform.rotation, Mike.MikeTransform.Rotation.LookTwards(transform.position, (Vector2)target.position * (1 + 0.1f * Random.Range(-maxWiggle, maxWiggle))), rotSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D hit)
@@ -70,13 +66,12 @@ public class Missile : MonoBehaviour
         if (hit.transform.CompareTag("Projectile")) { return; }
         if (hit.transform.CompareTag("Coin")) { return; }
 
-        Instantiate(explosionPrefab, transform.position, Quaternion.identity).GetComponent<Explosion>().radius = damageRadius;
         Hit();
     }
 
     void Hit()
     {
-        if (hitEffect != null) { Instantiate(hitEffect, transform.position, Quaternion.identity); }
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity).GetComponent<Explosion>().radius = damageRadius;
 
         trail.transform.parent = null;
         trail.Stop();

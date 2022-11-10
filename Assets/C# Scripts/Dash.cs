@@ -210,7 +210,7 @@ public class Dash : MonoBehaviour
             Rb.MovePosition(truePosition);
             if (Rb.position == dashTargetPosition) { currentDash = null; break; }
 
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -247,7 +247,7 @@ public class Dash : MonoBehaviour
     {
         if(collision == null) { return; }
 
-        AndroidManager.HapticFeedback();
+        HapticFeedback.Vibrate(50);
 
         if(collision.transform.CompareTag("Enemy"))
         {

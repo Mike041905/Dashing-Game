@@ -45,9 +45,6 @@ public class GameManager : MonoBehaviour
     public float DifficultyPreLevelOffset { get => difficultyPreLevelOffset; }
     public float Difficulty { get => DifficultyPreRoomMultiplier + DifficultyPreLevelOffset + Level * DifficultyPreLevelMultiplier; }
 
-    public GameObject player;
-    public GameObject Player { get { if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); } return player; } }
-
 
     //----------------------------------------------
 
@@ -112,17 +109,17 @@ public class GameManager : MonoBehaviour
     IEnumerator NextLevel()
     {
         EZCameraShake.CameraShaker.Instance.ShakeOnce(15, 25, 4f, 1f);
-        Player.GetComponent<Dash>().enabled = false;
+        Player.Instance.enabled = false;
         yield return new WaitForSeconds(2f);
 
-        Player.transform.position = Vector3.zero;
-        if (Player.GetComponent<Dash>().currentDash != null) { StopCoroutine(Player.GetComponent<Dash>().currentDash); }
+        Player.Instance.transform.position = Vector3.zero;
+        if (Player.Instance.PlayerDash.currentDash != null) { StopCoroutine(Player.Instance.PlayerDash.currentDash); }
 
         Level++;
         InputManager.Instance.UpdateUI();
         Destroy(portalInstance);
         LevelGanerator.Instance.RegenerateLevel();
-        Player.GetComponent<Dash>().enabled = true;
+        Player.Instance.PlayerDash.enabled = true;
 
     }
     #endregion

@@ -15,20 +15,20 @@ public class Projectile : MonoBehaviour
     //---------------------------------------
 
 
-    private void Update()
+    private void FixedUpdate()
     {
-        transform.position += speed * Time.deltaTime * transform.up;
+        transform.position += speed * Time.fixedDeltaTime * transform.up;
     }
 
 
     //-----------------------------------------
 
 
-    public void OnMikeSphereTriggerEnter(RaycastHit2D hit2D)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(hit2D.transform.gameObject == shooter) { return; }
+        if(collider.transform.gameObject == shooter) { return; }
 
-        DealDamageIfAble(hit2D.transform.gameObject);
+        DealDamageIfAble(collider.transform.gameObject);
     }
 
     void DealDamageIfAble(GameObject other)

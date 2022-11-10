@@ -24,7 +24,6 @@ public class Door : MonoBehaviour
 
     public event UnityAction<Collider2D> OnEnteredThroughDoor;
 
-
     //--------------
 
 

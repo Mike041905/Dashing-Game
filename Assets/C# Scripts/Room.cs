@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mike;
 using EZCameraShake;
+using UnityEngine.UIElements;
 
 public class Room : MonoBehaviour
 {
@@ -69,6 +70,24 @@ public class Room : MonoBehaviour
 
     //---------------------
 
+    public EnemyAI GetRandomEnemy()
+    {
+        while(true)
+        {
+            bool alive = false;
+
+            for (int i = 0; i < spawnedEnemies.Length; i++)
+            {
+                if (spawnedEnemies[i] != null) 
+                { 
+                    alive = true; 
+                    if(Random.Range(0, spawnedEnemies.Length) <= 1) { return spawnedEnemies[i].GetComponent<EnemyAI>(); }
+                }
+            }
+
+            if (!alive) { return null; }
+        }
+    }
 
     public void ResetDoors()
     {
@@ -155,8 +174,10 @@ public class Room : MonoBehaviour
         if(!enabled) { return; }
         if(!collider.CompareTag("Player") || Vector2.Distance(collider.transform.position, transform.position) >= 26) { return; }
 
-        CameraShaker.Instance.ShakeOnce(1, 15, .25f, .25f);
-        
+        CameraShaker.Instance.ShakeOnce(2, 10, .25f, .75f);
+
+        Player.Instance.CurrentRoom = this;
+
         CloseDoors();
         StartFight();
     }
