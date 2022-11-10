@@ -80,7 +80,7 @@ public class Bomb : MonoBehaviour
             if (!collider.CompareTag("Player") && collider.GetComponent<Health>() != null)//check for health component
             {
                 //calculate final damage
-                float finalDamage = (radius - Vector2.Distance(transform.position, collider.transform.position) * 1 / radius) * damage * PlayerPrefs.GetFloat("Damage");
+                float finalDamage = (radius - Vector2.Distance(transform.position, collider.transform.position) * 1 / radius) * damage * Upgrade.GetUpgrade("Damage", UpgradeData.VariableType.Float);
 
                 //deal damage
                 collider.GetComponent<Health>().TakeDamage(finalDamage, gameObject);

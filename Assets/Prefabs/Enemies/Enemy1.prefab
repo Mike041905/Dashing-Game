@@ -286,7 +286,10 @@ MonoBehaviour:
   maxCoinsOnDeath: 3
   immuneTime: 0.2
   maxhealth: 0
-  OnDeath:
+  OnDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReviveEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!58 &9040167499389947998

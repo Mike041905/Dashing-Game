@@ -25,7 +25,7 @@ public class Dash : MonoBehaviour
     public float staminaRecharge = 2;
 
     [Header("Options")]
-    [SerializeField] private bool usePcControls = false; // TODO: this should set automaticaly
+    [SerializeField] private bool usePcControls = false;
 
 
     //-----------------------------
@@ -120,18 +120,22 @@ public class Dash : MonoBehaviour
 
     public void SetPositionsAndDash(bool pcControls = false)
     {
-        if (pcControls == true ? Input.GetMouseButton(0) : Input.touchCount > 0)
+        if (Input.GetMouseButton(0)) { pcControls = true; }
+
+        if (Input.GetMouseButton(0) || Input.touchCount > 0)
         {
+            Vector2 touchPos = pcControls ? (Vector2)Input.mousePosition : Input.GetTouch(0).position;
+
             OnAiming?.Invoke();
 
             if (!isAiming)
             {
                 isAiming = true;
-                firstTouchPosition = pcControls == true ? (Vector2)Input.mousePosition : Input.GetTouch(0).position;
+                firstTouchPosition = touchPos;
             }
             else
             {
-                secondTouchPosition = pcControls == true ? (Vector2)Input.mousePosition : Input.GetTouch(0).position;
+                secondTouchPosition = touchPos;
 
                 cameraTarget.position = (secondTouchPosition - firstTouchPosition).normalized * dashDistance / 2 + (Vector2)transform.position;
 
@@ -243,10 +247,14 @@ public class Dash : MonoBehaviour
     {
         if(collision == null) { return; }
 
+        AndroidManager.HapticFeedback();
+
         if(collision.transform.CompareTag("Enemy"))
         {
             collision.gameObject.GetComponent<Health>().TakeDamage(damage, gameObject);
             CameraShaker.Instance.ShakeOnce(1, 3, .1f, .1f);
+
+            OnHitEnemy?.Invoke(collision.gameObject);
         }
         else if (collision.transform.CompareTag("Barrier"))
         {

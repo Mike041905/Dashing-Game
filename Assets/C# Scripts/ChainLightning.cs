@@ -14,7 +14,7 @@ public class ChainLightning : MonoBehaviour
 
     private void Start()
     {
-        damage *= PlayerPrefs.GetFloat("Damage");
+        damage *= Upgrade.GetUpgrade("Damage", UpgradeData.VariableType.Float);
     }
 
     void Update()

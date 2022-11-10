@@ -1,3 +1,4 @@
+using EZCameraShake;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class Explosion : MonoBehaviour
 
     private void Start()
     {
+        transform.localScale = Vector3.one * radius;
         Explode();
     }
 
@@ -20,7 +22,7 @@ public class Explosion : MonoBehaviour
 
         DealDamageToObjects(affectedObject);
 
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 5f);
     }
 
     /// <summary>
@@ -34,10 +36,12 @@ public class Explosion : MonoBehaviour
             if(!collider.CompareTag("Player") && collider.GetComponent<Health>() != null)//check for health component
             {
                 //calculate final damage
-                float finalDamage = (radius - Vector2.Distance(transform.position, collider.transform.position) * damageDropOffMultiplier / radius) * damage * PlayerPrefs.GetFloat("Damage");
+                float finalDamage = (radius - Vector2.Distance(transform.position, collider.transform.position) * damageDropOffMultiplier / radius) * damage * Upgrade.GetUpgrade("Damage", UpgradeData.VariableType.Float);
 
                 //deal damage
                 collider.GetComponent<Health>().TakeDamage(finalDamage, gameObject);
+                CameraShaker.Instance.ShakeOnce(radius * 1.5f, radius * 2, .5f, .2f);
+                AndroidManager.HapticFeedback();
             }
         }
     }
