@@ -34,7 +34,7 @@ public class Item : MonoBehaviour
 
     private void Update()
     {
-        if(player == null) { return; }
+        if(Player.Instance.PlayerHealth.Dead) { return; }
 
         timer += activationDelay > timer ? Time.deltaTime : 0;
 
@@ -51,6 +51,8 @@ public class Item : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (Player.Instance.PlayerHealth.Dead) { return; }
+
         CollectItem(collision);
     }
 

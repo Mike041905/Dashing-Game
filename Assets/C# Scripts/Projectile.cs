@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [Header("Essential")]
-    [SerializeField] private GameObject HitEffect;
+    [SerializeField] private GameObject _hitEffect;
     [HideInInspector] public GameObject shooter;
 
     [HideInInspector] public float speed = 0;
@@ -15,9 +15,9 @@ public class Projectile : MonoBehaviour
     //---------------------------------------
 
 
-    private void FixedUpdate()
+    private void Update()
     {
-        transform.position += speed * Time.fixedDeltaTime * transform.up;
+        transform.position += speed * Time.deltaTime * transform.up;
     }
 
 
@@ -41,7 +41,7 @@ public class Projectile : MonoBehaviour
             other.GetComponent<Health>().TakeDamage(damage, gameObject);
         }
 
-        if (HitEffect != null) Instantiate(HitEffect, transform.position, Quaternion.identity);
+        if (_hitEffect != null) Instantiate(_hitEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

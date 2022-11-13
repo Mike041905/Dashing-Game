@@ -5,22 +5,21 @@ using UnityEngine.UI;
 
 public class HealthBarGradient : MonoBehaviour
 {
-    [SerializeField] Gradient gradient;
-    [SerializeField] Health playerHealth;
-    [SerializeField] float playerHealthPercentage;
-    [SerializeField] Image healthBarImage;
+    [SerializeField] Gradient _gradient;
+    [SerializeField] Image _healthBarImage;
+
+    float _playerHealthPercentage;
 
     void Start()
     {
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
-        playerHealth.OnTakeDamage += UpdateHealthBarColor;
+        Player.Instance.PlayerHealth.OnHealthChanged += UpdateHealthBarColor;
     }
 
-    void UpdateHealthBarColor(float damage, GameObject damager)
+    void UpdateHealthBarColor(float health)
     {
-        if(playerHealth.maxhealth == 0 || playerHealth.maxhealth == float.PositiveInfinity) { return; }
+        if(Player.Instance.PlayerHealth.maxhealth == 0 || Player.Instance.PlayerHealth.maxhealth == float.PositiveInfinity) { return; }
 
-        playerHealthPercentage = playerHealth.CurrentHealth / playerHealth.maxhealth;
-        healthBarImage.color = gradient.Evaluate(playerHealthPercentage);
+        _playerHealthPercentage = health / Player.Instance.PlayerHealth.maxhealth;
+        _healthBarImage.color = _gradient.Evaluate(_playerHealthPercentage);
     }
 }

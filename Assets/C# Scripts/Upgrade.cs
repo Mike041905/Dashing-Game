@@ -140,9 +140,17 @@ public class Upgrade : MonoBehaviour
 
     private void UpdateUpgradeDetails()
     {
-        upgradeName.text = UpgradeData.UpgradeName;
-        stats.text = MikeString.ConvertNumberToString(UpgradeData.UpgradeValue) + " >> " + MikeString.ConvertNumberToString(UpgradeData.NextUpgradeValue);
-        cost.text = MikeString.ConvertNumberToString(UpgradeData.Cost);
+        if (UpgradeData.MaxLevelReached)
+        {
+            stats.text = MikeString.ConvertNumberToString(UpgradeData.UpgradeValue);
+            cost.text = "MAX LEVEL";
+        }
+        else
+        {
+            upgradeName.text = UpgradeData.UpgradeName;
+            stats.text = MikeString.ConvertNumberToString(UpgradeData.UpgradeValue) + " >> " + MikeString.ConvertNumberToString(UpgradeData.NextUpgradeValue);
+            cost.text = MikeString.ConvertNumberToString(UpgradeData.Cost);
+        }
     }
 
     public static float GetUpgrade(string upgradeKey, UpgradeData.VariableType type)

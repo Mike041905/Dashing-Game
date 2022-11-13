@@ -1792,6 +1792,8 @@ GameObject:
   - component: {fileID: 221673851}
   - component: {fileID: 221673850}
   - component: {fileID: 221673849}
+  - component: {fileID: 221673852}
+  - component: {fileID: 221673853}
   m_Layer: 5
   m_Name: OK
   m_TagString: Untagged
@@ -1864,7 +1866,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 221673853}
         m_TargetAssemblyTypeName: CopyToClipboard, Assembly-CSharp
         m_MethodName: CopyVersion
         m_Mode: 1
@@ -1873,10 +1875,10 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: https://docs.google.com/forms/d/e/1FAIpQLScATcbmxiNBRGlwi3sgu7ikJHOjDcMTCOFlmchrykQv_GzW2Q/viewform?usp=sf_link
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 221673852}
         m_TargetAssemblyTypeName: MikeURL, Assembly-CSharp
         m_MethodName: OpenURL
         m_Mode: 5
@@ -1928,6 +1930,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 221673847}
   m_CullTransparentMesh: 1
+--- !u!114 &221673852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221673847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084fd627f4f1b2d499160b4af9e6f4b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &221673853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221673847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf18bae3f284c0419a53a6e0a033596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &226006253
 GameObject:
   m_ObjectHideFlags: 0
@@ -16182,12 +16208,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cebc5dbf274320499ba77d138f00c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coin: {fileID: 0}
-  portal: {fileID: 0}
-  difficultyPreRoomMultiplier: 0
-  difficultyPreLevelMultiplier: 0
-  difficultyPreLevelOffset: 0
-  player: {fileID: 0}
+  CoinPrefab: {fileID: 0}
+  _portal: {fileID: 0}
+  _bossSpawnLevelInterval: 5
+  _bossSpawnLevelOffset: 0
+  _levelSaveInterval: 5
+  _levelSaveOffset: 1
+  <DifficultyPerRoomMultiplier>k__BackingField: 0
+  <DifficultyPerLevelMultiplier>k__BackingField: 0
+  <DifficultyPerLevelOffset>k__BackingField: 0
 --- !u!114 &849586396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16604,7 +16633,12 @@ MonoBehaviour:
   m_text: '-Improved performance
 
     -Upgrade cost will no longer become negative
-    after reaching a certain level'
+    after reaching a certain level
+
+    -Patch notes will now display properly
+
+    -Feedback
+    button'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -24882,9 +24916,13 @@ MonoBehaviour:
     Upgrade system\n-The player can now have more coins\n-Upgrades can now hold greater
     values\n-Every object with healh is now immune to the same source for a brief
     moment after taking damage (Before: Immunity worked on all sources of damage)\n-Improved
-    UI\n-Stamina Recharge Speed is now capped at 50 Levels\n-Certain enemies will
-    now spawn after a certain level\n(\n\tred : lvl 1\n\tgreen : lvl 2\n\tyellow
-    : lvl 3\n)"
+    UI\n-Stamina Recharge Speed is now capped at 50 Levels\n-Removed Starting level
+    upgrade\n-The player will now start on the lowest level which is a multiple of
+    five and offset by one. So if you were defeated on level 23 you will respawn
+    on level 21 and if you were defeated on level 5 you will respawn on level 1.
+    This change has been made as the next update will add bosses to the game which
+    will sawn on every fifth level. \n-Certain enemies will now spawn after a certain
+    level\n(\n\tred : lvl 1\n\tgreen : lvl 2\n\tyellow : lvl 3\n)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -26073,15 +26111,6 @@ MonoBehaviour:
   tabs:
   - name: Game
     upgrades:
-    - upgradeKey: Starting Level
-      name: Starting Level
-      variableType: 0
-      startingValue: 1
-      upgradeAdditionValue: 1
-      upgradeMultiplier: 1
-      costMultiplier: 10
-      costOffset: 0
-      maxLevel: 0
     - upgradeKey: Offline Earnings
       name: Offline Earnings
       variableType: 1
@@ -28245,7 +28274,9 @@ MonoBehaviour:
     -Counter that shows the number of remaining enemies
 
     -Added
-    cheat menu'
+    cheat menu
+
+    -Added Health bar interpolation'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

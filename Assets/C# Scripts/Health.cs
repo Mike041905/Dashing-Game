@@ -83,6 +83,26 @@ public class Health : MonoBehaviour
     //------------------------
 
 
+    IEnumerator LerpHealthBarValue(float value)
+    {
+        while (healthSlider.value > value + .1f || healthSlider.value < value - .1f)
+        {
+            healthSlider.value = Mathf.Lerp(healthSlider.value, value, Time.deltaTime * 4);
+
+            yield return null;
+        }
+
+        healthSlider.value = value;
+    }
+
+    Coroutine _healthBarLearp;
+    void UpdateHealthBarValue()
+    {
+        if (_healthBarLearp != null) { StopCoroutine(_healthBarLearp); }
+
+        _healthBarLearp = StartCoroutine(LerpHealthBarValue(CurrentHealth));
+    }
+
     void AddImmunity(float time, GameObject damager)
     {
         if(damager == null) { return; }
@@ -102,7 +122,6 @@ public class Health : MonoBehaviour
 
         player.CurrentHealth += Upgrade.GetUpgrade("Health On Kill", UpgradeData.VariableType.Float);
         if (player.CurrentHealth > player.maxhealth) player.CurrentHealth = player.maxhealth;
-        if (player.healthSlider != null) player.healthSlider.value = player.CurrentHealth;
     }
 
     public void TakeDamage(float damage, GameObject damager = null)
@@ -125,7 +144,7 @@ public class Health : MonoBehaviour
 
         this.health = Mathf.Clamp(health, 0, maxhealth);
 
-        if (healthSlider != null) healthSlider.value = CurrentHealth;
+        if (healthSlider != null) UpdateHealthBarValue();
         if (CurrentHealth <= 0) Die();
 
         OnHealthChanged?.Invoke(health);
@@ -135,7 +154,7 @@ public class Health : MonoBehaviour
     {
         if(!Dead) { return; }
 
-        if(health == null) { health = maxhealth; }
+        health ??= maxhealth;
 
         gameObject.SetActive(true);
         Dead = false;
@@ -168,7 +187,7 @@ public class Health : MonoBehaviour
         int coinAmmount = Random.Range(minCoinsOnDeath, maxCoinsOnDeath);
         for (int i = 0; i < coinAmmount; i++) // idk if coinAmmount is a copy in a for loop or not and im to lazy to look it up
         {
-            Instantiate(GameManager.Insatnce.coin, transform.position + (Vector3) Mike.MikeRandom.RandomVector2(-.5f, .5f, -.5f, .5f), Quaternion.identity).GetComponent<Item>().coinsPerPickup = 1 + Mathf.RoundToInt(GameManager.Insatnce.Level * .1f);
+            Instantiate(GameManager.Insatnce.CoinPrefab, transform.position + (Vector3) Mike.MikeRandom.RandomVector2(-.5f, .5f, -.5f, .5f), Quaternion.identity).GetComponent<Item>().coinsPerPickup = 1 + Mathf.RoundToInt(GameManager.Insatnce.Level * .1f);
         }
 
         HealthOnKill();

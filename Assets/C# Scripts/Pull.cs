@@ -11,13 +11,13 @@ public class Pull : MonoBehaviour
         size = GetComponent<CircleCollider2D>().radius;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D c)
     {
-        if (!collision.transform.CompareTag("Player")) { return; }
-        if (collision.GetComponent<Dash>().currentDash != null) { return; }
+        if(!c.CompareTag("Player")) { return; }
+        if(Player.Instance.PlayerDash.CurrentDash != null) { return; }
 
-        float distancePerc = (1 - Vector2.Distance(transform.position, collision.ClosestPoint(transform.position)) / size);
+        float distancePerc = (1 - Vector2.Distance(transform.position, c.ClosestPoint(transform.position)) / size);
         EZCameraShake.CameraShaker.Instance.ShakeOnce(Mathf.Pow(distancePerc, 2) * 0.5f, 10, 0.1f, 0.1f);
-        collision.transform.position = Vector2.MoveTowards(collision.transform.position, transform.position, distancePerc * force * Time.deltaTime);
+        c.transform.position = Vector2.MoveTowards(c.transform.position, transform.position, distancePerc * force * Time.deltaTime);
     }
 }

@@ -1,17 +1,14 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.SceneManagement;
-using Mike;
 using System.Collections;
 using Unity.Mathematics;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     #region Instance
-    static GameManager _Instance;
+    private static GameManager _instance;
     public static GameManager Insatnce
     {
-        get { return _Instance; }
+        get { return _instance; }
     }
     #endregion
 
@@ -20,30 +17,30 @@ public class GameManager : MonoBehaviour
 
     // I'm unsure if i should use BigInt or double/ulong instead of int (I'm lazy and dont want to refactor more code)
 
-    public GameObject coin;
+    public GameObject CoinPrefab;
+    [SerializeField] private GameObject _portal;
 
-    [SerializeField] private GameObject portal;
-    private GameObject portalInstance;
+    [SerializeField] int _bossSpawnLevelInterval = 5;
+    [SerializeField] int _bossSpawnLevelOffset = 0;
 
-    [SerializeField] private float difficultyPreRoomMultiplier;
-    [SerializeField] private float difficultyPreLevelMultiplier;
-    [SerializeField] private float difficultyPreLevelOffset;
+    [SerializeField] int _levelSaveInterval = 5;
+    [SerializeField] int _levelSaveOffset = 1;
 
-    private double coinsDouble;
+    private GameObject _portalInstance;
+
+    private double _coinsDouble;
 
 
     //----------------------------------------------
 
-    /// <summary>
-    /// Returns 
-    /// </summary>
-    public long Coins { get => (long) coinsDouble; }
+    public long Coins { get => (long)_coinsDouble; }
     public ulong Gems { get; private set; }
     public int Level { get; private set; }
-    public float DifficultyPreRoomMultiplier { get => difficultyPreRoomMultiplier; }
-    public float DifficultyPreLevelMultiplier { get => difficultyPreLevelMultiplier; }
-    public float DifficultyPreLevelOffset { get => difficultyPreLevelOffset; }
-    public float Difficulty { get => DifficultyPreRoomMultiplier + DifficultyPreLevelOffset + Level * DifficultyPreLevelMultiplier; }
+    public bool IsBossLevel { get => Level % _bossSpawnLevelInterval == 0 + _bossSpawnLevelOffset; }
+    [field: SerializeField] public float DifficultyPerRoomMultiplier { get; private set; }
+    [field: SerializeField] public float DifficultyPerLevelMultiplier { get; private set; }
+    [field: SerializeField] public float DifficultyPerLevelOffset { get; private set; }
+    public float Difficulty { get => DifficultyPerRoomMultiplier + DifficultyPerLevelOffset + Level * DifficultyPerLevelMultiplier; }
 
 
     //----------------------------------------------
@@ -51,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        _Instance = this;
+        _instance = this;
 
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
 
@@ -61,7 +58,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         InputManager.Instance.UpdateUI();
-        if(LevelGanerator.Instance != null) { LevelGanerator.Instance.GenerateLevel(); }
+        if (LevelGanerator.Instance != null) { LevelGanerator.Instance.GenerateLevel(); }
     }
 
     private void OnApplicationQuit()
@@ -78,27 +75,27 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Sets up GameManager
     /// </summary>
-    void Initialize()
+    private void Initialize()
     {
         Level = StorageManager.StartingLevel;
 
         Gems = ulong.Parse(PlayerPrefs.GetString("Gems", "0"));
-        coinsDouble = double.Parse(PlayerPrefs.GetString("Coins", "0"));
-        coinsDouble = Coins;
+        _coinsDouble = double.Parse(PlayerPrefs.GetString("Coins", "0"));
+        _coinsDouble = Coins;
     }
 
     /// <summary>
     /// Saves Coins
     /// </summary>
-    void SaveCoins()
+    private void SaveCoins()
     {
-        PlayerPrefs.SetString("Coins", math.round(coinsDouble).ToString("G20"));
+        PlayerPrefs.SetString("Coins", math.round(_coinsDouble).ToString("G20"));
     }
 
     /// <summary>
     /// Saves Gems
     /// </summary>
-    void SaveGems()
+    private void SaveGems()
     {
         PlayerPrefs.SetString("Gems", Gems.ToString("G20"));
     }
@@ -106,21 +103,27 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// handles level transition and acounts for all variables involved
     /// </summary>
-    IEnumerator NextLevel()
+    private IEnumerator NextLevel()
     {
         EZCameraShake.CameraShaker.Instance.ShakeOnce(15, 25, 4f, 1f);
-        Player.Instance.enabled = false;
+        if (Player.Instance.PlayerDash.CurrentDash != null) { StopCoroutine(Player.Instance.PlayerDash.CurrentDash); }
+        Player.Instance.PlayerDash.enabled = false;
         yield return new WaitForSeconds(2f);
 
         Player.Instance.transform.position = Vector3.zero;
-        if (Player.Instance.PlayerDash.currentDash != null) { StopCoroutine(Player.Instance.PlayerDash.currentDash); }
 
         Level++;
+        SaveStartingLevel();
+
         InputManager.Instance.UpdateUI();
-        Destroy(portalInstance);
+        Destroy(_portalInstance);
         LevelGanerator.Instance.RegenerateLevel();
         Player.Instance.PlayerDash.enabled = true;
+    }
 
+    void SaveStartingLevel()
+    {
+        if (Level % _levelSaveInterval == 0 + _levelSaveOffset) { StorageManager.StartingLevel = Level; }
     }
     #endregion
 
@@ -129,57 +132,57 @@ public class GameManager : MonoBehaviour
 
     public void SetCoins(double ammount)
     {
-        coinsDouble = ammount;
+        _coinsDouble = ammount;
 
         SaveCoins();
         InputManager.Instance.UpdateUI();
     }
-    
+
     public void AddCoins(double ammount)
     {
         // NOTE: double "-" operator returns a double and (double.MaxValue + 1 < 0) as it overloads the variable!
-        if (coinsDouble + ammount > double.MaxValue)
+        if (_coinsDouble + ammount > double.MaxValue)
         {
-            coinsDouble = 0;
+            _coinsDouble = 0;
             SaveCoins();
             InputManager.Instance.UpdateUI();
             return;
         }
 
-        if (coinsDouble + ammount < 0)
+        if (_coinsDouble + ammount < 0)
         {
-            coinsDouble = double.MaxValue;
+            _coinsDouble = double.MaxValue;
             SaveCoins();
             InputManager.Instance.UpdateUI();
             return;
         }
 
-        coinsDouble += ammount;
+        _coinsDouble += ammount;
 
         SaveCoins();
         InputManager.Instance.UpdateUI();
     }
-    
+
     public void RemoveCoins(double ammount)
     {
         // NOTE: double "-" operator returns a double and (double.MaxValue + 1 < 0) as it overloads the variable!
-        if (coinsDouble - ammount > double.MaxValue)
+        if (_coinsDouble - ammount > double.MaxValue)
         {
-            coinsDouble = double.MaxValue;
+            _coinsDouble = double.MaxValue;
             SaveCoins();
             InputManager.Instance.UpdateUI();
             return;
         }
 
-        if (coinsDouble - ammount < 0)
+        if (_coinsDouble - ammount < 0)
         {
-            coinsDouble = 0;
+            _coinsDouble = 0;
             SaveCoins();
             InputManager.Instance.UpdateUI();
             return;
         }
 
-        coinsDouble -= ammount;
+        _coinsDouble -= ammount;
 
         SaveCoins();
         InputManager.Instance.UpdateUI();
@@ -216,7 +219,7 @@ public class GameManager : MonoBehaviour
             if (LevelGanerator.Instance.rooms[i].enabled && LevelGanerator.Instance.rooms[i] != sender) { return false; }
         }
 
-        portalInstance = Instantiate(portal, sender.transform.position, Quaternion.identity);
+        _portalInstance = Instantiate(_portal, sender.transform.position, Quaternion.identity);
         return true;
     }
 

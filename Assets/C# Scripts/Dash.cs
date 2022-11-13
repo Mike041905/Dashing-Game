@@ -10,22 +10,21 @@ using UnityEngine.Events;
 public class Dash : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private LineRenderer directionIndicator;
-    [SerializeField] private Slider staminaSlider;
-    [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private Transform cameraTarget;
+    [SerializeField] private LineRenderer _directionIndicator;
+    [SerializeField] private Slider _staminaSlider;
+    [SerializeField] private LineRenderer _lineRenderer;
+    [SerializeField] private Transform _cameraTarget;
 
     [Header("Stats")]
-    public float damage = 100;
-    public float knockbackForce = 10;
-    public float dashSpeed = 1;
-    public float dashDistance = 1;
-    public float staminaDrain = 1;
-    public float maxStamina = 10;
-    public float staminaRecharge = 2;
+    public float Damage = 1;
+    public float DashSpeed = 1;
+    public float DashDistance = 1;
+    public float StaminaDrain = 1;
+    public float MaxStamina = 10;
+    public float StaminaRecharge = 1;
 
     [Header("Options")]
-    [SerializeField] private bool usePcControls = false;
+    [SerializeField] private bool _usePcControls = false;
 
 
     //-----------------------------
@@ -40,16 +39,15 @@ public class Dash : MonoBehaviour
 
     public event UnityAction<GameObject> OnHitEnemy;
 
-    private bool isAiming = false;
-    private Vector2 firstTouchPosition;
-    private Vector2 secondTouchPosition;
-    private Vector2 lastDashPosition;
-    private float stamina = 0;
+    private bool _isAiming = false;
+    private Vector2 _firstTouchPosition;
+    private Vector2 _secondTouchPosition;
+    private float _stamina = 0;
 
-    public Coroutine currentDash;
+    public Coroutine CurrentDash;
 
-    Rigidbody2D rb;
-    Rigidbody2D Rb { get { if (rb == null) { rb = GetComponent<Rigidbody2D>(); } return rb; } }
+    Rigidbody2D _rb;
+    Rigidbody2D Rb { get { if (_rb == null) { _rb = GetComponent<Rigidbody2D>(); } return _rb; } }
 
 
     //-----------------------------
@@ -61,7 +59,7 @@ public class Dash : MonoBehaviour
 
     void Update()
     {
-        SetPositionsAndDash(usePcControls);
+        SetPositionsAndDash(_usePcControls);
         RechargeStamina();
 
         ManageLineRenderer();
@@ -74,48 +72,48 @@ public class Dash : MonoBehaviour
 
     void ManageLineRenderer()
     {
-        if(lineRenderer == null) { return; }
+        if(_lineRenderer == null) { return; }
 
-        Vector2 pos1 = Camera.main.ScreenToWorldPoint(firstTouchPosition);
-        Vector2 pos2 = Camera.main.ScreenToWorldPoint(secondTouchPosition);
+        Vector2 pos1 = Camera.main.ScreenToWorldPoint(_firstTouchPosition);
+        Vector2 pos2 = Camera.main.ScreenToWorldPoint(_secondTouchPosition);
 
         if(Input.touchCount > 0 || Input.GetMouseButton(0))
         {
-            lineRenderer.enabled = true;
+            _lineRenderer.enabled = true;
 
-            lineRenderer.SetPositions(new Vector3[2] { pos1, pos2 });
+            _lineRenderer.SetPositions(new Vector3[2] { pos1, pos2 });
         }
         else
         {
-            lineRenderer.enabled = false;
+            _lineRenderer.enabled = false;
         }
     }
 
     void ManageDirectionIndicator()
     {
-        if (!isAiming) { directionIndicator.enabled = false; return; }
+        if (!_isAiming) { _directionIndicator.enabled = false; return; }
 
-        directionIndicator.enabled = true;
-        directionIndicator.SetPosition(0, transform.position);
-        directionIndicator.SetPosition(1, (secondTouchPosition - firstTouchPosition).normalized * 3 + (Vector2)transform.position);
+        _directionIndicator.enabled = true;
+        _directionIndicator.SetPosition(0, transform.position);
+        _directionIndicator.SetPosition(1, (_secondTouchPosition - _firstTouchPosition).normalized * 3 + (Vector2)transform.position);
     }
 
     void InitializeVariables()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
 
-        damage = Upgrade.GetUpgrade("Damage", UpgradeData.VariableType.Float);
-        staminaRecharge = Upgrade.GetUpgrade("Stamina Recharge", UpgradeData.VariableType.Float);
+        Damage *= Upgrade.GetUpgrade("Damage", UpgradeData.VariableType.Float);
+        StaminaRecharge *= Upgrade.GetUpgrade("Stamina Recharge", UpgradeData.VariableType.Float);
 
-        stamina = maxStamina;
-        staminaSlider.maxValue = maxStamina;
+        _stamina = MaxStamina;
+        _staminaSlider.maxValue = MaxStamina;
     }
 
     void RechargeStamina()
     {
-        stamina += staminaRecharge * Time.deltaTime;
-        if (stamina > maxStamina) stamina = maxStamina;
-        staminaSlider.value = stamina;
+        _stamina += StaminaRecharge * Time.deltaTime;
+        if (_stamina > MaxStamina) _stamina = MaxStamina;
+        _staminaSlider.value = _stamina;
     }
 
     public void SetPositionsAndDash(bool pcControls = false)
@@ -128,52 +126,52 @@ public class Dash : MonoBehaviour
 
             OnAiming?.Invoke();
 
-            if (!isAiming)
+            if (!_isAiming)
             {
-                isAiming = true;
-                firstTouchPosition = touchPos;
+                _isAiming = true;
+                _firstTouchPosition = touchPos;
             }
             else
             {
-                secondTouchPosition = touchPos;
+                _secondTouchPosition = touchPos;
 
-                cameraTarget.position = (secondTouchPosition - firstTouchPosition).normalized * dashDistance / 2 + (Vector2)transform.position;
+                _cameraTarget.position = (_secondTouchPosition - _firstTouchPosition).normalized * DashDistance / 2 + (Vector2)transform.position;
 
-                if ((secondTouchPosition - firstTouchPosition).normalized != Vector2.zero) transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, (secondTouchPosition - firstTouchPosition).normalized + (Vector2)transform.position);
+                if ((_secondTouchPosition - _firstTouchPosition).normalized != Vector2.zero) transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, (_secondTouchPosition - _firstTouchPosition).normalized + (Vector2)transform.position);
            }
         }
-        else if(isAiming)
+        else if(_isAiming)
         {
-            isAiming = false;
-            directionIndicator.enabled = false;
-            UseDash(dashSpeed, dashDistance);
+            _isAiming = false;
+            _directionIndicator.enabled = false;
+            UseDash(DashSpeed, DashDistance);
         }
     }
 
     void UseDash(float speed, float distance)//checks if player has enough stamina and prevents from using the dash multiple times
     {
         Time.timeScale = 1;
-        if (stamina < staminaDrain) 
+        if (_stamina < StaminaDrain) 
         {
-            staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+            _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
             (
                 new Color(1,1,1,.2f),
                 .1f,
                 () => 
                 { 
-                    staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+                    _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
                     (
                         new Color(1, 1, 1, 1f),
                         .1f,
                         () =>
                         {
-                            staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+                            _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
                             (
                                 new Color(1, 1, 1, .2f),
                                 .1f, 
                                 () =>
                                 {
-                                    staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+                                    _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
                                     (
                                         new Color(1, 1, 1, 1f),
                                         .3f
@@ -187,31 +185,30 @@ public class Dash : MonoBehaviour
 
             return; 
         }
-        if(currentDash != null) StopCoroutine(currentDash);
+        if(CurrentDash != null) StopCoroutine(CurrentDash);
 
-        currentDash = StartCoroutine(StartDash(speed, distance));
+        CurrentDash = StartCoroutine(StartDash(speed, distance));
     }
 
-    Vector2 dashTargetPosition;
-    Vector2 dashStartPosition;
+    Vector2 _dashTargetPosition;
+    Vector2 _dashStartPosition;
     IEnumerator StartDash(float speed, float distance)
     {
-        cameraTarget.localPosition = Vector3.zero;
-        Vector2 truePosition = transform.position;
-        dashStartPosition = transform.position;
+        _cameraTarget.localPosition = Vector3.zero;
+        _dashStartPosition = transform.position;
 
-        stamina -= staminaDrain;
-        dashTargetPosition = (secondTouchPosition - firstTouchPosition).normalized * distance + Rb.position;
-        Rb.MoveRotation(MikeTransform.Rotation.LookTwards(Rb.position, dashTargetPosition));
+        _stamina -= StaminaDrain;
+        _dashTargetPosition = (_secondTouchPosition - _firstTouchPosition).normalized * distance + Rb.position;
+        Rb.MoveRotation(MikeTransform.Rotation.LookTwards(Rb.position, _dashTargetPosition));
 
-        while (true)
+        while (Rb.position != _dashTargetPosition)
         {
-            truePosition = Vector2.MoveTowards(truePosition, dashTargetPosition, speed * Time.deltaTime);
-            Rb.MovePosition(truePosition);
-            if (Rb.position == dashTargetPosition) { currentDash = null; break; }
+            Rb.MovePosition(Vector2.MoveTowards(Rb.position, _dashTargetPosition, speed * Time.fixedDeltaTime));
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
+
+        CurrentDash = null;
     }
 
     public void OnPause()
@@ -228,10 +225,10 @@ public class Dash : MonoBehaviour
 
     public void OnDeath()
     {
-        cameraTarget.position = transform.position;
-        lineRenderer.enabled = false;
-        directionIndicator.enabled = false;
-        if (currentDash != null) { StopCoroutine(currentDash); }
+        _cameraTarget.position = transform.position;
+        _lineRenderer.enabled = false;
+        _directionIndicator.enabled = false;
+        if (CurrentDash != null) { StopCoroutine(CurrentDash); }
         GetComponent<Collider2D>().enabled = false;
         enabled = false;
         PowerUpAdder.Instance.gameObject.SetActive(false);
@@ -251,16 +248,16 @@ public class Dash : MonoBehaviour
 
         if(collision.transform.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<Health>().TakeDamage(damage, gameObject);
+            collision.gameObject.GetComponent<Health>().TakeDamage(Damage, gameObject);
             CameraShaker.Instance.ShakeOnce(1, 3, .1f, .1f);
 
             OnHitEnemy?.Invoke(collision.gameObject);
         }
         else if (collision.transform.CompareTag("Barrier"))
         {
-            float distanceLeft = dashDistance - Vector2.Distance(dashStartPosition, collision.GetContact(0).point);
-            dashTargetPosition = collision.GetContact(0).point - Vector2.Reflect(((Vector2)transform.position - dashTargetPosition).normalized, collision.GetContact(0).normal) * distanceLeft;
-            rb.rotation = (MikeRotation.Vector2ToAngle(rb.position - dashTargetPosition) + 180);
+            float distanceLeft = DashDistance - Vector2.Distance(_dashStartPosition, collision.GetContact(0).point);
+            _dashTargetPosition = collision.GetContact(0).point - Vector2.Reflect(((Vector2)transform.position - _dashTargetPosition).normalized, collision.GetContact(0).normal) * distanceLeft;
+            _rb.rotation = (MikeRotation.Vector2ToAngle(_rb.position - _dashTargetPosition) + 180);
         }
     }
 }

@@ -52,6 +52,8 @@ public class EnemyAI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Player.Instance.PlayerHealth.Dead) { return; }
+
         UpdateTimers();
         ShootIfAble();
         Move();
