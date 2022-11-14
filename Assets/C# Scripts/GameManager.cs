@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Initialize()
     {
-        Level = StorageManager.StartingLevel;
+        Level = StorageManager.Game.StartingLevel;
 
         Gems = ulong.Parse(PlayerPrefs.GetString("Gems", "0"));
         _coinsDouble = double.Parse(PlayerPrefs.GetString("Coins", "0"));
@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
 
     void SaveStartingLevel()
     {
-        if (Level % _levelSaveInterval == 0 + _levelSaveOffset) { StorageManager.StartingLevel = Level; }
+        if (Level % _levelSaveInterval == 0 + _levelSaveOffset) { StorageManager.Game.StartingLevel = Level; }
     }
     #endregion
 

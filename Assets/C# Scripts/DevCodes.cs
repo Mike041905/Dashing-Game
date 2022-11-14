@@ -46,7 +46,7 @@ public class DevCodes : MonoBehaviour
         }
         else if (Code == "resetprogress()")
         {
-            PlayerPrefs.DeleteAll();
+            StorageManager.ResetProgress();
             SceneManager.LoadScene(0);
             return;
         }
