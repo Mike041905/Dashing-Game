@@ -85,8 +85,8 @@ public static class StorageManager
             public const string BloomHighQualityFilterSaveKey = "Bloom Filter Quality";
 
             public static float BloomIntensity { get => PlayerPrefs.GetFloat(BloomIntensitySavekey, 1); set => PlayerPrefs.SetFloat(BloomIntensitySavekey, value); }
-            public static float BloomSkipedIterations { get => PlayerPrefs.GetFloat(BloomSkipedIterationsSavekey, 1); set => PlayerPrefs.SetFloat(BloomSkipedIterationsSavekey, value); }
-            public static float BloomScatter { get => PlayerPrefs.GetFloat(BloomScatterSaveKey, 1); set => PlayerPrefs.SetFloat(BloomScatterSaveKey, value); }
+            public static int BloomSkipIterations { get => PlayerPrefs.GetInt(BloomSkipedIterationsSavekey, 5); set => PlayerPrefs.SetInt(BloomSkipedIterationsSavekey, value); }
+            public static float BloomScatter { get => PlayerPrefs.GetFloat(BloomScatterSaveKey, .4f); set => PlayerPrefs.SetFloat(BloomScatterSaveKey, value); }
             public static bool BloomHighQualityFilter { get => PlayerPrefs.GetInt(BloomHighQualityFilterSaveKey, 0) == 1; set => PlayerPrefs.SetInt(BloomHighQualityFilterSaveKey, value ? 1 : 0); }
         }
     }

@@ -7,6 +7,7 @@ public class OfflineEarnings : MonoBehaviour
 {
     [SerializeField] private GameObject popUp;
     [SerializeField] private TextMeshProUGUI coinsGained;
+    [SerializeField] private int _maxOfflineTime;
 
     void Start()
     {
@@ -32,21 +33,18 @@ public class OfflineEarnings : MonoBehaviour
 
     void ShowCoinsGained()
     {
-
         InitializeOfflineEarnings();
-        if (Mathf.RoundToInt((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalHours) >= 10f)
+
+        if (Mathf.Ceil((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalHours) >= _maxOfflineTime)
         {
-            coinsGained.text = MikeString.ConvertNumberToString(Mathf.RoundToInt(432 * Upgrade.GetUpgrade("Offline Earnings", UpgradeData.VariableType.Float)));
+            coinsGained.text = MikeString.ConvertNumberToString(Mathf.RoundToInt(_maxOfflineTime * 60 * Upgrade.GetUpgrade("Offline Earnings", UpgradeData.VariableType.Float)));
         }
         else
         {
             coinsGained.text = MikeString.ConvertNumberToString(Mathf.RoundToInt((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalSeconds / 100 * Upgrade.GetUpgrade("Offline Earnings",UpgradeData.VariableType.Float)));
         }
 
-        if(coinsGained.text != "0")
-        {
-            popUp.SetActive(true);
-        }
+        popUp.SetActive(coinsGained.text != "0");
     }
 
     public void GiveOfflineEarnings()
@@ -66,6 +64,7 @@ public class OfflineEarnings : MonoBehaviour
     void SetNewLastLoginDate()
     {
         PlayerPrefs.SetString("Last Login Date", DateTime.UtcNow.ToString("G") + "");
+        NotificationManager.Instance.SendCollectCoinsNotification();
     }
 
     void InitializeOfflineEarnings()
