@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -42,6 +43,9 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public float DifficultyPerLevelOffset { get; private set; }
     public float Difficulty { get => DifficultyPerRoomMultiplier + DifficultyPerLevelOffset + Level * DifficultyPerLevelMultiplier; }
 
+    //----------------------------------------------
+
+    public event UnityAction<int> OnLevelChanged;
 
     //----------------------------------------------
 
@@ -114,6 +118,7 @@ public class GameManager : MonoBehaviour
 
         Level++;
         SaveStartingLevel();
+        OnLevelChanged?.Invoke(Level);
 
         InputManager.Instance.UpdateUI();
         Destroy(_portalInstance);
@@ -126,6 +131,7 @@ public class GameManager : MonoBehaviour
         if (Level % _levelSaveInterval == 0 + _levelSaveOffset) { StorageManager.Game.StartingLevel = Level; }
     }
     #endregion
+
 
     //----------------------------------------------
 

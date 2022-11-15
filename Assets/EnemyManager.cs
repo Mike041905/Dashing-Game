@@ -12,6 +12,10 @@ public class EnemyManager : MonoBehaviour
 		_instance = this;
 	}
 
+    private void Start()
+    {
+        GameManager.Insatnce.OnLevelChanged += (int _) => { GetAvaliableEnemies(); };
+    }
 
     [System.Serializable]
     public struct Enemy
@@ -22,5 +26,31 @@ public class EnemyManager : MonoBehaviour
         public int minimumLevel;
     }
 
-    public Enemy[] EnemyRoster { get; private set; } = new Enemy[0];
+    [field: SerializeField] public Enemy[] EnemyRoster { get; private set; } = new Enemy[0];
+
+    List<Enemy> _avaliableEnemies = new();
+    public List<Enemy> AvaliableEnemies
+    {
+        get
+        {
+            if (_avaliableEnemies.Count == 0)
+            {
+                _avaliableEnemies = GetAvaliableEnemies();
+            }
+
+            return _avaliableEnemies;
+        }
+    }
+
+    List<Enemy> GetAvaliableEnemies()
+    {
+        List<Enemy> result = new();
+
+        foreach (Enemy enemy in EnemyRoster)
+        {
+            if (GameManager.Insatnce.Level >= enemy.minimumLevel) { result.Add(enemy); };
+        }
+
+        return result;
+    }
 }

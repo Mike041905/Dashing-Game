@@ -5194,6 +5194,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6093a43fa89cc4bbf98ac07c8f0fc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <EnemyRoster>k__BackingField:
+  - prefab: {fileID: 9040167499389947992, guid: 3d3644d34b9d03048a8d8ff8675040f5, type: 3}
+    spwanChance: 3
+    ticketCost: 1
+    minimumLevel: 1
+  - prefab: {fileID: 9040167499389947992, guid: d05ce751f858de649aed30e67318ea63, type: 3}
+    spwanChance: 2
+    ticketCost: 1
+    minimumLevel: 2
+  - prefab: {fileID: 9040167499389947992, guid: 2919d26f918a24c41b21dc4cde86a41c, type: 3}
+    spwanChance: 1
+    ticketCost: 2
+    minimumLevel: 3
 --- !u!1 &1192942414
 GameObject:
   m_ObjectHideFlags: 0

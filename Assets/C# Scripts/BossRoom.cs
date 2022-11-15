@@ -10,6 +10,7 @@ public class BossRoom : Room
 {
     [SerializeField] Door[] _doors;
 
+    [SerializeField] BossAI _bossPrefab;
     public BossAI Boss { get; private set; }
 
     public BossRoom Initialize(Door[] doors)

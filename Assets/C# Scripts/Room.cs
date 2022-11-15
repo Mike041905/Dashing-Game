@@ -31,24 +31,6 @@ public class Room : MonoBehaviour
 
     public const float ROOM_SIZE_X = 50f;
 
-    //TODO: Put this in a singleton to save on performance
-    EnemyManager.Enemy[] avaliableEnemies = new EnemyManager.Enemy[0];
-    public EnemyManager.Enemy[] AvaliableEnemies
-    {
-        get
-        {
-            if(avaliableEnemies.Length == 0)
-            {
-                foreach (EnemyManager.Enemy enemy in EnemyManager.Instance.EnemyRoster)
-                {
-                    if (GameManager.Insatnce.Level >= enemy.minimumLevel) { avaliableEnemies = avaliableEnemies.Append(enemy); };
-                }
-            }
-
-            return avaliableEnemies;
-        }
-    }
-
 
     //---------------------
 
@@ -186,17 +168,17 @@ public class Room : MonoBehaviour
         while (enemySpawnTickets > 0)//run until tickets are depleated
         {
             //initilaze variables
-            EnemyManager.Enemy enemy = AvaliableEnemies[0];
+            EnemyManager.Enemy enemy = EnemyManager.Instance.AvaliableEnemies[0];
             Vector2 spawnPosition = Mike.MikeRandom.RandomVector2(-20, 20, -20, 20) + (Vector2)transform.position;
             float[] weights = new float[0];
 
             //asign random enemy baised on their spawn chance
-            foreach (EnemyManager.Enemy item in AvaliableEnemies)
+            foreach (EnemyManager.Enemy item in EnemyManager.Instance.AvaliableEnemies)
             {
                 weights = MikeArray.Append(weights, item.spwanChance);
             }
 
-            enemy = AvaliableEnemies[MikeRandom.RandomIntByWeights(weights)];
+            enemy = EnemyManager.Instance.AvaliableEnemies[MikeRandom.RandomIntByWeights(weights)];
 
             //set random position until the distance between the player and the spawn position is more than 10
             while (Vector2.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, spawnPosition) <= 15)
