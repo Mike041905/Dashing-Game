@@ -33,4 +33,11 @@ public class BossRoom : Room
     {
         base.OnDoorTrigger(collider);
     }
+
+    protected override void SpawnEnemies()
+    {
+        base.SpawnEnemies();
+
+        Boss = Instantiate(_bossPrefab, transform.position, Quaternion.identity);
+    }
 }
