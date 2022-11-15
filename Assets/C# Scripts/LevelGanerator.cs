@@ -18,6 +18,7 @@ public class LevelGanerator : MonoBehaviour
     //----------------------------------------
 
 
+    // IDK why this isn't a list
     [HideInInspector] public Room[] rooms = new Room[0];
 
 
@@ -50,6 +51,11 @@ public class LevelGanerator : MonoBehaviour
         while (rooms.Length < minRooms)
         {
             startingRoom.GenerateRooms();
+        }
+
+        if (GameManager.Insatnce.IsBossLevel)
+        {
+            ChooseBossRoom();
         }
     }
 
@@ -91,10 +97,10 @@ public class LevelGanerator : MonoBehaviour
         Room[] temp = rooms;
         rooms = new Room[rooms.Length + 1];
         temp.CopyTo(rooms, 0);
-        rooms[rooms.Length - 1] = room;
+        rooms[^1] = room;
     }
 
-    internal void RegenerateLevel()
+    public void RegenerateLevel()
     {
         PersistenceManager.Instance.WipeLevel();
         rooms = new Room[0];
@@ -102,7 +108,7 @@ public class LevelGanerator : MonoBehaviour
         GenerateLevel();
     }
 
-    internal void SpawnRoom(GenerateRoom parentRoom, GenerateRoom.Side side)
+    public void SpawnRoom(GenerateRoom parentRoom, GenerateRoom.Side side)
     {
         // connect room if place taken (doesnt account for already existing connections)
         if (TryGetRoomAtPosition(parentRoom.GetSpawnPosition(side), out Room occupier)) 
@@ -120,5 +126,29 @@ public class LevelGanerator : MonoBehaviour
 
         parentRoom.room.ConnectRoom(newRoom.room);
         newRoom.GenerateRooms();
+    }
+
+    void ChooseBossRoom()
+    {
+        Room choice = rooms[0];
+
+        foreach (Room room in rooms)
+        {
+            if(choice.descendant < room.descendant) { choice = room; }
+            else if(choice.descendant == room.descendant) // chooses randomly
+            {
+                if(UnityEngine.Random.Range(0, 4) == 0)
+                {
+                    choice = room;
+                }
+            }
+        }
+
+        MakeBossRoom(choice);
+    }
+
+    void MakeBossRoom(Room room)
+    {
+        room.ChangeToBossRoom();
     }
 }

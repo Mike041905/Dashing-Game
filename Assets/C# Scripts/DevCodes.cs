@@ -12,21 +12,22 @@ public class DevCodes : MonoBehaviour
 
     public void EnterCode()
     {
+        string rawCode = Code;
         Code = ToLowerNoSpaces(Code);
 
         if (Code.StartsWith("playerprefs.setint("))
         {
-            ModifyPlayerPrefsInt(Code);
+            ModifyPlayerPrefsInt(rawCode);
             return;
         }
         else if (Code.StartsWith("playerprefs.setfloat("))
         {
-            ModifyPlayerPrefsFloat(Code);
+            ModifyPlayerPrefsFloat(rawCode);
             return;
         }
         else if (Code.StartsWith("playerprefs.setstring("))
         {
-            ModifyPlayerPrefsString(Code);
+            ModifyPlayerPrefsString(rawCode);
             return;
         }
         else if (Code == "reloadscene()")

@@ -1,23 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Mike;
 using EZCameraShake;
-using UnityEngine.UIElements;
+using System.Collections.Generic;
+using System.Reflection;
+using System;
+using System.Linq;
 
 public class Room : MonoBehaviour
 {
-    [System.Serializable]
-    public struct Enemy
-    {
-        public GameObject prefab;
-        public float spwanChance;
-        public int ticketCost;
-        public int minimumLevel;
-    }
-
     [Header("Essential")]
-    [SerializeField] private Enemy[] enemyRoster = new Enemy[0];
     [SerializeField] Door[] doors;
     [SerializeField] GameObject connectorPrefab;
 
@@ -40,15 +31,15 @@ public class Room : MonoBehaviour
 
     public const float ROOM_SIZE_X = 50f;
 
-    //TODO: Put this in its own script to save on performance
-    Enemy[] avaliableEnemies = new Enemy[0];
-    public Enemy[] AvaliableEnemies
+    //TODO: Put this in a singleton to save on performance
+    EnemyManager.Enemy[] avaliableEnemies = new EnemyManager.Enemy[0];
+    public EnemyManager.Enemy[] AvaliableEnemies
     {
         get
         {
             if(avaliableEnemies.Length == 0)
             {
-                foreach (Enemy enemy in enemyRoster)
+                foreach (EnemyManager.Enemy enemy in EnemyManager.Instance.EnemyRoster)
                 {
                     if (GameManager.Insatnce.Level >= enemy.minimumLevel) { avaliableEnemies = avaliableEnemies.Append(enemy); };
                 }
@@ -81,7 +72,7 @@ public class Room : MonoBehaviour
                 if (spawnedEnemies[i] != null) 
                 { 
                     alive = true; 
-                    if(Random.Range(0, spawnedEnemies.Length) <= 1) { return spawnedEnemies[i].GetComponent<EnemyAI>(); }
+                    if(UnityEngine.Random.Range(0, spawnedEnemies.Length) <= 1) { return spawnedEnemies[i].GetComponent<EnemyAI>(); }
                 }
             }
 
@@ -97,13 +88,13 @@ public class Room : MonoBehaviour
         }
     }
 
-    void SetDoorType(GenerateRoom.Side side, Door.DoorType doorType, bool open = true)
+    protected virtual void SetDoorType(GenerateRoom.Side side, Door.DoorType doorType, bool open = true)
     {
         for (int i = 0; i < doors.Length; i++)
         {
             if (doors[i].side == side) 
             { 
-                if(doorType == Door.DoorType.Door) { doors[i].OnEnteredThroughDoor += ReciveTrigger; }
+                if(doorType == Door.DoorType.Door) { doors[i].OnEnteredThroughDoor += OnDoorTrigger; }
                 doors[i].Type = doorType; 
                 doors[i].IsOpen = open; 
             }
@@ -115,7 +106,7 @@ public class Room : MonoBehaviour
         return (PositionInGrid - other.PositionInGrid).magnitude == 1;
     }
 
-    void SetEnemyTickets()
+    protected virtual void SetEnemyTickets()
     {
         enemySpawnTickets = Mathf.RoundToInt(enemySpawnTickets + GameManager.Insatnce.Level * 0.05f);
     }
@@ -139,15 +130,15 @@ public class Room : MonoBehaviour
         }
     }
 
-    void OpenDoors()
+    protected virtual void OpenDoors()
     {
         foreach (Door door in doors)
         {
             door.IsOpen = true;
         }
     }
-    
-    void CloseDoors()
+
+    protected virtual void CloseDoors()
     {
         foreach (Door door in doors)
         {
@@ -155,7 +146,7 @@ public class Room : MonoBehaviour
         }
     }
 
-    bool CheckIfAllEnemiesDead()
+    public bool CheckIfAllEnemiesDead()
     {
         if(spawnedEnemies.Length == 0) { return false; }
 
@@ -169,7 +160,7 @@ public class Room : MonoBehaviour
         return enemiesLeft <= 0;
     }
 
-    public void ReciveTrigger(Collider2D collider)
+    protected virtual void OnDoorTrigger(Collider2D collider)
     {
         if(!enabled) { return; }
         if(!collider.CompareTag("Player") || Vector2.Distance(collider.transform.position, transform.position) >= 26) { return; }
@@ -182,24 +173,25 @@ public class Room : MonoBehaviour
         StartFight();
     }
 
-    void StartFight()
+    protected virtual void StartFight()
     {
+        // WTF IS THIS! WHO THOUGHT THIS WAS A GOOD IDEA! oh wait.
         GameObject.FindGameObjectWithTag("RoomText").GetComponent<FightStartFinish>().StartFight();
         SpawnEnemies();
         SpawnCrates();
     }
 
-    void SpawnEnemies()
+    protected virtual void SpawnEnemies()
     {
         while (enemySpawnTickets > 0)//run until tickets are depleated
         {
             //initilaze variables
-            Enemy enemy = AvaliableEnemies[0];
+            EnemyManager.Enemy enemy = AvaliableEnemies[0];
             Vector2 spawnPosition = Mike.MikeRandom.RandomVector2(-20, 20, -20, 20) + (Vector2)transform.position;
             float[] weights = new float[0];
 
             //asign random enemy baised on their spawn chance
-            foreach (Enemy item in AvaliableEnemies)
+            foreach (EnemyManager.Enemy item in AvaliableEnemies)
             {
                 weights = MikeArray.Append(weights, item.spwanChance);
             }
@@ -230,11 +222,11 @@ public class Room : MonoBehaviour
         EnemyCounter.Instance.ChangeAmmount(spawnedEnemies.Length);
     }
 
-    void SpawnCrates()
+    protected virtual void SpawnCrates()
     {
         for (int i = 0; i < maxCrates; i++)
         {
-            if (Random.Range(0, 100) > crateSpawnChance) { break; }
+            if (UnityEngine.Random.Range(0, 100) > crateSpawnChance) { break; }
 
             Vector2 spawnPosition = Mike.MikeRandom.RandomVector2(-20, 20, -20, 20) + (Vector2)transform.position;
 
@@ -272,7 +264,7 @@ public class Room : MonoBehaviour
         SetDoorType(sideTwardsOther, Door.DoorType.Door);
     }
 
-    GenerateRoom.Side GetRelativeSideTo(Room other)
+    public GenerateRoom.Side GetRelativeSideTo(Room other)
     {
         Vector2Int relativePos = other.PositionInGrid - PositionInGrid;
 
@@ -280,5 +272,11 @@ public class Room : MonoBehaviour
         else if (relativePos.x > 0) { return GenerateRoom.Side.right; }
         else if (relativePos.y < 0) { return GenerateRoom.Side.bottom; }
         else { return GenerateRoom.Side.left; }
+    }
+
+    public BossRoom ChangeToBossRoom()
+    {
+        Destroy(this);
+        return gameObject.AddComponent<BossRoom>().Initialize(doors);
     }
 }

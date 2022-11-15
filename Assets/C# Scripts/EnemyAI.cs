@@ -37,6 +37,9 @@ public class EnemyAI : MonoBehaviour
     private float shotDelayTimer = 0.0f;
     public Room room;
 
+    Health _enemyHealth;
+    public Health EnemyHealth { get { if (_enemyHealth == null) { _enemyHealth = GetComponent<Health>(); } return _enemyHealth; } }
+
 
     //---------------------------------------------
 
