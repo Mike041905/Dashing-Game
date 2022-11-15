@@ -2296,7 +2296,6 @@ MonoBehaviour:
   minCoinsOnDeath: 0
   maxCoinsOnDeath: 3
   immuneTime: 0.2
-  maxhealth: 0
   OnDeathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -3616,8 +3615,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 16777215
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4429,9 +4428,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6725a09b8afc22a469db0d92016dfaea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bossName: {fileID: 0}
-  _bossHealthBar: {fileID: 0}
-  _holder: {fileID: 0}
+  _bossName: {fileID: 1488455615}
+  _bossHealthBar: {fileID: 145235259}
+  _holder: {fileID: 107139981}
 --- !u!1 &958815771
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,9 +17,9 @@ public class HealthBarGradient : MonoBehaviour
 
     void UpdateHealthBarColor(float health)
     {
-        if(Player.Instance.PlayerHealth.maxhealth == 0 || Player.Instance.PlayerHealth.maxhealth == float.PositiveInfinity) { return; }
+        if(Player.Instance.PlayerHealth.Maxhealth == 0 || Player.Instance.PlayerHealth.Maxhealth == float.PositiveInfinity) { return; }
 
-        _playerHealthPercentage = health / Player.Instance.PlayerHealth.maxhealth;
+        _playerHealthPercentage = health / Player.Instance.PlayerHealth.Maxhealth;
         _healthBarImage.color = _gradient.Evaluate(_playerHealthPercentage);
     }
 }

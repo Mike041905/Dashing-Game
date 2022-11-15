@@ -5,14 +5,12 @@ using UnityEngine;
 public class BossAI : EnemyAI
 {
     [field: SerializeField] public string BossName { get; private set; }
+    [field: SerializeField] public Transform BossBehaviourHolder { get; private set; }
 
-    void Start()
+    public override void Start()
     {
-        
-    }
+        base.Start();
 
-    void Update()
-    {
-        
+        BossBar.Instance.DisplayBar(this);
     }
 }

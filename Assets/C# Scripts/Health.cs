@@ -46,7 +46,8 @@ public class Health : MonoBehaviour
     [SerializeField] float immuneTime = .2f;
 
 
-    public float maxhealth;
+    float _maxhealth;
+    public float Maxhealth { get { if (_maxhealth == 0) { _maxhealth = CurrentHealth; } return _maxhealth; } }
 
     public bool Dead { get; private set; }
     public float CurrentHealth { get => health; set { SetHealth(value); } }
@@ -75,7 +76,7 @@ public class Health : MonoBehaviour
         Dead = false;
         if (CompareTag("Player")) CurrentHealth = Upgrade.GetUpgrade("Health", UpgradeData.VariableType.Float);
 
-        if(healthSlider != null) healthSlider.maxValue = maxhealth;
+        if(healthSlider != null) healthSlider.maxValue = Maxhealth;
         if (healthSlider != null) healthSlider.value = CurrentHealth;
     }
 
@@ -121,7 +122,7 @@ public class Health : MonoBehaviour
         if(player == null || player == this) { return; }
 
         player.CurrentHealth += Upgrade.GetUpgrade("Health On Kill", UpgradeData.VariableType.Float);
-        if (player.CurrentHealth > player.maxhealth) player.CurrentHealth = player.maxhealth;
+        if (player.CurrentHealth > player.Maxhealth) player.CurrentHealth = player.Maxhealth;
     }
 
     public void TakeDamage(float damage, GameObject damager = null)
@@ -140,9 +141,7 @@ public class Health : MonoBehaviour
 
         if (Dead) { return; }
 
-        if(maxhealth <= 0) { maxhealth = health; }
-
-        this.health = Mathf.Clamp(health, 0, maxhealth);
+        this.health = Mathf.Clamp(health, 0, Maxhealth);
 
         if (healthSlider != null) UpdateHealthBarValue();
         if (CurrentHealth <= 0) Die();
@@ -154,7 +153,7 @@ public class Health : MonoBehaviour
     {
         if(!Dead) { return; }
 
-        health ??= maxhealth;
+        health ??= Maxhealth;
 
         gameObject.SetActive(true);
         Dead = false;

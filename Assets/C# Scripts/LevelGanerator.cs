@@ -130,16 +130,16 @@ public class LevelGanerator : MonoBehaviour
 
     void ChooseBossRoom()
     {
-        Room choice = rooms[0];
+        int choice = 0;
 
-        foreach (Room room in rooms)
+        for (int i = 0; i < rooms.Length; i++)
         {
-            if(choice.descendant < room.descendant) { choice = room; }
-            else if(choice.descendant == room.descendant) // chooses randomly
+            if (rooms[choice].descendant < rooms[i].descendant) { choice = i; }
+            else if(rooms[choice].descendant == rooms[i].descendant) // chooses randomly
             {
                 if(UnityEngine.Random.Range(0, 4) == 0)
                 {
-                    choice = room;
+                    choice = i;
                 }
             }
         }
@@ -147,8 +147,8 @@ public class LevelGanerator : MonoBehaviour
         MakeBossRoom(choice);
     }
 
-    void MakeBossRoom(Room room)
+    void MakeBossRoom(int roomIndex)
     {
-        room.ChangeToBossRoom();
+        rooms[roomIndex] = rooms[roomIndex].ChangeToBossRoom();
     }
 }

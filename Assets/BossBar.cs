@@ -17,7 +17,7 @@ public class BossBar : MonoBehaviour
 
     //-----------------
 
-    [SerializeField] private TextMeshPro _bossName;
+    [SerializeField] private TextMeshProUGUI _bossName;
     [SerializeField] private Slider _bossHealthBar;
     [SerializeField] private CanvasGroup _holder;
 
@@ -38,16 +38,26 @@ public class BossBar : MonoBehaviour
     /// Shows Boss Bar and asigns the boss's name to it. if already active it will override last tracked boss
     /// </summary>
     /// <param name="boss"></param>
-    public void DisplayBar(BossAI boss)
+    public void DisplayBar(BossAI boss, Color textColor, Color barColor)
     {
         TrackedBoss = boss;
         _bossName.text = TrackedBoss.BossName;
-        _bossHealthBar.maxValue = TrackedBoss.EnemyHealth.maxhealth;
+        _bossName.color = textColor;
+        _bossHealthBar.maxValue = TrackedBoss.EnemyHealth.Maxhealth;
         _bossHealthBar.value = TrackedBoss.EnemyHealth.CurrentHealth;
+        _bossHealthBar.fillRect.GetComponent<Image>().color = barColor;
         _holder.gameObject.SetActive(true);
 
         TrackedBoss.EnemyHealth.OnHealthChanged += SetBossBarHealth;
         ChangeAlpha(1, 1);
+    }
+    /// <summary>
+    /// Shows Boss Bar and asigns the boss's name to it. if already active it will override last tracked boss
+    /// </summary>
+    /// <param name="boss"></param>
+    public void DisplayBar(BossAI boss)
+    {
+        DisplayBar(boss, Color.white, Color.red);
     }
 
     //-------------------------------

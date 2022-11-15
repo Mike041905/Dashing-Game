@@ -7,6 +7,7 @@ public class EnemyAI : MonoBehaviour
     [Header("Essential")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform muzzle;
+    [SerializeField] private ParticleSystem _muzzleFlash;
 
     [Header("Projectile Options")]
     [SerializeField] private float projectileDamage = 10;
@@ -56,6 +57,7 @@ public class EnemyAI : MonoBehaviour
     private void FixedUpdate()
     {
         if (Player.Instance.PlayerHealth.Dead) { return; }
+        if (target == null) { return; }
 
         UpdateTimers();
         ShootIfAble();
@@ -88,6 +90,8 @@ public class EnemyAI : MonoBehaviour
     private void Shoot()
     {
         shotDelayTimer = 0;
+
+        if (_muzzleFlash != null) { _muzzleFlash.Play(); }
 
         for (int i = 0; i < projectilesPerShot; i++)
         {

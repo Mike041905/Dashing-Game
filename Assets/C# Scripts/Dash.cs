@@ -244,20 +244,36 @@ public class Dash : MonoBehaviour
     {
         if(collision == null) { return; }
 
-        HapticFeedback.Vibrate(50);
-
-        if(collision.transform.CompareTag("Enemy"))
+        if(collision.gameObject.TryGetComponent(out EnemyAI enemy))
         {
             collision.gameObject.GetComponent<Health>().TakeDamage(Damage, gameObject);
-            CameraShaker.Instance.ShakeOnce(1, 3, .1f, .1f);
+
+            if(enemy is BossAI)
+            {
+                Bounce(collision);
+            }
+            else
+            {
+                CameraShaker.Instance.ShakeOnce(1, 4, .01f, .2f);
+                HapticFeedback.Vibrate(100);
+            }
 
             OnHitEnemy?.Invoke(collision.gameObject);
         }
-        else if (collision.transform.CompareTag("Barrier"))
+        else
         {
-            float distanceLeft = DashDistance - Vector2.Distance(_dashStartPosition, collision.GetContact(0).point);
-            _dashTargetPosition = collision.GetContact(0).point - Vector2.Reflect(((Vector2)transform.position - _dashTargetPosition).normalized, collision.GetContact(0).normal) * distanceLeft;
-            _rb.rotation = (MikeRotation.Vector2ToAngle(_rb.position - _dashTargetPosition) + 180);
+            Bounce(collision);
         }
+
+    }
+
+    void Bounce(Collision2D collision)
+    {
+        float distanceLeft = DashDistance - Vector2.Distance(_dashStartPosition, collision.GetContact(0).point);
+        _dashTargetPosition = collision.GetContact(0).point - Vector2.Reflect(((Vector2)transform.position - _dashTargetPosition).normalized, collision.GetContact(0).normal) * distanceLeft;
+        _rb.rotation = (MikeRotation.Vector2ToAngle(_rb.position - _dashTargetPosition) + 180);
+
+        CameraShaker.Instance.ShakeOnce(1, 4, .01f, .2f);
+        HapticFeedback.Vibrate(100);
     }
 }
