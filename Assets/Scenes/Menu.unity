@@ -16234,6 +16234,12 @@ MonoBehaviour:
   gemCounter: {fileID: 297164638}
   scoreCounter: {fileID: 0}
   levelCounter: {fileID: 0}
+  OnOpenMap:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCloseMap:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &852740132
 GameObject:
   m_ObjectHideFlags: 0
@@ -16631,15 +16637,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '-Improved performance
+  m_text: '-Max health will now work properly
 
-    -Upgrade cost will no longer become negative
-    after reaching a certain level
+    -Mapresponsiveness
 
-    -Patch notes will now display properly
+    -PlayerPrefs
+    devCode should now work
 
-    -Feedback
-    button'
+    -Rooms will no longer trigger twice'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -24957,18 +24962,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "-Yellow enemy behaviour (WIP)\n-Tilted Health bar\n-Re-designed stamina
-    bar\n-Rooms will now connect with other neighbours more often\n-Slightly changed
-    Upgrade system\n-The player can now have more coins\n-Upgrades can now hold greater
-    values\n-Every object with healh is now immune to the same source for a brief
-    moment after taking damage (Before: Immunity worked on all sources of damage)\n-Improved
-    UI\n-Stamina Recharge Speed is now capped at 50 Levels\n-Removed Starting level
-    upgrade\n-The player will now start on the lowest level which is a multiple of
-    five and offset by one. So if you were defeated on level 23 you will respawn
-    on level 21 and if you were defeated on level 5 you will respawn on level 1.
-    This change has been made as the next update will add bosses to the game which
-    will sawn on every fifth level. \n-Certain enemies will now spawn after a certain
-    level\n(\n\tred : lvl 1\n\tgreen : lvl 2\n\tyellow : lvl 3\n)"
+  m_text: '-Changed maxed ammount of coins offline (10h)
+
+    -The heigher the level
+    the more enemies will spawn
+
+    -Levels are now smaller'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -28347,24 +28346,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '-"gems=<ammount>" DevCode
+  m_text: '-Added Blue Border to minimap
 
-    -Portal (Sends the player to the next level)
+    -Added Red Boss
 
-    -Game
-    Over Screen (WIP)
-
-    -Star background
-
-    -Out of stamina animation
-
-    -Counter
-    that shows the number of remaining enemies
-
-    -Added cheat menu
-
-    -Added
-    Health bar interpolation'
+    -Trail FX to all
+    enemy projectiles'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
