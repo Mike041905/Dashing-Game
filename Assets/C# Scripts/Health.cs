@@ -74,6 +74,7 @@ public class Health : MonoBehaviour
     private void Start()
     {
         Dead = false;
+        if (CompareTag("Player")) _maxhealth = Upgrade.GetUpgrade("Health", UpgradeData.VariableType.Float);
         if (CompareTag("Player")) CurrentHealth = Upgrade.GetUpgrade("Health", UpgradeData.VariableType.Float);
 
         if(healthSlider != null) healthSlider.maxValue = Maxhealth;
@@ -149,19 +150,18 @@ public class Health : MonoBehaviour
         OnHealthChanged?.Invoke(health);
     }
 
-    public void Revive(float? health = null)
+    public void Revive(float health)
     {
         if(!Dead) { return; }
 
-        health ??= Maxhealth;
-
         gameObject.SetActive(true);
         Dead = false;
-        CurrentHealth = health.Value;
+        CurrentHealth = health;
 
         OnRevive?.Invoke();
         OnReviveEvent?.Invoke();
     }
+    public void Revive() => Revive(Maxhealth);
 
     private bool CheckIfImmune(GameObject damager)
     {

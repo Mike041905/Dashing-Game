@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Mike
 {
@@ -43,6 +44,16 @@ namespace Mike
             }
 
             return weights.Length - 1;
+        }
+        public static int RandomIntByWeights<T>(T[] objects, System.Func<T, float> getWeight)
+        {
+            float[] weights = new float[objects.Length];
+            for (int i = 0; i < objects.Length; i++)
+            {
+                weights[i] = getWeight(objects[i]);
+            }
+
+            return RandomIntByWeights(weights);
         }
 
         public static Quaternion RandomAngle(float minDeg, float maxDeg)

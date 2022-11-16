@@ -8,22 +8,27 @@ using static Room;
 
 public class BossRoom : Room
 {
-    [SerializeField] Door[] _doors;
-
-    [SerializeField] BossAI _bossPrefab;
     public BossAI Boss { get; private set; }
+
+    EnemyManager.Boss _boss;
+
+    BossAI _dummy;
 
     public BossRoom Initialize(Door[] doors)
     {
-        _doors = doors;
+        _boss = EnemyManager.Instance.GetBossForCurrentLevel();
+        this.doors = doors;
         InitializeDoors();
+
+        // This is a dummy do not initialize!
+        _dummy = Instantiate(_boss.BossPrefab, transform.position, Quaternion.identity);
 
         return this;
     }
 
     void InitializeDoors()
     {
-        foreach (Door door in _doors)
+        foreach (Door door in doors)
         {
             door.OnEnteredThroughDoor += OnDoorTrigger;
         }
@@ -34,10 +39,15 @@ public class BossRoom : Room
         base.OnDoorTrigger(collider);
     }
 
-    protected override void SpawnEnemies()
+    protected override void SpawnEnemies(List<EnemyManager.Enemy> enemies, float tickets)
     {
-        base.SpawnEnemies();
+        Boss = Instantiate(_boss.BossPrefab, _dummy.transform.position, _dummy.transform.rotation);
+        Destroy(_dummy.gameObject);
 
-        Boss = Instantiate(_bossPrefab, transform.position, Quaternion.identity);
+        Boss.Initialize(this, GameManager.Insatnce.Difficulty);
+        spawnedEnemies = spawnedEnemies.Append(Boss.gameObject);
+
+
+        base.SpawnEnemies(new(_boss.Enemies), _boss.EnemySpawnTickets * EnemyManager.Instance.EnemySpwnTcktDiffMul);
     }
 }

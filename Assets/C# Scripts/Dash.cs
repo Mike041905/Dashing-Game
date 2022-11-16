@@ -50,6 +50,7 @@ public class Dash : MonoBehaviour
     Rigidbody2D Rb { get { if (_rb == null) { _rb = GetComponent<Rigidbody2D>(); } return _rb; } }
 
 
+
     //-----------------------------
 
     private void Awake()
@@ -77,7 +78,7 @@ public class Dash : MonoBehaviour
         Vector2 pos1 = Camera.main.ScreenToWorldPoint(_firstTouchPosition);
         Vector2 pos2 = Camera.main.ScreenToWorldPoint(_secondTouchPosition);
 
-        if(Input.touchCount > 0 || Input.GetMouseButton(0))
+        if (Input.touchCount > 0 || Input.GetMouseButton(0))
         {
             _lineRenderer.enabled = true;
 

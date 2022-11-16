@@ -7,9 +7,9 @@ public class BossAI : EnemyAI
     [field: SerializeField] public string BossName { get; private set; }
     [field: SerializeField] public Transform BossBehaviourHolder { get; private set; }
 
-    public override void Start()
+    public override void Initialize(Room room, float difficulty)
     {
-        base.Start();
+        base.Initialize(room, difficulty);
 
         BossBar.Instance.DisplayBar(this);
     }

@@ -9,11 +9,10 @@ using System.Linq;
 public class Room : MonoBehaviour
 {
     [Header("Essential")]
-    [SerializeField] Door[] doors;
+    [SerializeField] protected Door[] doors;
     [SerializeField] GameObject connectorPrefab;
 
     [Header("Options")]
-    [SerializeField] private int enemySpawnTickets = 20;
     [SerializeField] private GameObject crate;
     [Range(0, 100)] [SerializeField] private float crateSpawnChance = 20;
     [SerializeField] private int maxCrates = 20;
@@ -22,7 +21,7 @@ public class Room : MonoBehaviour
     //---------------------
 
     [HideInInspector] public int descendant = 1;
-    private GameObject[] spawnedEnemies = new GameObject[0];
+    protected GameObject[] spawnedEnemies = new GameObject[0];
 
     public Vector2Int PositionInGrid 
     {
@@ -30,15 +29,7 @@ public class Room : MonoBehaviour
     }
 
     public const float ROOM_SIZE_X = 50f;
-
-
-    //---------------------
-
-
-    private void Start()
-    {
-        SetEnemyTickets();
-    }
+    public bool ActiveFight { get => enabled && spawnedEnemies.Length > 0; }
 
 
     //---------------------
@@ -88,11 +79,6 @@ public class Room : MonoBehaviour
         return (PositionInGrid - other.PositionInGrid).magnitude == 1;
     }
 
-    protected virtual void SetEnemyTickets()
-    {
-        enemySpawnTickets = Mathf.RoundToInt(enemySpawnTickets + GameManager.Insatnce.Level * 0.05f);
-    }
-
     public void EndFightIfEnemiesDead() 
     {
         if (CheckIfAllEnemiesDead())
@@ -133,7 +119,7 @@ public class Room : MonoBehaviour
         if(spawnedEnemies.Length == 0) { return false; }
 
         int enemiesLeft = 0;
-        foreach (var item in spawnedEnemies)
+        foreach (GameObject item in spawnedEnemies)
         {
             if (item != null && !item.GetComponent<Health>().Dead) { enemiesLeft++; }
         }
@@ -144,8 +130,10 @@ public class Room : MonoBehaviour
 
     protected virtual void OnDoorTrigger(Collider2D collider)
     {
+        if(this == null) { return; }
         if(!enabled) { return; }
         if(!collider.CompareTag("Player") || Vector2.Distance(collider.transform.position, transform.position) >= 26) { return; }
+        if(spawnedEnemies.Length > 0) { return; }
 
         CameraShaker.Instance.ShakeOnce(2, 10, .25f, .75f);
 
@@ -159,26 +147,26 @@ public class Room : MonoBehaviour
     {
         // WTF IS THIS! WHO THOUGHT THIS WAS A GOOD IDEA! oh wait.
         GameObject.FindGameObjectWithTag("RoomText").GetComponent<FightStartFinish>().StartFight();
-        SpawnEnemies();
+
+        SpawnEnemies(EnemyManager.Instance.AvaliableEnemies, EnemyManager.Instance.DefaultRoomSpawnTickets * EnemyManager.Instance.EnemySpwnTcktDiffMul);
         SpawnCrates();
     }
 
-    protected virtual void SpawnEnemies()
+    protected virtual void SpawnEnemies(List<EnemyManager.Enemy> enemies, float tickets)
     {
-        while (enemySpawnTickets > 0)//run until tickets are depleated
+        while (tickets > 0)//run until tickets are depleated
         {
             //initilaze variables
-            EnemyManager.Enemy enemy = EnemyManager.Instance.AvaliableEnemies[0];
-            Vector2 spawnPosition = Mike.MikeRandom.RandomVector2(-20, 20, -20, 20) + (Vector2)transform.position;
+            Vector2 spawnPosition = Mike.MikeRandom.RandomVector2(-20, 20) + (Vector2)transform.position;
             float[] weights = new float[0];
 
             //asign random enemy baised on their spawn chance
-            foreach (EnemyManager.Enemy item in EnemyManager.Instance.AvaliableEnemies)
+            foreach (EnemyManager.Enemy item in enemies)
             {
                 weights = MikeArray.Append(weights, item.spwanChance);
             }
 
-            enemy = EnemyManager.Instance.AvaliableEnemies[MikeRandom.RandomIntByWeights(weights)];
+            EnemyManager.Enemy enemy = enemies[MikeRandom.RandomIntByWeights(weights)];
 
             //set random position until the distance between the player and the spawn position is more than 10
             while (Vector2.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, spawnPosition) <= 15)
@@ -186,19 +174,18 @@ public class Room : MonoBehaviour
                 spawnPosition = Mike.MikeRandom.RandomVector2(-20, 20, -20, 20) + (Vector2)transform.position;
             }
 
-            //check if enemy span tickets are suficien to spawn currenly selected enemy
-            if(enemySpawnTickets - enemy.ticketCost < 0) { return; }
+            //check if enemy spawn tickets are suficien to spawn currenly selected enemy
+            if(tickets - enemy.ticketCost < 0) { return; }
 
             //spawn Enemy
             EnemyAI newEnemy = Instantiate(enemy.prefab, spawnPosition, Quaternion.identity).GetComponent<EnemyAI>();
-            newEnemy.difficultyMultiplier = GameManager.Insatnce.Difficulty;
-            newEnemy.room = this;
+            newEnemy.Initialize(this, GameManager.Insatnce.Difficulty);
 
             //add spawned enemy to array
             spawnedEnemies = MikeArray.Append(spawnedEnemies, newEnemy.gameObject);
             
             //remove tickets
-            enemySpawnTickets -= enemy.ticketCost;
+            tickets -= enemy.ticketCost;
         }
 
         EnemyCounter.Instance.ChangeAmmount(spawnedEnemies.Length);
@@ -206,6 +193,8 @@ public class Room : MonoBehaviour
 
     protected virtual void SpawnCrates()
     {
+        if(crate == null) { return; }
+
         for (int i = 0; i < maxCrates; i++)
         {
             if (UnityEngine.Random.Range(0, 100) > crateSpawnChance) { break; }
@@ -258,7 +247,9 @@ public class Room : MonoBehaviour
 
     public BossRoom ChangeToBossRoom()
     {
+        BossRoom bossRoom = gameObject.AddComponent<BossRoom>().Initialize(doors);
         Destroy(this);
-        return gameObject.AddComponent<BossRoom>().Initialize(doors);
+
+        return bossRoom;
     }
 }

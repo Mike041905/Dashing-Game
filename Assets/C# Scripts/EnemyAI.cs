@@ -41,21 +41,14 @@ public class EnemyAI : MonoBehaviour
     Health _enemyHealth;
     public Health EnemyHealth { get { if (_enemyHealth == null) { _enemyHealth = GetComponent<Health>(); } return _enemyHealth; } }
 
+    bool _initialized = false; 
 
     //---------------------------------------------
 
-
-    public virtual void Start()
-    {
-        //asign player to target variable
-        target = Player.Instance.transform;
-
-        GetComponent<Health>().CurrentHealth *= difficultyMultiplier;
-        projectileDamage *= difficultyMultiplier;
-    }
-
     private void FixedUpdate()
     {
+        if(!_initialized) return;
+
         if (Player.Instance.PlayerHealth.Dead) { return; }
         if (target == null) { return; }
 
@@ -68,6 +61,19 @@ public class EnemyAI : MonoBehaviour
 
     //----------------------------------------------
 
+    public virtual void Initialize(Room room, float difficulty)
+    {
+        this.room = room;
+        difficultyMultiplier = difficulty;
+
+        //asign player to target variable
+        target = Player.Instance.transform;
+
+        GetComponent<Health>().CurrentHealth *= difficultyMultiplier;
+        projectileDamage *= difficultyMultiplier;
+
+        _initialized = true;
+    }
 
     protected virtual void FaceTarget()
     {
@@ -126,6 +132,8 @@ public class EnemyAI : MonoBehaviour
 
     private void OnDestroy()
     {
+        if(!_initialized) return;
+
         room.EndFightIfEnemiesDead();
     }
 }
