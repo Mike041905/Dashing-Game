@@ -14,8 +14,10 @@ public abstract class PowerUp : MonoBehaviour
 
     [Header("ID")]
     public string powerUpName;
+    public string LongDescription;
     public string description;
     public Sprite icon;
+    public Sprite[] Images;
 
     [Header("Stats")]
     public Stat[] stats;

@@ -1,32 +1,33 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class DisplayActivePowerUps : MonoBehaviour
 {
-    [SerializeField] GameObject activePowerUpsGrid;
+    [SerializeField] Transform _activePowerUpsGrid;
+    [SerializeField] PowerUpDisplayElement _powerUpTemplate;
 
-    public void ShowActivePowerUps()
+    List<PowerUpDisplayElement> _powerUps = new();
+
+    private void Start()
     {
-        GameObject emptyGameObject;
-        foreach (PowerUp powerUp in PowerUpAdder.PowerUps)
+        _powerUpTemplate.gameObject.SetActive(false);
+    }
+
+    public void UpdatePowerUps()
+    {
+        for (int i = 0; i < Mathf.Max(PowerUpAdder.PowerUps.Length, _powerUps.Count); i++)
         {
-            emptyGameObject = new GameObject(powerUp.powerUpName);
-            emptyGameObject.transform.parent = activePowerUpsGrid.transform;
-            emptyGameObject.transform.localScale =  Vector3.one;
-            emptyGameObject.transform.localPosition = Vector3.zero;
-            emptyGameObject.AddComponent<Image>().sprite = powerUp.icon;
-            print($"{powerUp.powerUpName}'s level is: {powerUp.powerUpLevel}");
+            if(_powerUps.Count <= i) { CreateNewPowerUpDisplayElement(); }
+            else if(PowerUpAdder.PowerUps.Length <= i) { Destroy(_powerUps[i].gameObject); _powerUps.RemoveAt(i); continue; }
+
+            _powerUps[i].SetPowerUp(PowerUpAdder.PowerUps[i]);
         }
     }
 
-    public void RemoveActivePowerUpsObjects()
+    void CreateNewPowerUpDisplayElement()
     {
-        for (int i = 0; i < activePowerUpsGrid.transform.childCount; i++)
-        {
-            Destroy(activePowerUpsGrid.transform.GetChild(i).gameObject);
-        }
+        PowerUpDisplayElement element = Instantiate(_powerUpTemplate, _activePowerUpsGrid);
+        element.gameObject.SetActive(true);
+        _powerUps.Add(element);
     }
 }
