@@ -40,8 +40,8 @@ public class Explosion : MonoBehaviour
 
                 //deal damage
                 collider.GetComponent<Health>().TakeDamage(finalDamage, gameObject);
-                CameraShaker.Instance.ShakeOnce(radius, radius * 2, .5f * radius, .2f * radius);
-                HapticFeedback.Vibrate(Mathf.RoundToInt(100 * radius));
+                CameraShaker.Instance.ShakeOnce(radius, radius, .5f * radius, .1f * radius);
+                HapticFeedback.Vibrate(Mathf.RoundToInt(250 * radius));
             }
         }
     }

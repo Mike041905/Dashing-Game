@@ -148,7 +148,7 @@ public class Room : MonoBehaviour
         // WTF IS THIS! WHO THOUGHT THIS WAS A GOOD IDEA! oh wait.
         GameObject.FindGameObjectWithTag("RoomText").GetComponent<FightStartFinish>().StartFight();
 
-        SpawnEnemies(EnemyManager.Instance.AvaliableEnemies, EnemyManager.Instance.DefaultRoomSpawnTickets * EnemyManager.Instance.EnemySpwnTcktDiffMul);
+        SpawnEnemies(EnemyManager.Instance.AvaliableEnemies, EnemyManager.Instance.DefaultRoomSpawnTickets * EnemyManager.Instance.EnemySpwnTcktMul);
         SpawnCrates();
     }
 

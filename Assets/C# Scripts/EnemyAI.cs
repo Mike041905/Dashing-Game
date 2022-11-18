@@ -16,7 +16,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private int projectilesPerShot = 1;
     [SerializeField] private float inaccuracy = 1;
 
-    [Header("Burst Settings")]
+    [Header("FirePattern Settings")]
     [SerializeField] private bool burst = false;
     [SerializeField] private int projectilesPerBurst = 3;
     [SerializeField] private float delay = .05f;

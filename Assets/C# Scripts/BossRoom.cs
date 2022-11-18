@@ -48,6 +48,6 @@ public class BossRoom : Room
         spawnedEnemies = spawnedEnemies.Append(Boss.gameObject);
 
 
-        base.SpawnEnemies(new(_boss.Enemies), _boss.EnemySpawnTickets * EnemyManager.Instance.EnemySpwnTcktDiffMul);
+        base.SpawnEnemies(new(_boss.Enemies), _boss.EnemySpawnTickets * EnemyManager.Instance.EnemySpwnTcktMul);
     }
 }

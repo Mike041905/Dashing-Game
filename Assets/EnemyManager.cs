@@ -15,7 +15,8 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Insatnce.OnLevelChanged += (int _) => { GetAvaliableEnemies(); };
+        GameManager.Insatnce.OnLevelChanged += (int _) => { _avaliableEnemies = GetAvaliableEnemies(); };
+        GameManager.Insatnce.OnLevelChanged += (int _) => { _avaliableBosses = GetAvaliableBosses(); };
     }
 
     [System.Serializable]
@@ -39,6 +40,7 @@ public class EnemyManager : MonoBehaviour
     }
 
     [field: SerializeField] public float EnemySpwnTcktDiffMul { get; private set; } = 1.05f;
+    public float EnemySpwnTcktMul { get => Mathf.Floor(EnemySpwnTcktDiffMul * GameManager.Insatnce.Difficulty); }
     [field: SerializeField] public float DefaultRoomSpawnTickets { get; private set; } = 20;
     [field: SerializeField] public Enemy[] EnemyRoster { get; private set; } = new Enemy[0];
     [field: SerializeField] public Boss[] BossRoster { get; private set; } = new Boss[0];
