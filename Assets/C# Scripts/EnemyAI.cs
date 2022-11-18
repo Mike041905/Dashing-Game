@@ -4,22 +4,135 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    // TODO: Put all of this data into the enemy manager or a seperate singleton for optmiztion;
+
+    public class PatternKey
+    {
+        [SerializeField] float _inTime;
+        float _inTimer = 0;
+
+        [SerializeField] float _outTime;
+        float _outTimer = 0;
+
+        public virtual void Reset()
+        {
+            _outTimer = 0;
+            _inTimer = 0;
+        }
+
+        public bool Execute(float deltaTime)
+        {
+            if (_inTimer >= _inTime)
+            {
+                if (_outTimer >= _outTime)
+                {
+                    OnExecuteFinish(deltaTime);
+
+                    return true;
+                }
+
+                if (OnExecuteIn(deltaTime))
+                {
+                    _outTimer += deltaTime;
+                }
+            }
+
+            _inTimer += deltaTime;
+            return false;
+        }
+
+        public virtual void OnExecuteFinish(float deltaTime)
+        {
+
+        }
+        
+        public virtual bool OnExecuteIn(float deltaTime)
+        {
+            return false;
+        }
+    }
+
+    [System.Serializable]
+    public struct ProjectileData
+    {
+        public Projectile ProjectilePrefab;
+        public Transform FirePoint;
+
+        public float ProjectileDamage;
+        public float ProjectileSpeed;
+        public float DelayBetweenShots;
+        public int ProjectilesPerShot;
+        public float Inaccuracy;
+
+        public void Shoot()
+        {
+
+        }
+    }
+
+    [System.Serializable]
+    public class FireKeyFrame : PatternKey
+    {
+        [SerializeField] ProjectileData _projectile;
+
+        public override void OnExecuteFinish(float deltaTime)
+        {
+            _projectile.Shoot();
+        }
+    }
+
+    [System.Serializable]
+    public class RepeatPattern : PatternKey
+    {
+        [SerializeField] FireKeyFrame[] _firePattern = new FireKeyFrame[0];
+        [SerializeField] int _repeat;
+
+        int _index = 0;
+
+        int _repeatIndex = 0;
+
+        public override bool OnExecuteIn(float deltaTime)
+        {
+            if(_repeatIndex >= _repeat) { return true; }
+
+            foreach (FireKeyFrame pattern in _firePattern)
+            {
+                if (_index >= _firePattern.Length) { return true; }
+
+                if (pattern.Execute(deltaTime)) { _index++; }
+            }
+
+            return false;
+        }
+    }
+
+    [SerializeField]
+    public class FirePattern : PatternKey
+    {
+        RepeatPattern[] _repeat;
+        int _index = 0;
+
+        public override bool OnExecuteIn(float deltaTime)
+        {
+            if(_index >= _repeat.Length) { return true; }
+
+            if (_repeat[_index].Execute(deltaTime)) { _index++; }
+
+            return false;
+        }
+
+        public override void OnExecuteFinish(float deltaTime)
+        {
+            _index = 0;
+        }
+    }
+
+
     [Header("Essential")]
-    [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private Transform muzzle;
     [SerializeField] private ParticleSystem _muzzleFlash;
 
-    [Header("Projectile Options")]
-    [SerializeField] private float projectileDamage = 10;
-    [SerializeField] private float projectileSpeed = 10;
-    [SerializeField] private float delayBetweenShots = 1;
-    [SerializeField] private int projectilesPerShot = 1;
-    [SerializeField] private float inaccuracy = 1;
-
     [Header("FirePattern Settings")]
-    [SerializeField] private bool burst = false;
-    [SerializeField] private int projectilesPerBurst = 3;
-    [SerializeField] private float delay = .05f;
+    [SerializeField] FirePattern _pattern;
 
     [Header("AI")]
     [Tooltip("The minimum range from the target")]
@@ -35,14 +148,15 @@ public class EnemyAI : MonoBehaviour
 
 
     protected Transform target;
-    private float shotDelayTimer = 0.0f;
+    private float _timer = 0f;
     public Room room;
 
     Health _enemyHealth;
     public Health EnemyHealth { get { if (_enemyHealth == null) { _enemyHealth = GetComponent<Health>(); } return _enemyHealth; } }
 
-    bool _initialized = false; 
-
+    bool _initialized = false;
+    
+    
     //---------------------------------------------
 
     private void FixedUpdate()
@@ -69,8 +183,7 @@ public class EnemyAI : MonoBehaviour
         //asign player to target variable
         target = Player.Instance.transform;
 
-        GetComponent<Health>().CurrentHealth *= difficultyMultiplier;
-        projectileDamage *= difficultyMultiplier;
+        EnemyHealth.CurrentHealth *= difficultyMultiplier;
 
         _initialized = true;
     }
@@ -82,40 +195,30 @@ public class EnemyAI : MonoBehaviour
 
     private void UpdateTimers()
     {
-        if (shotDelayTimer < delayBetweenShots) shotDelayTimer += Time.fixedDeltaTime;
+        _timer += Time.fixedDeltaTime;
     }
 
     private void ShootIfAble()
     {
-        if (target.gameObject.activeSelf && shootingDistance >= Vector2.Distance(transform.position, target.position) && shotDelayTimer >= delayBetweenShots)
+        if (target.gameObject.activeSelf && shootingDistance >= Vector2.Distance(transform.position, target.position))
         {
-            if (burst) StartCoroutine(FireBurst(projectilesPerBurst, delay)); else Shoot();
+            ExecuteFirePattern();
         }
     }
 
-    private void Shoot()
+    void ExecuteFirePattern()
     {
-        shotDelayTimer = 0;
+        Time.fixedDeltaTime;
+    }
 
+    private void Shoot(Projectile projectile, ProjectileData data, Transform firePoint)
+    {
         if (_muzzleFlash != null) { _muzzleFlash.Play(); }
 
-        for (int i = 0; i < projectilesPerShot; i++)
-        {
-            Projectile projectile = Instantiate(projectilePrefab, muzzle.position, Quaternion.Euler(0, 0, Random.Range(-inaccuracy, inaccuracy) + muzzle.rotation.eulerAngles.z)).GetComponent<Projectile>();
-            projectile.damage = projectileDamage;
-            projectile.speed = projectileSpeed;
-            projectile.shooter = gameObject;
-        }
-    }
-
-    private IEnumerator FireBurst(int numberOfProjectiles, float delay)
-    {
-        for (int i = 0; i < numberOfProjectiles; i++)
-        {
-            Shoot();
-
-            yield return new WaitForSeconds(delay);
-        }
+        Projectile projectileInstnce = Instantiate(projectile, firePoint.position, Quaternion.Euler(0, 0, Random.Range(-data.Inaccuracy, data.Inaccuracy) + firePoint.rotation.eulerAngles.z));
+        projectileInstnce.damage = data.ProjectileDamage;
+        projectileInstnce.speed = data.ProjectileSpeed;
+        projectileInstnce.shooter = gameObject;
     }
 
     protected virtual void Move()
