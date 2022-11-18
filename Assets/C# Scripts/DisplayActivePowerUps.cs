@@ -7,17 +7,6 @@ using TMPro;
 public class DisplayActivePowerUps : MonoBehaviour
 {
     [SerializeField] GameObject activePowerUpsGrid;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void ShowActivePowerUps()
     {

@@ -19,6 +19,7 @@ public class UpgradeManager : MonoBehaviour
     [Header("References")]
     [SerializeField] GameObject tabTemplate;
     [SerializeField] Upgrade upgradeTemplate;
+    [SerializeField] ParticleSystem _playerLevelUpFX;
 
     [Space(5)]
     [SerializeField] Transform tabHolder;
@@ -69,6 +70,7 @@ public class UpgradeManager : MonoBehaviour
                 Upgrade upgradeInstance = Instantiate(upgradeTemplate.gameObject, upgradeCategoryHolder.GetComponent<ScrollRect>().content).GetComponent<Upgrade>();
 
                 upgradeInstance.UpgradeData = upgrade;
+                upgradeInstance.upgradeButton.onClick.AddListener(() => { _playerLevelUpFX.Play(); });
             }
         }
     }
