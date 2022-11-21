@@ -208,7 +208,7 @@ public class EnemyAI : MonoBehaviour
 
     void ExecuteFirePattern()
     {
-        Time.fixedDeltaTime;
+        
     }
 
     private void Shoot(Projectile projectile, ProjectileData data, Transform firePoint)
