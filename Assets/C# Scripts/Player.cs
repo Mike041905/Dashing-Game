@@ -21,4 +21,25 @@ public class Player : MonoBehaviour
 
 	Room _currentRoom;
 	public Room CurrentRoom { get { return _currentRoom = _currentRoom != null ? _currentRoom : Mike.MikeGameObject.GetClosestTargetWithTag(transform.position, "Room").GetComponent<Room>(); } set => _currentRoom = value; }
+	
+
+	public void OnDeath()
+	{
+		SetCommon(false);
+
+		PlayerDash.OnDeath();
+    }
+
+	public void OnRevive()
+	{
+		SetCommon(true);
+
+		PlayerDash.OnRevive();
+    }
+
+    public void SetCommon(bool isAlive)
+	{
+        GetComponent<Collider2D>().enabled = isAlive;
+        PowerUpAdder.Instance.gameObject.SetActive(isAlive);
+    }
 }

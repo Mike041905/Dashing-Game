@@ -6,11 +6,12 @@ public class PowerUpSlowMo : PowerUp
 {
     void Start()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Dash>().OnAiming += SlowMotion;
+        Player.Instance.PlayerDash.OnAiming += SlowMotion;
     }
 
     void SlowMotion()
     {
+        if(Player.Instance.PlayerHealth.Dead) { Time.timeScale = 1; return; }
         Time.timeScale = GetStat("SlowMoTime").statValue;
     }
 }

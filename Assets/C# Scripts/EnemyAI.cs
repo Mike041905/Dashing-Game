@@ -159,6 +159,10 @@ public class EnemyAI : MonoBehaviour
     Health _enemyHealth;
     public Health EnemyHealth { get { if (_enemyHealth == null) { _enemyHealth = GetComponent<Health>(); } return _enemyHealth; } }
 
+    Rigidbody2D _rb;
+    public Rigidbody2D Rb { get { if (_rb == null) { _rb = GetComponent<Rigidbody2D>(); } return _rb; } }
+
+
     bool _initialized = false;
 
 
@@ -207,7 +211,7 @@ public class EnemyAI : MonoBehaviour
         {
             if(this == null) return;
 
-            if (target.gameObject.activeSelf && shootingDistance >= Vector2.Distance(transform.position, target.position))
+            if (!Player.Instance.PlayerHealth.Dead && shootingDistance >= Vector2.Distance(transform.position, target.position))
             {
                 await _pattern.Execute();
             }
@@ -222,11 +226,11 @@ public class EnemyAI : MonoBehaviour
     {
         if (Vector2.Distance(transform.position, target.position) > stopRange)
         {
-            transform.position += movementSpeed * Time.fixedDeltaTime * transform.up;
+            Rb.MovePosition(Rb.position + (movementSpeed * Time.fixedDeltaTime * (Vector2)transform.up));
         }
         else if (Vector2.Distance(transform.position, target.position) < backupRange)
         {
-            transform.position -= playerAvoidanceSpeed * Time.fixedDeltaTime * transform.up;
+            Rb.MovePosition(Rb.position - (movementSpeed * Time.fixedDeltaTime * (Vector2)transform.up));
         }
     }
 

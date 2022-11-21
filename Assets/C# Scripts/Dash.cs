@@ -14,6 +14,10 @@ public class Dash : MonoBehaviour
     [SerializeField] private Slider _staminaSlider;
     [SerializeField] private LineRenderer _lineRenderer;
     [SerializeField] private Transform _cameraTarget;
+    [SerializeField] private Transform _spriteTransform;
+    // NOTE: _spriteTransform is used for a workaround
+    // Issue: While rotating a moving rigidbody physics break
+    // Workaround: Rotate sprite renderer (Collider must be a circle)
 
     [Header("Stats")]
     public float Damage = 1;
@@ -138,8 +142,8 @@ public class Dash : MonoBehaviour
 
                 _cameraTarget.position = (_secondTouchPosition - _firstTouchPosition).normalized * DashDistance / 2 + (Vector2)transform.position;
 
-                if ((_secondTouchPosition - _firstTouchPosition).normalized != Vector2.zero) transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, (_secondTouchPosition - _firstTouchPosition).normalized + (Vector2)transform.position);
-           }
+                if ((_secondTouchPosition - _firstTouchPosition).magnitude > .1f) _spriteTransform.rotation = (MikeTransform.Rotation.LookTwards(transform.position, (_secondTouchPosition - _firstTouchPosition).normalized + (Vector2)transform.position));
+            }
         }
         else if(_isAiming)
         {
@@ -205,13 +209,13 @@ public class Dash : MonoBehaviour
 
         _stamina -= StaminaDrain;
         _dashTargetPosition = (_secondTouchPosition - _firstTouchPosition).normalized * distance + Rb.position;
-        Rb.MoveRotation(MikeTransform.Rotation.LookTwards(Rb.position, _dashTargetPosition));
+        _spriteTransform.rotation = (MikeTransform.Rotation.LookTwards(Rb.position, _dashTargetPosition));
 
         while (Rb.position != _dashTargetPosition)
         {
-            yield return new WaitForFixedUpdate();
-
             Rb.MovePosition(Vector2.MoveTowards(Rb.position, _dashTargetPosition, speed * Time.fixedDeltaTime));
+
+            yield return new WaitForFixedUpdate();
         }
 
         CurrentDash = null;
@@ -231,19 +235,24 @@ public class Dash : MonoBehaviour
 
     public void OnDeath()
     {
+        SetCommon(false);
+
+        _isAiming = false;
+
         _cameraTarget.position = transform.position;
         _lineRenderer.enabled = false;
         _directionIndicator.enabled = false;
         if (CurrentDash != null) { StopCoroutine(CurrentDash); }
-        GetComponent<Collider2D>().enabled = false;
-        enabled = false;
-        PowerUpAdder.Instance.gameObject.SetActive(false);
     }
 
     public void OnRevive()
     {
-        GetComponent<Collider2D>().enabled = true;
-        PowerUpAdder.Instance.gameObject.SetActive(true);
+        SetCommon(true);
+    }
+
+    void SetCommon(bool isAlive)
+    {
+        enabled = isAlive;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -277,7 +286,7 @@ public class Dash : MonoBehaviour
     {
         float distanceLeft = DashDistance - Vector2.Distance(_dashStartPosition, collision.GetContact(0).point);
         _dashTargetPosition = collision.GetContact(0).point - Vector2.Reflect(((Vector2)transform.position - _dashTargetPosition).normalized, collision.GetContact(0).normal) * distanceLeft;
-        _rb.rotation = (MikeRotation.Vector2ToAngle(_rb.position - _dashTargetPosition) + 180);
+        _spriteTransform.rotation = (MikeTransform.Rotation.LookTwards(Rb.position, _dashTargetPosition));
 
         CameraShaker.Instance.ShakeOnce(1, 4, .01f, .2f);
         HapticFeedback.Vibrate(100);

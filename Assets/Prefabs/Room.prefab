@@ -1110,28 +1110,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 677a820582a01e449a976a2b7ebd8de2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyRoster:
-  - prefab: {fileID: 9040167499389947992, guid: 3d3644d34b9d03048a8d8ff8675040f5, type: 3}
-    spwanChance: 4
-    ticketCost: 1
-    minimumLevel: 1
-  - prefab: {fileID: 9040167499389947992, guid: d05ce751f858de649aed30e67318ea63, type: 3}
-    spwanChance: 2
-    ticketCost: 1
-    minimumLevel: 2
-  - prefab: {fileID: 9040167499389947992, guid: 2919d26f918a24c41b21dc4cde86a41c, type: 3}
-    spwanChance: 1
-    ticketCost: 2
-    minimumLevel: 3
   doors:
   - {fileID: 744313018308354570}
   - {fileID: 5392855409983869127}
   - {fileID: 879086907802939612}
   - {fileID: 8148482991193746812}
   connectorPrefab: {fileID: 5559781198437212066, guid: ff8d877195b781149ae053b48f3ee8f3, type: 3}
-  enemySpawnTickets: 15
   crate: {fileID: 4568372071385289940, guid: 5cf7f28d212e32548af00a58fea60484, type: 3}
-  crateSpawnChance: 40
+  crateSpawnChance: 45
   maxCrates: 10
   descendant: 0
 --- !u!1 &7070746043322764106

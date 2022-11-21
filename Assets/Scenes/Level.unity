@@ -3704,6 +3704,7 @@ GameObject:
   - component: {fileID: 582122819}
   - component: {fileID: 582122818}
   - component: {fileID: 582122817}
+  - component: {fileID: 582122820}
   m_Layer: 5
   m_Name: ReviveButton
   m_TagString: Untagged
@@ -3777,9 +3778,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 602972575}
-        m_TargetAssemblyTypeName: Health, Assembly-CSharp
-        m_MethodName: Revive
+      - m_Target: {fileID: 582122820}
+        m_TargetAssemblyTypeName: AdSender, Assembly-CSharp
+        m_MethodName: ShowAdd
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3827,6 +3828,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582122815}
   m_CullTransparentMesh: 1
+--- !u!114 &582122820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582122815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c52e0fae034c0942a5c063237ed87b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _adIdAndroid: Rewarded_Android
+  _adIdIOS: Rewarded_iOS
+  _onClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 602972575}
+        m_TargetAssemblyTypeName: Health, Assembly-CSharp
+        m_MethodName: Revive
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &589233074
 GameObject:
   m_ObjectHideFlags: 0
@@ -4127,14 +4157,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 602972572}
+  - component: {fileID: 602972580}
   - component: {fileID: 602972574}
   - component: {fileID: 602972575}
   - component: {fileID: 602972576}
   - component: {fileID: 602972577}
+  - component: {fileID: 602972581}
   - component: {fileID: 602972578}
   - component: {fileID: 602972579}
-  - component: {fileID: 602972580}
-  - component: {fileID: 602972581}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -4177,6 +4207,7 @@ MonoBehaviour:
   _staminaSlider: {fileID: 1933296686}
   _lineRenderer: {fileID: 602972577}
   _cameraTarget: {fileID: 744869240}
+  _spriteTransform: {fileID: 721634215}
   Damage: 1
   DashSpeed: 40
   DashDistance: 7
@@ -4201,11 +4232,23 @@ MonoBehaviour:
   deathEffect: {fileID: 1518020747397404029, guid: ab9c28d6489cb73428ae45571a0cad1f, type: 3}
   destroyOnDeath: 0
   minCoinsOnDeath: 0
-  maxCoinsOnDeath: 3
+  maxCoinsOnDeath: 0
   immuneTime: 0.2
   OnDeathEvent:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 602972580}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 602972578}
         m_TargetAssemblyTypeName: DelayedExecute, Assembly-CSharp
         m_MethodName: Execute
@@ -4218,10 +4261,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 602972574}
-        m_TargetAssemblyTypeName: Dash, Assembly-CSharp
-        m_MethodName: OnDeath
-        m_Mode: 1
+      - m_Target: {fileID: 1499545625}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4233,8 +4276,8 @@ MonoBehaviour:
   OnReviveEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 602972574}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+      - m_Target: {fileID: 721634214}
+        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
@@ -4245,8 +4288,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 602972574}
-        m_TargetAssemblyTypeName: Dash, Assembly-CSharp
+      - m_Target: {fileID: 669688068}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1499545625}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 602972580}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: OnRevive
         m_Mode: 1
         m_Arguments:
@@ -9327,6 +9394,7 @@ Transform:
   - {fileID: 1440050883}
   - {fileID: 2116648588}
   - {fileID: 1187824312}
+  - {fileID: 1635799462}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9451,7 +9519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <EnemySpwnTcktDiffMul>k__BackingField: 0.1
-  <DefaultRoomSpawnTickets>k__BackingField: 10
+  <DefaultRoomSpawnTickets>k__BackingField: 15
   <EnemyRoster>k__BackingField:
   - prefab: {fileID: 9040167499389947992, guid: 3d3644d34b9d03048a8d8ff8675040f5, type: 3}
     spwanChance: 3
@@ -10360,7 +10428,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 159.63188, y: -198}
+  m_AnchoredPosition: {x: 159.6319, y: -198}
   m_SizeDelta: {x: 299.26376, y: 376}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1385337669
@@ -11105,8 +11173,8 @@ MonoBehaviour:
   _levelSaveInterval: 5
   _levelSaveOffset: 1
   <DifficultyPerRoomMultiplier>k__BackingField: 0
-  <DifficultyPerLevelMultiplier>k__BackingField: 1.25
-  <DifficultyPerLevelOffset>k__BackingField: -0.25
+  <DifficultyPerLevelMultiplier>k__BackingField: 1.3
+  <DifficultyPerLevelOffset>k__BackingField: -0.3
 --- !u!114 &1440050885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13006,6 +13074,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1635799461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1635799462}
+  - component: {fileID: 1635799463}
+  m_Layer: 0
+  m_Name: AdManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1635799462
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635799461}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1174004712}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1635799463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635799461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b367a25ad34eed46aa7e03786400738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameIdIOS: 5030802
+  _gameIdAndroid: 5030803
+  _testMode: 1
 --- !u!1 &1717008540
 GameObject:
   m_ObjectHideFlags: 0
