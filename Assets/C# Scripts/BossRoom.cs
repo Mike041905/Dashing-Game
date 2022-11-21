@@ -22,6 +22,7 @@ public class BossRoom : Room
 
         // This is a dummy do not initialize!
         _dummy = Instantiate(_boss.BossPrefab, transform.position, Quaternion.identity);
+        _dummy.tag = null;
 
         return this;
     }

@@ -16,7 +16,8 @@ namespace Mike
         [field: SerializeField] public TextMeshProUGUI ImageNumber { get; private set; }
         [field: SerializeField] public Button ButtonPrevious { get; private set; }
 
-        int currentImageIndex = 0;
+        int _currentImageIndex = 0;
+        int CurrentImageIndex { get => _currentImageIndex % Images.Length; set => _currentImageIndex = value % Images.Length; }
 
 
         private void Awake()
@@ -47,10 +48,13 @@ namespace Mike
         public void AddImage(Sprite image)
         {
             Images = Images.Append(image);
+            UpdateImage();
         }
 
-        public void AddImages(Sprite[] images)
+        public void AddImages(Sprite[] images, bool deletePrevious = false)
         {
+            if (deletePrevious) { Images = new Sprite[0]; }
+
             foreach (Sprite image in images)
             {
                 AddImage(image);
@@ -59,16 +63,20 @@ namespace Mike
 
         public void ShowNextImage()
         {
-            currentImageIndex++;
+            CurrentImageIndex++;
             UpdateImage();
         }
 
         public void ShowPreviousImage()
         {
-            currentImageIndex--;
+            CurrentImageIndex--;
             UpdateImage();
         }
 
-        public void UpdateImage() => ImageDisplay.sprite = Images[currentImageIndex % Images.Length];
+        public void UpdateImage()
+        {
+            ImageDisplay.sprite = Images[CurrentImageIndex % Images.Length];
+            ImageNumber.text = (CurrentImageIndex + 1) + "/" + Images.Length;
+        }
     }
 }

@@ -45,10 +45,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpName: Slow-Mo
-  description: Slow Motion
+  LongDescription: This powerUp is very self explanatory. Whenever the player aims
+    this PowerUp slows down time (50% at level 1). This is one of the first PowerUps
+    added to the game!
+  description: Slows down time while aiming!
   icon: {fileID: 21300000, guid: 7e0a4927de4eace4a9afe3d692107785, type: 3}
+  Images:
+  - {fileID: 21300000, guid: 7e0a4927de4eace4a9afe3d692107785, type: 3}
   stats:
   - statName: SlowMoTime
     statValue: 0.5
     statUpgradeOffset: 0
     statUpgradeMultiplier: -0.1
+    statLevel: 0
+  powerUpLevel: 1

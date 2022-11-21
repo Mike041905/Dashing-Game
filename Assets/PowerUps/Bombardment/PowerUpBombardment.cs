@@ -17,10 +17,10 @@ public class PowerUpBombardment : PowerUp
     private float bombardmentTimer = 0;
     public void ExecuteBombardment()
     {
+        if (!Player.Instance.CurrentRoom.ActiveFight) { return; } //check if any enemy alive
         if (bombardmentTimer < GetStat("Interval").statValue) { bombardmentTimer += Time.deltaTime; return; } //makes the method run at a certain interval
         else { bombardmentTimer = 0; } //reset timer
         if (Random.Range(0f, 1f) > GetStat("ChancePerc").statValue) { return; } //roll dice
-        if (!Player.Instance.CurrentRoom.ActiveFight) { return; } //check if any enemy alive
 
         Bomb bomb = Instantiate(bombPrefab).GetComponent<Bomb>();//spawn bomb
 

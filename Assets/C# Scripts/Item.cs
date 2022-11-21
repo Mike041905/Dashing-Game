@@ -115,7 +115,7 @@ public class Item : MonoBehaviour
             choices[i] = new ChoiceSelector.ChoiceData
             {
                 name = powerUp.powerUpName,
-                description = oldPowerUp != null ? oldPowerUp.GetUpgradeDifference() + "\n" + powerUp.description : powerUp.description,
+                description = oldPowerUp != null ? oldPowerUp.GetUpgradeDifference() : powerUp.description,
                 iconSpr = powerUp.icon
             };
         }

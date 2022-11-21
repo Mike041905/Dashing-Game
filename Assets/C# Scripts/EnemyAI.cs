@@ -80,10 +80,14 @@ public class EnemyAI : MonoBehaviour
             if(_firePoint == null) { return; }
             if (_muzzleFlash != null) { _muzzleFlash.Play(); }
 
-            Projectile projectileInstnce = Instantiate(_projectilePrefab, _firePoint.position, Quaternion.Euler(0, 0, Random.Range(-_inaccuracy, _inaccuracy) + _firePoint.rotation.eulerAngles.z));
-            projectileInstnce.damage = _projectileDamage;
-            projectileInstnce.speed = _projectileSpeed;
-            projectileInstnce.shooter = _firePoint.parent.gameObject;
+            Instantiate(_projectilePrefab, _firePoint.position, Quaternion.Euler(0, 0, Random.Range(-_inaccuracy, _inaccuracy) + _firePoint.rotation.eulerAngles.z)).Initialize
+            (
+                _firePoint.root.gameObject,
+                _projectileSpeed,
+                _projectileDamage,
+                new string[2] { "Coin", "PowerUp" },
+                new string[1] { _firePoint.root.tag }
+            );
         }
     }
 

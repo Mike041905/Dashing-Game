@@ -26,6 +26,6 @@ public class PowerUpInfo : MonoBehaviour
 
 		_powerUpNameText.text = powerUp.powerUpName;
 		_powerUpDescriptionText.text = powerUp.description + "\n\n" + powerUp.LongDescription;
-		_imageSelector.AddImages(powerUp.Images);
+		_imageSelector.AddImages(powerUp.Images, true);
     }
 }

@@ -45,8 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpName: Explosion
+  LongDescription: Every time the player hits an enemy, they explode! There is an
+    extreamy short cooldown though.
   description: KABOOM!
   icon: {fileID: 21300000, guid: 615fc72768268f64f8f9e495fec6c3ad, type: 3}
+  Images:
+  - {fileID: 21300000, guid: 615fc72768268f64f8f9e495fec6c3ad, type: 3}
   stats:
   - statName: Size
     statValue: 1.5

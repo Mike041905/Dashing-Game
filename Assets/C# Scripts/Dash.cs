@@ -152,43 +152,48 @@ public class Dash : MonoBehaviour
     void UseDash(float speed, float distance)//checks if player has enough stamina and prevents from using the dash multiple times
     {
         Time.timeScale = 1;
-        if (_stamina < StaminaDrain) 
+        if (_stamina < StaminaDrain)
         {
-            _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
-            (
-                new Color(1,1,1,.2f),
-                .1f,
-                () => 
-                { 
-                    _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
-                    (
-                        new Color(1, 1, 1, 1f),
-                        .1f,
-                        () =>
-                        {
-                            _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
-                            (
-                                new Color(1, 1, 1, .2f),
-                                .1f, 
-                                () =>
-                                {
-                                    _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
-                                    (
-                                        new Color(1, 1, 1, 1f),
-                                        .3f
-                                    );
-                                }
-                            );
-                        }
-                    ); 
-                }
-            );
+            DoStaminDepletedAnimation();
 
-            return; 
+            return;
         }
-        if(CurrentDash != null) StopCoroutine(CurrentDash);
+        if (CurrentDash != null) StopCoroutine(CurrentDash);
 
         CurrentDash = StartCoroutine(StartDash(speed, distance));
+
+        void DoStaminDepletedAnimation()
+        {
+            _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+                        (
+                            new Color(1, 1, 1, .2f),
+                            .1f,
+                            () =>
+                            {
+                                _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+                                (
+                                    new Color(1, 1, 1, 1f),
+                                    .1f,
+                                    () =>
+                                    {
+                                        _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+                                        (
+                                            new Color(1, 1, 1, .2f),
+                                            .1f,
+                                            () =>
+                                            {
+                                                _staminaSlider.fillRect.GetComponent<Image>().StartColorTransion
+                                                (
+                                                    new Color(1, 1, 1, 1f),
+                                                    .3f
+                                                );
+                                            }
+                                        );
+                                    }
+                                );
+                            }
+                        );
+        }
     }
 
     Vector2 _dashTargetPosition;
@@ -204,9 +209,9 @@ public class Dash : MonoBehaviour
 
         while (Rb.position != _dashTargetPosition)
         {
-            Rb.MovePosition(Vector2.MoveTowards(Rb.position, _dashTargetPosition, speed * Time.fixedDeltaTime));
-
             yield return new WaitForFixedUpdate();
+
+            Rb.MovePosition(Vector2.MoveTowards(Rb.position, _dashTargetPosition, speed * Time.fixedDeltaTime));
         }
 
         CurrentDash = null;
@@ -247,9 +252,9 @@ public class Dash : MonoBehaviour
 
         if(collision.gameObject.TryGetComponent(out EnemyAI enemy))
         {
-            collision.gameObject.GetComponent<Health>().TakeDamage(Damage, gameObject);
+            enemy.EnemyHealth.TakeDamage(Damage, gameObject);
 
-            if(enemy is BossAI)
+            if(enemy is BossAI && !enemy.EnemyHealth.Dead)
             {
                 Bounce(collision);
             }

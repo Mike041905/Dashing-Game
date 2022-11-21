@@ -45,15 +45,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpName: Missile Launcher
-  description: Send them out
+  LongDescription: This PowerUp send out homing missiles that follow the closest
+    enemy. Don't expect them to do all the work for you as they won't always hit
+    their target. They're doing their best out here
+  description: Sends out homing missiles!
   icon: {fileID: 21300000, guid: 47ac7ea8f05326040b74ff87272323f5, type: 3}
+  Images:
+  - {fileID: 21300000, guid: 47ac7ea8f05326040b74ff87272323f5, type: 3}
   stats:
   - statName: Interval
     statValue: 1
     statUpgradeOffset: 0
     statUpgradeMultiplier: -0.1
+    statLevel: 0
   - statName: ChancePerc
     statValue: 0.5
     statUpgradeOffset: 0
     statUpgradeMultiplier: 0.1
-  missilePrefab: {fileID: 1695380082732233609, guid: 18a1726ae628b6844b09975797e8619b, type: 3}
+    statLevel: 0
+  powerUpLevel: 1
+  missilePrefab: {fileID: 1695380082732233614, guid: 18a1726ae628b6844b09975797e8619b, type: 3}

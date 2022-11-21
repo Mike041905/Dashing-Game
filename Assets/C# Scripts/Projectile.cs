@@ -1,44 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Projectile : MonoBehaviour
 {
     [Header("Essential")]
     [SerializeField] private GameObject _hitEffect;
-    [HideInInspector] public GameObject shooter;
+    [SerializeField] bool _useFixedUpdate = true;
+    [SerializeField] bool _canColideWithOtherProjectiles = false;
 
-    [HideInInspector] public float speed = 0;
-    [HideInInspector] public float damage = 0;
+    GameObject _shooter;
+    bool _initialized = false;
 
+    float _speed = 0;
+    float _damage = 0;
+
+    string[] _tagDamageBlacklist = new string[0];
+    string[] _tagHitBlacklist = new string[0];
+
+    Rigidbody2D _rb;
+    Rigidbody2D Rb { get { if (_rb == null) { _rb = GetComponent<Rigidbody2D>(); } return _rb; } }
 
     //---------------------------------------
 
 
     private void Update()
     {
-        transform.position += speed * Time.deltaTime * transform.up;
+        if(!_initialized) { return; }
+        if(_useFixedUpdate) { return; }
+
+        transform.position += _speed * Time.deltaTime * transform.up;
+    }
+
+    private void FixedUpdate()
+    {
+        if (!_initialized) { return; }
+        if (!_useFixedUpdate) { return; }
+
+        Rb.MovePosition(Rb.position + (_speed * Time.deltaTime * (Vector2)transform.up));
     }
 
 
     //-----------------------------------------
 
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    public Projectile Initialize(GameObject shooter, float speed, float damage, string[] tagHitBlacklist, string[] tagDamageBlacklist)
     {
-        if(collider.transform.gameObject == shooter) { return; }
+        _shooter = shooter;
+        _speed = speed;
+        _damage = damage;
+        _tagHitBlacklist = tagHitBlacklist;
+        _tagDamageBlacklist = tagDamageBlacklist;
+        _initialized = true;
 
-        DealDamageIfAble(collider.transform.gameObject);
+        return this;
     }
 
-    void DealDamageIfAble(GameObject other)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (other.CompareTag("Projectile")) { return; }
-        if (other.CompareTag("Coin")) { return; }
+        if(!_initialized) { return; }
+        if(collider.transform.gameObject == _shooter) { return; }
 
-        if(other.CompareTag("Player"))
+        OnHit(collider.transform.gameObject);
+    }
+
+    void OnHit(GameObject other)
+    {
+        if (_canColideWithOtherProjectiles && other.TryGetComponent(out Projectile _)) { return; }
+        if (_tagHitBlacklist.Contains(other.tag)) { return; }
+
+        if(!_tagDamageBlacklist.Contains(other.tag) && other.TryGetComponent(out Health health))
         {
-            other.GetComponent<Health>().TakeDamage(damage, gameObject);
+            health.TakeDamage(_damage, gameObject);
         }
 
         if (_hitEffect != null) Instantiate(_hitEffect, transform.position, Quaternion.identity);
