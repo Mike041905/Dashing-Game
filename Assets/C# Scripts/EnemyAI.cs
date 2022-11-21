@@ -1,11 +1,12 @@
 using Mike;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    // TODO: Put all of this data into the enemy manager or a seperate singleton for optmiztion;
-
+    // This could be reused
+    // TODO: Make this into a seperate script in the Mike library!
     public class PatternKey
     {
         [SerializeField] float _inTime;
@@ -20,53 +21,69 @@ public class EnemyAI : MonoBehaviour
             _inTimer = 0;
         }
 
-        public bool Execute(float deltaTime)
+        public async Task Execute()
         {
-            if (_inTimer >= _inTime)
+            bool executedIn = false;
+
+            while (true)
             {
-                if (_outTimer >= _outTime)
+                while (_inTimer >= _inTime)
                 {
-                    OnExecuteFinish(deltaTime);
+                    if (!executedIn)
+                    {
+                        await OnExecuteIn();
+                        executedIn = true;
+                    }
 
-                    return true;
+                    if (_outTimer >= _outTime)
+                    {
+                        OnExecuteFinish();
+                        Reset();
+                        return;
+                    }
+
+                    _outTimer += Time.deltaTime;
+
+                    await Task.Yield();
                 }
 
-                if (OnExecuteIn(deltaTime))
-                {
-                    _outTimer += deltaTime;
-                }
+                _inTimer += Time.deltaTime;
+
+                await Task.Yield();
             }
-
-            _inTimer += deltaTime;
-            return false;
         }
 
-        public virtual void OnExecuteFinish(float deltaTime)
+        public virtual void OnExecuteFinish()
         {
 
         }
         
-        public virtual bool OnExecuteIn(float deltaTime)
+        public virtual async Task OnExecuteIn()
         {
-            return false;
+
         }
     }
 
     [System.Serializable]
     public struct ProjectileData
     {
-        public Projectile ProjectilePrefab;
-        public Transform FirePoint;
+        [SerializeField] Projectile _projectilePrefab;
+        [SerializeField] Transform _firePoint;
+        [SerializeField] ParticleSystem _muzzleFlash;
 
-        public float ProjectileDamage;
-        public float ProjectileSpeed;
-        public float DelayBetweenShots;
-        public int ProjectilesPerShot;
-        public float Inaccuracy;
+        [SerializeField] float _projectileDamage;
+        [SerializeField] float _projectileSpeed;
+        [SerializeField] float _inaccuracy;
 
         public void Shoot()
         {
+            if(_firePoint == null) { return; }
+            if (_muzzleFlash != null) { _muzzleFlash.Play(); }
 
+            Projectile projectileInstnce = Instantiate(_projectilePrefab, _firePoint.position, Quaternion.Euler(0, 0, Random.Range(-_inaccuracy, _inaccuracy) + _firePoint.rotation.eulerAngles.z));
+            projectileInstnce.damage = _projectileDamage;
+            projectileInstnce.speed = _projectileSpeed;
+            projectileInstnce.shooter = _firePoint.parent.gameObject;
         }
     }
 
@@ -75,9 +92,11 @@ public class EnemyAI : MonoBehaviour
     {
         [SerializeField] ProjectileData _projectile;
 
-        public override void OnExecuteFinish(float deltaTime)
+        public override Task OnExecuteIn()
         {
             _projectile.Shoot();
+
+            return base.OnExecuteIn();
         }
     }
 
@@ -87,49 +106,32 @@ public class EnemyAI : MonoBehaviour
         [SerializeField] FireKeyFrame[] _firePattern = new FireKeyFrame[0];
         [SerializeField] int _repeat;
 
-        int _index = 0;
-
-        int _repeatIndex = 0;
-
-        public override bool OnExecuteIn(float deltaTime)
+        public override async Task OnExecuteIn()
         {
-            if(_repeatIndex >= _repeat) { return true; }
-
-            foreach (FireKeyFrame pattern in _firePattern)
+            for (int i = 0; i < _repeat + 1; i++)
             {
-                if (_index >= _firePattern.Length) { return true; }
-
-                if (pattern.Execute(deltaTime)) { _index++; }
+                foreach (FireKeyFrame key in _firePattern)
+                {
+                    await key.Execute();
+                }
             }
-
-            return false;
         }
     }
 
-    [SerializeField]
+    [System.Serializable]
     public class FirePattern : PatternKey
     {
-        RepeatPattern[] _repeat;
-        int _index = 0;
+        [SerializeField] RepeatPattern[] _repeat;
 
-        public override bool OnExecuteIn(float deltaTime)
+        public override async Task OnExecuteIn()
         {
-            if(_index >= _repeat.Length) { return true; }
-
-            if (_repeat[_index].Execute(deltaTime)) { _index++; }
-
-            return false;
-        }
-
-        public override void OnExecuteFinish(float deltaTime)
-        {
-            _index = 0;
+            foreach (RepeatPattern pattern in _repeat)
+            {
+                await pattern.Execute();
+            }
         }
     }
 
-
-    [Header("Essential")]
-    [SerializeField] private ParticleSystem _muzzleFlash;
 
     [Header("FirePattern Settings")]
     [SerializeField] FirePattern _pattern;
@@ -148,16 +150,20 @@ public class EnemyAI : MonoBehaviour
 
 
     protected Transform target;
-    private float _timer = 0f;
     public Room room;
 
     Health _enemyHealth;
     public Health EnemyHealth { get { if (_enemyHealth == null) { _enemyHealth = GetComponent<Health>(); } return _enemyHealth; } }
 
     bool _initialized = false;
-    
-    
+
+
     //---------------------------------------------
+
+    private void Start()
+    {
+        ShootIfAble();
+    }
 
     private void FixedUpdate()
     {
@@ -166,8 +172,6 @@ public class EnemyAI : MonoBehaviour
         if (Player.Instance.PlayerHealth.Dead) { return; }
         if (target == null) { return; }
 
-        UpdateTimers();
-        ShootIfAble();
         Move();
         FaceTarget();
     }
@@ -193,32 +197,21 @@ public class EnemyAI : MonoBehaviour
         transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, target.position);
     }
 
-    private void UpdateTimers()
+    private async void ShootIfAble()
     {
-        _timer += Time.fixedDeltaTime;
-    }
-
-    private void ShootIfAble()
-    {
-        if (target.gameObject.activeSelf && shootingDistance >= Vector2.Distance(transform.position, target.position))
+        while (true)
         {
-            ExecuteFirePattern();
+            if(this == null) return;
+
+            if (target.gameObject.activeSelf && shootingDistance >= Vector2.Distance(transform.position, target.position))
+            {
+                await _pattern.Execute();
+            }
+            else
+            {
+                await Task.Yield();
+            }
         }
-    }
-
-    void ExecuteFirePattern()
-    {
-        
-    }
-
-    private void Shoot(Projectile projectile, ProjectileData data, Transform firePoint)
-    {
-        if (_muzzleFlash != null) { _muzzleFlash.Play(); }
-
-        Projectile projectileInstnce = Instantiate(projectile, firePoint.position, Quaternion.Euler(0, 0, Random.Range(-data.Inaccuracy, data.Inaccuracy) + firePoint.rotation.eulerAngles.z));
-        projectileInstnce.damage = data.ProjectileDamage;
-        projectileInstnce.speed = data.ProjectileSpeed;
-        projectileInstnce.shooter = gameObject;
     }
 
     protected virtual void Move()

@@ -5089,17 +5089,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0021e602841e2834fa7dd0c21fb40751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 1810532768877956804, guid: 121f4854d15875c468d80169ca6f1fcb, type: 3}
-  muzzle: {fileID: 2975994638009178408}
-  _muzzleFlash: {fileID: 8118510446075800534}
-  projectileDamage: 3
-  projectileSpeed: 7.6
-  delayBetweenShots: 4
-  projectilesPerShot: 1
-  inaccuracy: 1
-  burst: 1
-  projectilesPerBurst: 5
-  delay: 0.06
+  _pattern:
+    _inTime: 0
+    _outTime: 2
+    _repeat:
+    - _inTime: 0
+      _outTime: 0
+      _firePattern:
+      - _inTime: 0
+        _outTime: 0.2
+        _projectile:
+          _projectilePrefab: {fileID: 5806203619031725865, guid: 121f4854d15875c468d80169ca6f1fcb, type: 3}
+          _firePoint: {fileID: 2975994638009178408}
+          _muzzleFlash: {fileID: 8118510446075800534}
+          _projectileDamage: 5
+          _projectileSpeed: 8
+          _inaccuracy: 1
+      _repeat: 4
   movementSpeed: 1.5
   playerAvoidanceSpeed: 4
   stopRange: 10

@@ -9442,7 +9442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6093a43fa89cc4bbf98ac07c8f0fc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EnemySpwnTcktDiffMul>k__BackingField: 0.05
+  <EnemySpwnTcktDiffMul>k__BackingField: 0.1
   <DefaultRoomSpawnTickets>k__BackingField: 10
   <EnemyRoster>k__BackingField:
   - prefab: {fileID: 9040167499389947992, guid: 3d3644d34b9d03048a8d8ff8675040f5, type: 3}

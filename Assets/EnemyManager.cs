@@ -39,7 +39,7 @@ public class EnemyManager : MonoBehaviour
         public Enemy[] Enemies;
     }
 
-    [field: SerializeField] public float EnemySpwnTcktDiffMul { get; private set; } = 1.05f;
+    [field: SerializeField] public float EnemySpwnTcktDiffMul { get; private set; } = 0.05f;
     public float EnemySpwnTcktMul { get => Mathf.Floor(EnemySpwnTcktDiffMul * GameManager.Insatnce.Difficulty); }
     [field: SerializeField] public float DefaultRoomSpawnTickets { get; private set; } = 20;
     [field: SerializeField] public Enemy[] EnemyRoster { get; private set; } = new Enemy[0];
@@ -115,5 +115,14 @@ public class EnemyManager : MonoBehaviour
         if(best.MinimumLevel < GameManager.Insatnce.Level) { best = AvaliableBosses[MikeRandom.RandomIntByWeights(AvaliableBosses.ToArray(), (Boss b) => b.RandomWeight)]; }
 
         return best;
+    }
+
+    public float GetSpawnTickets(float tickets)
+    {
+        return tickets + Mathf.Floor(tickets * EnemySpwnTcktMul);
+    }
+    public float GetSpawnTickets()
+    {
+        return GetSpawnTickets(DefaultRoomSpawnTickets);
     }
 }
