@@ -24,7 +24,7 @@ public class YellowEnemy : EnemyAI
 
     protected override void Move()
     {
-        if(target != null)
+        if(Target != null)
         {
             switch (currentState)
             {   
@@ -36,7 +36,7 @@ public class YellowEnemy : EnemyAI
 
     void Attack()
     {
-        if (Vector2.Distance(transform.position, target.position) > AttackBreakOffDistance)
+        if (Vector2.Distance(transform.position, Target.position) > AttackBreakOffDistance)
         {
             transform.position += movementSpeed * Time.deltaTime * transform.up;
             FaceTarget();
@@ -72,7 +72,7 @@ public class YellowEnemy : EnemyAI
     {
         if(currentState == State.PreparingForAttack) { return; }
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, MikeTransform.Rotation.LookTwards(transform.position, target.position), turnSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, MikeTransform.Rotation.LookTwards(transform.position, Target.position), turnSpeed * Time.deltaTime);
     }
 
     void GeneratePath()
@@ -114,7 +114,7 @@ public class YellowEnemy : EnemyAI
             position = MikeRandom.RandomVector2(-10, 10, -10, 10) + (Vector2)transform.position;
 
             // find pos far from player
-            if(Vector2.Distance(position, (Vector2)target.position) > 7)
+            if(Vector2.Distance(position, (Vector2)Target.position) > 7)
             {
                 //check if doesnt hit anything
                 if (ValidateRoute(position, new Transform[] { transform } )) { path[0] = position; return; }

@@ -4293,9 +4293,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 602972572}
   _smoothFollow: 1
-  _minSpeed: 1
-  _speedDistanceExponent: 1
-  _speedDistanceMultiplier: 1
+  _useUnscaledTime: 1
+  _useFixedUpdate: 0
+  _minSpeed: 0.1
+  _speedDistanceExponent: 0.3
+  _speedDistanceMultiplier: 2
 --- !u!4 &549508107
 Transform:
   m_ObjectHideFlags: 0

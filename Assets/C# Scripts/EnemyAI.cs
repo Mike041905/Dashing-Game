@@ -84,7 +84,7 @@ public class EnemyAI : MonoBehaviour
             (
                 _firePoint.root.gameObject,
                 _projectileSpeed,
-                _projectileDamage,
+                _projectileDamage * GameManager.Insatnce.Difficulty,
                 new string[2] { "Coin", "PowerUp" },
                 new string[1] { _firePoint.root.tag }
             );
@@ -147,14 +147,13 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float stopRange = 10;
     [SerializeField] private float backupRange = 10;
     [SerializeField] private float shootingDistance = 10;
-    public float difficultyMultiplier = 1;
 
 
     //---------------------------------------------
 
 
-    protected Transform target;
-    public Room room;
+    protected Transform Target { get => Player.Instance.transform; }
+    public Room Room;
 
     Health _enemyHealth;
     public Health EnemyHealth { get { if (_enemyHealth == null) { _enemyHealth = GetComponent<Health>(); } return _enemyHealth; } }
@@ -178,7 +177,7 @@ public class EnemyAI : MonoBehaviour
         if(!_initialized) return;
 
         if (Player.Instance.PlayerHealth.Dead) { return; }
-        if (target == null) { return; }
+        if (Target == null) { return; }
 
         Move();
         FaceTarget();
@@ -189,20 +188,15 @@ public class EnemyAI : MonoBehaviour
 
     public virtual void Initialize(Room room, float difficulty)
     {
-        this.room = room;
-        difficultyMultiplier = difficulty;
-
-        //asign player to target variable
-        target = Player.Instance.transform;
-
-        EnemyHealth.CurrentHealth *= difficultyMultiplier;
+        Room = room;
+        EnemyHealth.SetMaxHealth(EnemyHealth.Maxhealth * difficulty);
 
         _initialized = true;
     }
 
     protected virtual void FaceTarget()
     {
-        transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, target.position);
+        transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, Target.position);
     }
 
     private async void ShootIfAble()
@@ -212,7 +206,7 @@ public class EnemyAI : MonoBehaviour
             if(this == null) return;
             if(!enabled) return;
 
-            if (!Player.Instance.PlayerHealth.Dead && shootingDistance >= Vector2.Distance(transform.position, target.position))
+            if (!Player.Instance.PlayerHealth.Dead && shootingDistance >= Vector2.Distance(transform.position, Target.position))
             {
                 await _pattern.Execute();
             }
@@ -225,11 +219,11 @@ public class EnemyAI : MonoBehaviour
 
     protected virtual void Move()
     {
-        if (Vector2.Distance(transform.position, target.position) > stopRange)
+        if (Vector2.Distance(transform.position, Target.position) > stopRange)
         {
             Rb.MovePosition(Rb.position + (movementSpeed * Time.fixedDeltaTime * (Vector2)transform.up));
         }
-        else if (Vector2.Distance(transform.position, target.position) < backupRange)
+        else if (Vector2.Distance(transform.position, Target.position) < backupRange)
         {
             Rb.MovePosition(Rb.position - (movementSpeed * Time.fixedDeltaTime * (Vector2)transform.up));
         }
@@ -239,6 +233,6 @@ public class EnemyAI : MonoBehaviour
     {
         if(!_initialized) return;
 
-        room.EndFightIfEnemiesDead();
+        Room.EndFightIfEnemiesDead();
     }
 }

@@ -193,4 +193,9 @@ public class Health : MonoBehaviour
         if(deathEffect != null) Instantiate(deathEffect, transform.position, Quaternion.identity);
         if (destroyOnDeath) Destroy(gameObject);
     }
+
+    public void SetMaxHealth(float maxHealth)
+    {
+        _maxhealth = maxHealth;
+    }
 }

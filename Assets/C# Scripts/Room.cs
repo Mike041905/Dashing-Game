@@ -154,10 +154,11 @@ public class Room : MonoBehaviour
 
     protected virtual void SpawnEnemies(List<EnemyManager.Enemy> enemies, float tickets)
     {
-        while (tickets > 0)//run until tickets are depleated
+        int InsufficentTicketsCounter = 0;
+        while (tickets > 0 || InsufficentTicketsCounter < 5) //run until tickets are depleated or couldn't find cheapest enemy (5x)
         {
             //initilaze variables
-            Vector2 spawnPosition = Mike.MikeRandom.RandomVector2(-20, 20) + (Vector2)transform.position;
+            Vector2 spawnPosition = MikeRandom.RandomVector2(-20, 20) + (Vector2)transform.position;
             float[] weights = new float[0];
 
             //asign random enemy baised on their spawn chance
@@ -175,7 +176,7 @@ public class Room : MonoBehaviour
             }
 
             //check if enemy spawn tickets are suficien to spawn currenly selected enemy
-            if(tickets - enemy.ticketCost < 0) { return; }
+            if(tickets - enemy.ticketCost < 0) { InsufficentTicketsCounter++; continue; }
 
             //spawn Enemy
             EnemyAI newEnemy = Instantiate(enemy.prefab, spawnPosition, Quaternion.identity).GetComponent<EnemyAI>();
