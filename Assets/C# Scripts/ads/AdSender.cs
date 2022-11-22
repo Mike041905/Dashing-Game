@@ -20,6 +20,11 @@ public class AdSender : MonoBehaviour
     [SerializeField] UnityEvent _onAdSkipped;
     [SerializeField] UnityEvent _onAdFailed;
 
+    private void Start()
+    {
+        AdsRewarded.Instance.LoadAd(AdID);
+    }
+
     public void ShowAdd()
     {
         AdsRewarded.Instance.ShowRewardedVideo(AdID, AdCallback);

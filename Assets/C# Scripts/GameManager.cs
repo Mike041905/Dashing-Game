@@ -1,6 +1,9 @@
 using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AdaptivePerformance;
+using UnityEngine.Advertisements;
+using UnityEngine.Android;
 using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
@@ -55,6 +58,13 @@ public class GameManager : MonoBehaviour
         _instance = this;
 
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
+        IDevicePerformanceControl ctrl = Holder.Instance.DevicePerformanceControl;
+        ctrl.CpuLevel = ctrl.MaxCpuPerformanceLevel;
+        ctrl.GpuLevel = ctrl.MaxGpuPerformanceLevel;
+        ctrl.CpuPerformanceBoost = true;
+        ctrl.GpuPerformanceBoost = true;
+
+        
 
         Initialize();
     }

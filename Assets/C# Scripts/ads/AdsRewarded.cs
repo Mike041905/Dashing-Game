@@ -63,25 +63,33 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsListener
     {
         print($"Ad result: {showResult}");
         InvokeCallback(surfacingId, showResult);
+        LoadAd(surfacingId);
     }
 
     public void OnUnityAdsReady(string surfacingId)
     {
-
+        print($"Ad with surfacingId: {surfacingId} is ready");
     }
 
     public void OnUnityAdsDidError(string message)
     {
-        Debug.Log(message);
+        Debug.Log($"Ad Failed! - {message}");
     }
 
     public void OnDestroy() 
     {
         Advertisement.RemoveListener(this);
+        print($"{gameObject} Ad listener has been destroyed");
     }
 
     public void OnUnityAdsDidStart(string placementId)
     {
-        
+        print($"Ad with placementId: {placementId} Did started");
+    }
+
+    public void LoadAd(string adUnitId)
+    {
+        Advertisement.Load(adUnitId);
+        Debug.Log("Loading Ad: " + adUnitId);
     }
 }
