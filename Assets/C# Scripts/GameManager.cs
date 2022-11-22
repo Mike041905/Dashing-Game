@@ -56,17 +56,18 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
-        IDevicePerformanceControl ctrl = Holder.Instance.DevicePerformanceControl;
-        ctrl.CpuLevel = ctrl.MaxCpuPerformanceLevel;
-        ctrl.GpuLevel = ctrl.MaxGpuPerformanceLevel;
-        ctrl.CpuPerformanceBoost = true;
-        ctrl.GpuPerformanceBoost = true;
-
-        
 
         Initialize();
+
+        if(Holder.Instance != null)
+        {
+            IDevicePerformanceControl ctrl = Holder.Instance.DevicePerformanceControl;
+            ctrl.CpuLevel = ctrl.MaxCpuPerformanceLevel;
+            ctrl.GpuLevel = ctrl.MaxGpuPerformanceLevel;
+            ctrl.CpuPerformanceBoost = true;
+            ctrl.GpuPerformanceBoost = true;
+        }
     }
 
     private void Start()

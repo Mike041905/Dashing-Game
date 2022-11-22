@@ -30,19 +30,19 @@ public class AdSender : MonoBehaviour
         AdsRewarded.Instance.ShowRewardedVideo(AdID, AdCallback);
     }
 
-    void AdCallback(ShowResult result)
+    void AdCallback(UnityAdsShowCompletionState result)
     {
         switch (result)
         {
-            case ShowResult.Failed:
+            case UnityAdsShowCompletionState.UNKNOWN:
                 _onAdFailed?.Invoke();
                 break;
 
-            case ShowResult.Skipped:
+            case UnityAdsShowCompletionState.SKIPPED:
                 _onAdSkipped?.Invoke();
                 break;
 
-            case ShowResult.Finished:
+            case UnityAdsShowCompletionState.COMPLETED:
                 _onAdFinished?.Invoke();
                 break;
         }
