@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Advertisements;
 using UnityEngine.Events;
 
 public class AdSender : MonoBehaviour
@@ -15,10 +16,30 @@ public class AdSender : MonoBehaviour
     string AdID { get => _adIdIOS; }
 #endif
 
-    [SerializeField] UnityEvent _onClickEvent;
+    [SerializeField] UnityEvent _onAdFinished;
+    [SerializeField] UnityEvent _onAdSkipped;
+    [SerializeField] UnityEvent _onAdFailed;
 
     public void ShowAdd()
     {
-        AdsRewarded.Instance.ShowRewardedVideo(AdID, () => { _onClickEvent?.Invoke(); });
+        AdsRewarded.Instance.ShowRewardedVideo(AdID, AdCallback);
+    }
+
+    void AdCallback(ShowResult result)
+    {
+        switch (result)
+        {
+            case ShowResult.Failed:
+                _onAdFailed?.Invoke();
+                break;
+
+            case ShowResult.Skipped:
+                _onAdSkipped?.Invoke();
+                break;
+
+            case ShowResult.Finished:
+                _onAdFinished?.Invoke();
+                break;
+        }
     }
 }

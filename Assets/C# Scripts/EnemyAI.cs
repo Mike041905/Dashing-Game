@@ -210,6 +210,7 @@ public class EnemyAI : MonoBehaviour
         while (true)
         {
             if(this == null) return;
+            if(!enabled) return;
 
             if (!Player.Instance.PlayerHealth.Dead && shootingDistance >= Vector2.Distance(transform.position, target.position))
             {

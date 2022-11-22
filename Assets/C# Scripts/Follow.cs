@@ -5,19 +5,27 @@ using UnityEngine;
 public class Follow : MonoBehaviour
 {
     [Header("Essential")]
-    [SerializeField] private Transform target;
-    [SerializeField] private string targetTag;
+    [SerializeField] private Transform _target;
 
     [Header("Options")]
-    [SerializeField] private bool smoothFollow = true;
-    [SerializeField] private float baseSpeed = 1;
-    [SerializeField] private float speedOverDistance = 1;
+    [SerializeField] private bool _smoothFollow = true;
+    [SerializeField] private float _minSpeed = 1;
+    [SerializeField] private float _speedDistanceExponent = 0;
+    [SerializeField] private float _speedDistanceMultiplier = 1;
 
 
     private void Update()
     {
-        if(target == null && targetTag != string.Empty) { target = GameObject.FindGameObjectWithTag(targetTag).transform; }
-        if (smoothFollow) transform.position = Vector2.MoveTowards(transform.position, target.position, (baseSpeed + Vector2.Distance(transform.position, target.position) * speedOverDistance) * Time.unscaledDeltaTime);
-        else transform.position = target.position;
+        if (_smoothFollow)
+        {
+            float dist = Vector2.Distance(transform.position, _target.position) * _speedDistanceMultiplier;
+            float speed = _minSpeed + dist * Mathf.Pow(dist, _speedDistanceExponent) * Time.unscaledDeltaTime;
+
+            transform.position = Vector2.MoveTowards(transform.position, _target.position, speed);
+        }
+        else
+        {
+            transform.position = _target.position;
+        }
     }
 }

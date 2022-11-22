@@ -800,7 +800,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: early access Warning!
+  m_text: early access (Alpha) Warning!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 24b9a7fe0666d9e4595c235d167e64cc, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 24b9a7fe0666d9e4595c235d167e64cc, type: 2}
@@ -21059,6 +21059,8 @@ RectTransform:
   - {fileID: 1946466722}
   - {fileID: 2030160538}
   - {fileID: 505570198}
+  - {fileID: 1692925786}
+  - {fileID: 1620173876}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -21509,12 +21511,25 @@ MonoBehaviour:
       m_Calls: []
   m_text: '-Max health will now work properly
 
-    -Mapresponsiveness
+    -The map is now responsive
 
     -PlayerPrefs
     devCode should now work
 
-    -Rooms will no longer trigger twice'
+    -Rooms will no longer trigger twice
+
+    -Fixed
+    Level generation
+
+    -The player should no longer Jitter
+
+    -Missiles will
+    no longer spawn when no enemies are alive
+
+    -Slow-Mo will no longer stay active
+    while dead
+
+    -Improved performance'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -22232,7 +22247,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0.00091552734, y: 0}
+  m_AnchoredPosition: {x: 0.00036621094, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.000000006519258, y: 0.5000001}
 --- !u!114 &1132349498
@@ -23105,10 +23120,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'This is an early access build! Which means many aspects of the game may
-    be changed over the course of development. Due to the nature of app and game
-    development there is no guarantee that your progress will persist through different
-    game versions. Thank you for your support.
+  m_text: 'This is an ALPHA build! Which means many aspects of the game may be changed
+    over the course of development. Due to the nature of app and game development
+    there is no guarantee that your progress will persist through different game
+    versions. Thank you for your support.
 
 '
   m_isRightToLeft: 0
@@ -34630,7 +34645,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1587438247
 MonoBehaviour:
@@ -34708,7 +34723,19 @@ MonoBehaviour:
     -The heigher the level
     the more enemies will spawn
 
-    -Levels are now smaller'
+    -Levels are now smaller
+
+    -Changed the starting
+    amount of spawned enemies
+
+    -Changed enemy spawn settings
+
+    -Changed coin
+    drop values
+
+    -Changed Yellow enemy firerate
+
+    -Changed Green Enemy firerate'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -35159,27 +35186,32 @@ GameObject:
   m_Component:
   - component: {fileID: 1620173876}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Stars Killbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!4 &1620173876
-Transform:
+--- !u!224 &1620173876
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1620173875}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 20, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 60.000004, y: 60.000004, z: 59.999996}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1692925786}
-  m_RootOrder: 1
+  m_Father: {fileID: 849586394}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1629376132
 GameObject:
   m_ObjectHideFlags: 0
@@ -35476,23 +35508,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!4 &1692925786
-Transform:
+--- !u!224 &1692925786
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1692925785}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 60, y: 60, z: 60}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 536066731}
-  - {fileID: 1620173876}
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 849586394}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1718583739
 GameObject:
   m_ObjectHideFlags: 0
@@ -36392,7 +36428,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1865011260
 GameObject:
@@ -37335,8 +37371,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: In short, the goal of this update was to improve on already existing systems
-    for e.g. UI, Player Movement, Map Generation, etc.
+  m_text: This update focused on creating scripts for future implementation of content.
+    This update adds 1 boss and many QoL improvements.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -37520,7 +37556,7 @@ Transform:
   m_Children:
   - {fileID: 2136213466}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1998192581
 GameObject:
@@ -38125,7 +38161,25 @@ MonoBehaviour:
     -Added Red Boss
 
     -Trail FX to all
-    enemy projectiles'
+    enemy projectiles
+
+    -Added the ability to revive after watching an Ad
+
+    -Added
+    Upgrad Effect in menu
+
+    -Added a muzzle falsh to all enemies
+
+    -Added a
+    powerUp display
+
+    -Added a powerUp info menu (Click on powerUp in powerUp
+    display)
+
+    -Added the ability to open the map (Click on the mini-map)
+
+    -Added
+    Max offline coins reminder'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

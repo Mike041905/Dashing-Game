@@ -28,13 +28,13 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsListener
     string GameID { get { return _gameIdAndroid; } }
 #endif
 
-    Dictionary<string, UnityAction> _callbacks = new(); 
+    Dictionary<string, UnityAction<ShowResult>> _callbacks = new(); 
 
-    void InvokeCallback(string placementID)
+    void InvokeCallback(string placementID, ShowResult showResult)
     {
-        if(_callbacks.TryGetValue(placementID, out UnityAction callback))
+        if(_callbacks.TryGetValue(placementID, out UnityAction<ShowResult> callback))
         {
-            callback.Invoke(); 
+            callback.Invoke(showResult); 
             _callbacks.Remove(placementID); 
         }
     }
@@ -45,32 +45,24 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsListener
         Advertisement.Initialize(GameID, _testMode);
     }
 
-    public void ShowRewardedVideo(string placementID, UnityAction onFinished)
+    public void ShowRewardedVideo(string placementID, UnityAction<ShowResult> onFinished)
     {
         if (Advertisement.IsReady(placementID)) 
         { 
             Advertisement.Show(placementID); 
             _callbacks.Add(placementID, onFinished);
         }
-        else { Debug.Log("Rewarded video is not ready!"); }
+        else 
+        { 
+            Debug.Log("Rewarded video is not ready!");
+            onFinished.Invoke(ShowResult.Failed);
+        }
     }
 
     public void OnUnityAdsDidFinish(string surfacingId, ShowResult showResult) 
     {
-        if (showResult == ShowResult.Finished)
-        {
-            InvokeCallback(surfacingId);
-        }
-        else if (showResult == ShowResult.Skipped)
-        {
-            _callbacks.Remove(surfacingId);
-            print("Ad Skipped");
-        }
-        else if (showResult == ShowResult.Failed)
-        {
-            _callbacks.Remove(surfacingId);
-            print("Ad Failed");
-        }
+        print($"Ad result: {showResult}");
+        InvokeCallback(surfacingId, showResult);
     }
 
     public void OnUnityAdsReady(string surfacingId)
