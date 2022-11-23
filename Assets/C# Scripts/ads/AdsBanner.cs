@@ -41,7 +41,6 @@ public class AdsBanner : MonoBehaviour
         Advertisement.Initialize(GameID, _testMode);
         StartCoroutine(ShowBannerWhenInitialized());
         Advertisement.Banner.SetPosition((BannerPosition)_bannerPosition);
-
     }
 
     IEnumerator ShowBannerWhenInitialized()

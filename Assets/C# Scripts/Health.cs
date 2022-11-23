@@ -52,8 +52,10 @@ public class Health : MonoBehaviour
     public bool Dead { get; private set; }
     public float CurrentHealth { get => health; set { SetHealth(value); } }
 
+    public bool IsInvincible { get; set; } = false;
 
-    List<Immunity> immunities = new();
+
+    List<Immunity> _immunities = new();
 
     public event UnityAction OnDeath;
     [SerializeField] UnityEvent OnDeathEvent;
@@ -109,12 +111,12 @@ public class Health : MonoBehaviour
     {
         if(damager == null) { return; }
 
-        immunities.Add(new Immunity(time, damager, this));
+        _immunities.Add(new Immunity(time, damager, this));
     }
 
     void RemoveImmunity(Immunity immunity)
     {
-        immunities.Remove(immunity);
+        _immunities.Remove(immunity);
     }
 
     void HealthOnKill()
@@ -138,6 +140,7 @@ public class Health : MonoBehaviour
 
     void SetHealth(float health, bool allowRevive = false)
     {
+        if(IsInvincible && health < CurrentHealth) { return; }
         if(allowRevive && Dead) { Revive(health); return; }
 
         if (Dead) { return; }
@@ -162,12 +165,25 @@ public class Health : MonoBehaviour
         OnReviveEvent?.Invoke();
     }
     public void Revive() => Revive(Maxhealth);
+    public void Revive(bool temporarlyInvincible)
+    {
+        IsInvincible = temporarlyInvincible;
+
+        Revive();
+        Player.Instance.PlayerDash.OnStartDash += OnStartDash;
+
+        void OnStartDash()
+        {
+            IsInvincible = false;
+            Player.Instance.PlayerDash.OnStartDash -= OnStartDash;
+        }
+    }
 
     private bool CheckIfImmune(GameObject damager)
     {
         if(damager == null) { return false; }
 
-        foreach (Immunity immunity in immunities)
+        foreach (Immunity immunity in _immunities)
         {
             if(immunity.damager == damager) { return true; }
         }
@@ -177,6 +193,7 @@ public class Health : MonoBehaviour
 
     public void Die()
     {
+        if(IsInvincible) { return; }
         if (Dead) { return; } // a precaution (it likes to trigger multiple times when hit twice at the same time)
         Dead = true;
 

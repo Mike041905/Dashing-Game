@@ -4930,22 +4930,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _adIdAndroid: Rewarded_Android
   _adIdIOS: Rewarded_iOS
-  _onAdFinished:
+  OnAdFinished:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 602972575}
         m_TargetAssemblyTypeName: Health, Assembly-CSharp
         m_MethodName: Revive
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
-  _onAdSkipped:
+  OnAdSkipped:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 660013273}
@@ -4960,7 +4960,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  _onAdFailed:
+  OnAdFailed:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 67532096}
@@ -13614,6 +13614,21 @@ MonoBehaviour:
   <DifficultyPerRoomMultiplier>k__BackingField: 0
   <DifficultyPerLevelMultiplier>k__BackingField: 1.3
   <DifficultyPerLevelOffset>k__BackingField: -0.3
+  OnLevelChangedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1635799466}
+        m_TargetAssemblyTypeName: AdsSkippable, Assembly-CSharp
+        m_MethodName: ShowInterstitialAd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1440050885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15539,6 +15554,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1635799462}
   - component: {fileID: 1635799463}
+  - component: {fileID: 1635799465}
+  - component: {fileID: 1635799464}
+  - component: {fileID: 1635799467}
+  - component: {fileID: 1635799466}
   m_Layer: 0
   m_Name: AdManager
   m_TagString: Untagged
@@ -15573,9 +15592,78 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b367a25ad34eed46aa7e03786400738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _preLoadAdsIOS:
+  - Rewarded_iOS
+  _preLoadAdsAndroid:
+  - Rewarded_Android
   _gameIdIOS: 5030802
   _gameIdAndroid: 5030803
+  _testMode: 1
+--- !u!114 &1635799464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635799461}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47a0d754d9d02644298f41762f9a5523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bannerPosition: 1
+  _gameIdIOS: 5030802
+  _mySurfacingIdIOS: Banner_iOS
+  _gameIdAndroid: 5030803
+  _mySurfacingIdAndroid: Banner_Android
   _testMode: 0
+--- !u!114 &1635799465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635799461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06b2b3bfaad26f4fbcd179c5c43b7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ad: {fileID: 1635799464}
+  _banner: 1
+  _interstitial: 0
+--- !u!114 &1635799466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635799461}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c8391b5f38087b4aa451a43cd835214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameIdIOS: 5030802
+  _mySurfacingIdIOS: Interstitial_iOS
+  _gameIdAndroid: 5030803
+  _mySurfacingIdAndroid: Interstitial_Android
+  _testMode: 0
+--- !u!114 &1635799467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635799461}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06b2b3bfaad26f4fbcd179c5c43b7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ad: {fileID: 1635799466}
+  _banner: 0
+  _interstitial: 1
 --- !u!1 &1717008540
 GameObject:
   m_ObjectHideFlags: 0

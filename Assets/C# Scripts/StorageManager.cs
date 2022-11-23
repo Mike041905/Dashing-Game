@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -88,6 +89,39 @@ public static class StorageManager
             public static int BloomSkipIterations { get => PlayerPrefs.GetInt(BloomSkipedIterationsSavekey, 5); set => PlayerPrefs.SetInt(BloomSkipedIterationsSavekey, value); }
             public static float BloomScatter { get => PlayerPrefs.GetFloat(BloomScatterSaveKey, .4f); set => PlayerPrefs.SetFloat(BloomScatterSaveKey, value); }
             public static bool BloomHighQualityFilter { get => PlayerPrefs.GetInt(BloomHighQualityFilterSaveKey, 0) == 1; set => PlayerPrefs.SetInt(BloomHighQualityFilterSaveKey, value ? 1 : 0); }
+        }
+
+        /// <summary>
+        /// Miscellaneous values are nested in this class for convenience
+        /// </summary>
+        public static class Misc
+        {
+            public const string SupportAdsSavekey = "Support Ads";
+
+            static bool? _supportAds = null;
+            public static bool SupportAds { get { if (_supportAds == null) { _supportAds = PlayerPrefs.GetInt(SupportAdsSavekey, 0) == 1; } return _supportAds.Value; } set { _supportAds = value; PlayerPrefs.SetInt(SupportAdsSavekey, value ? 1 : 0); } }
+        }
+
+        public static void SaveOption<T>(string key, T value)
+        {
+            if(value == null) { return; }
+
+            if (typeof(T) == typeof(float))
+            {
+                PlayerPrefs.SetFloat(key, (value as float?).Value);
+            }
+            else if (typeof(T) == typeof(int))
+            {
+                PlayerPrefs.SetInt(key, (value as int?).Value);
+            }
+            else if (typeof(T) == typeof(bool))
+            {
+                PlayerPrefs.SetInt(key, (value as bool?).Value ? 1 : 0);
+            }
+            else if (typeof(T) == typeof(string))
+            {
+                PlayerPrefs.SetString(key, value as string);
+            }
         }
     }
 

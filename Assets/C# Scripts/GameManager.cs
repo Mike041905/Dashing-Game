@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     //----------------------------------------------
 
     public event UnityAction<int> OnLevelChanged;
+    public UnityEvent OnLevelChangedEvent;
 
     //----------------------------------------------
 
@@ -130,6 +131,7 @@ public class GameManager : MonoBehaviour
         Level++;
         SaveStartingLevel();
         OnLevelChanged?.Invoke(Level);
+        OnLevelChangedEvent?.Invoke();
 
         InputManager.Instance.UpdateUI();
         Destroy(_portalInstance);

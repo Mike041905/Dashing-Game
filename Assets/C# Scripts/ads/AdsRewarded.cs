@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.PackageManager;
@@ -26,6 +27,7 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsInitia
 
     [SerializeField] bool _testMode = true;
 
+    #region Platform Sepecific Properties
 #if UNITY_IOS
     string GameID { get { return _gameIdIOS; } }
     string[] PreLoadAds { get { return _preLoadAdsIOS; } }
@@ -34,39 +36,52 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsInitia
     string GameID { get { return _gameIdAndroid; } }
     string[] PreLoadAds { get { return _preLoadAdsAndroid; } }
 #endif
+    #endregion
 
-    Dictionary<string, UnityAction<UnityAdsShowCompletionState>> _callbacks = new(); 
-    void InvokeCallback(string placementID, UnityAdsShowCompletionState result)
-    {
-        if(_callbacks.TryGetValue(placementID, out UnityAction<UnityAdsShowCompletionState> callback))
-        {
-            callback.Invoke(result); 
-            _callbacks.Remove(placementID); 
-        }
-    }
 
-    public void ShowRewardedVideo(string placementID, UnityAction<UnityAdsShowCompletionState> onFinished)
+    //------------------------------
+
+
+    public void ShowRewardedVideo(string placementID, Action<ShowResult> onFinished = null)
     {
         if (Advertisement.IsReady(placementID)) 
         { 
-            Advertisement.Show(placementID); 
-            _callbacks.Add(placementID, onFinished);
+            ShowOptions options = new(); // Workaround for IUnityAdsShowListener
+            options.resultCallback += (ShowResult r) => { LoadAd(placementID); onFinished?.Invoke(r); };
+
+            Advertisement.Show(placementID, options, this); 
         }
         else 
         { 
             Debug.Log("Rewarded video is not ready!");
-            onFinished.Invoke(UnityAdsShowCompletionState.UNKNOWN);
-            Advertisement.Load(placementID);
+            onFinished.Invoke(ShowResult.Failed);
+            LoadAd(placementID);
         }
     }
 
     public void LoadAd(string placementId)
     {
-        Advertisement.Load(placementId);
+        Advertisement.Load(placementId, this);
     }
 
 
     // ---------------------------
+
+
+    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
+    {
+        print($"AD Initialization failure: {error} - {message}");
+    }
+
+    public void OnInitializationComplete()
+    {
+        print($"IUnityAdsInitializationListener Complete!");
+
+        foreach (string adId in PreLoadAds)
+        {
+            LoadAd(adId);
+        }
+    }
 
 
     public void OnUnityAdsDidStart(string placementId)
@@ -84,15 +99,7 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsInitia
         print($"AD palacementId: {placementId} error: {error} - {message}");
         Advertisement.Load(placementId);
     }
-    public void OnInitializationComplete()
-    {
-        print($"IUnityAdsInitializationListener Complete!");
-    }
 
-    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
-    {
-        print($"AD Initialization failure: {error} - {message}");
-    }
 
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
@@ -111,8 +118,9 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsInitia
 
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
     {
+        // IUnityAdsShowListener doesn't work :/ but imma keep this code anyway
+
         print($"OnUnityAdsShowComplete placementId: {placementId} UnityAdsShowCompletionState: {showCompletionState}");
-        InvokeCallback(placementId, showCompletionState);
-        Advertisement.Load(placementId);
+        LoadAd(placementId);
     }
 }

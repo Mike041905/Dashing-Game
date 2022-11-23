@@ -211,6 +211,8 @@ public class Dash : MonoBehaviour
         _dashTargetPosition = (_secondTouchPosition - _firstTouchPosition).normalized * distance + Rb.position;
         _spriteTransform.rotation = (MikeTransform.Rotation.LookTwards(Rb.position, _dashTargetPosition));
 
+        OnStartDash?.Invoke();
+
         while (Rb.position != _dashTargetPosition)
         {
             Rb.MovePosition(Vector2.MoveTowards(Rb.position, _dashTargetPosition, speed * Time.fixedDeltaTime));
