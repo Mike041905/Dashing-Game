@@ -165,17 +165,15 @@ public class Health : MonoBehaviour
         OnReviveEvent?.Invoke();
     }
     public void Revive() => Revive(Maxhealth);
-    public void Revive(bool temporarlyInvincible)
+    public void Revive(bool temporarlyInvincible, UnityAction<UnityAction> cancelActionAdd, UnityAction<UnityAction> cancelActionRemove)
     {
         IsInvincible = temporarlyInvincible;
-
         Revive();
-        Player.Instance.PlayerDash.OnStartDash += OnStartDash;
 
-        void OnStartDash()
-        {
-            IsInvincible = false;
-            Player.Instance.PlayerDash.OnStartDash -= OnStartDash;
+        cancelActionAdd?.Invoke(Stop);
+        void Stop()
+        { 
+            IsInvincible = false; cancelActionRemove?.Invoke(Stop); 
         }
     }
 
@@ -211,8 +209,9 @@ public class Health : MonoBehaviour
         if (destroyOnDeath) Destroy(gameObject);
     }
 
-    public void SetMaxHealth(float maxHealth)
+    public void SetMaxHealth(float maxHealth, bool healToMax = true)
     {
         _maxhealth = maxHealth;
+        if(healToMax) { CurrentHealth = maxHealth; }
     }
 }

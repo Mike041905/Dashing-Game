@@ -1,34 +1,45 @@
 using Mike;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(HorizontalLayoutGroup)), ExecuteAlways]
+[RequireComponent(typeof(HorizontalLayoutGroup))]
 public class OptionsMenu : MonoBehaviour
 {
     // IDK why I'm making this script this way. Maybe I'm just lazy :/
+    [Serializable]
     struct SettingsField
     {
         [SerializeField] Option _optionTemplate;
         Option _option;
 
+        [SerializeField] string _optionName;
         [SerializeField] string _optionKey;
         [SerializeField] bool _requireApply;
 
         public void Spawn(OptionsMenu options)
         {
             _option = Instantiate(_optionTemplate, options.ScrollOptions.content);
-            _option.Initialize(_optionKey, _requireApply, options.OnApply);
+            _option.Initialize(_optionName, _optionKey, _requireApply, options.OnApply);
+            _option.gameObject.SetActive(true);
+
+            _optionTemplate.gameObject.SetActive(false);
         }
     }
+
+    [Serializable]
     struct OptionsTab
     {
-        [SerializeField] Button _tabButtonTemplate;
-        [SerializeField] Button _tabButtonInstance;
+        [SerializeField] string _tabName;
         [SerializeField] SettingsField[] _fields;
+        [Space(10)]
+        [SerializeField] Button _tabButtonTemplate;
 
+
+        Button _tabButtonInstance;
         GameObject _fieldInstanceHolder;
         OptionsMenu _options;
 
@@ -38,6 +49,9 @@ public class OptionsMenu : MonoBehaviour
 
             _tabButtonInstance = Instantiate(_tabButtonTemplate, options.ScrollTabs.content);
             _tabButtonInstance.onClick.AddListener(OpenTab);
+            _tabButtonInstance.gameObject.SetActive(true);
+
+            _tabButtonTemplate.gameObject.SetActive(false);
 
             SpawnFields();
         }
@@ -88,7 +102,7 @@ public class OptionsMenu : MonoBehaviour
         ApplyButton.gameObject.GetAddComponent<LayoutElement>().ignoreLayout = true;
         ApplyButton.onClick.AddListener(OnApply);
 
-        if (!runInEditMode) { InstatiateTemplates(); }
+        InstatiateTemplates();
     }
 
     void InstatiateTemplates()
