@@ -123,6 +123,32 @@ public static class StorageManager
                 PlayerPrefs.SetString(key, value as string);
             }
         }
+
+        public static T GetOption<T>(string key, T defaultValue)
+        {
+            if (typeof(T) == typeof(float))
+            {
+                if (!PlayerPrefs.HasKey(key)) { SaveOption(key, defaultValue); return defaultValue; }
+                return (T)Convert.ChangeType(PlayerPrefs.GetFloat(key), typeof(T));
+            }
+            else if (typeof(T) == typeof(int))
+            {
+                if (!PlayerPrefs.HasKey(key)) { SaveOption(key, defaultValue); return defaultValue; }
+                return (T)Convert.ChangeType(PlayerPrefs.GetInt(key), typeof(T));
+            }
+            else if (typeof(T) == typeof(bool))
+            {
+                if (!PlayerPrefs.HasKey(key)) { SaveOption(key, defaultValue); return defaultValue; }
+                return (T)Convert.ChangeType(PlayerPrefs.GetInt(key) == 1, typeof(T));
+            }
+            else if (typeof(T) == typeof(string))
+            {
+                if (!PlayerPrefs.HasKey(key)) { SaveOption(key, defaultValue); return defaultValue; }
+                return (T)Convert.ChangeType(PlayerPrefs.GetString(key), typeof(T));
+            }
+
+            throw new("Invalid Type");
+        }
     }
 
     //---------------------------

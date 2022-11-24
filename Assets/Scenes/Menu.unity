@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 2487745}
   - component: {fileID: 2487744}
   - component: {fileID: 2487743}
+  - component: {fileID: 2487746}
   m_Layer: 5
   m_Name: Tab
   m_TagString: Untagged
@@ -206,31 +207,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2487744}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1886817440}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 647886081}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2487744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +246,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2487741}
   m_CullTransparentMesh: 1
+--- !u!114 &2487746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 871f6641553a27d40bddfe2828666202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tabName: {fileID: 1743952496}
+  _button: {fileID: 2487743}
 --- !u!1 &4217201
 GameObject:
   m_ObjectHideFlags: 0
@@ -20976,7 +20967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popUp: {fileID: 2030160537}
   coinsGained: {fileID: 193921034}
-  _maxOfflineTime: 0
+  _maxOfflineTime: 10
 --- !u!4 &705834715
 Transform:
   m_ObjectHideFlags: 0
@@ -22996,7 +22987,6 @@ GameObject:
   - component: {fileID: 955077799}
   - component: {fileID: 955077801}
   - component: {fileID: 955077803}
-  - component: {fileID: 955077800}
   - component: {fileID: 955077802}
   m_Layer: 5
   m_Name: Toggle
@@ -23068,7 +23058,7 @@ MonoBehaviour:
     m_DisabledTrigger: 
   m_Interactable: 1
   m_TargetGraphic: {fileID: 198641194}
-  toggleTransition: 1
+  toggleTransition: 0
   graphic: {fileID: 0}
   m_Group: {fileID: 0}
   onValueChanged:
@@ -23098,33 +23088,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 1
---- !u!114 &955077800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 955077797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 25
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  m_IsOn: 0
 --- !u!114 &955077801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23137,7 +23101,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda5dbb41ea253d4794ced98c03061e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _label: {fileID: 0}
+  _label: {fileID: 1216318471}
+  _slider: {fileID: 0}
+  _toggle: {fileID: 955077799}
+  _inputField: {fileID: 0}
+  _dropdown: {fileID: 0}
+  _valueType: 2
+  _defaultValue: false
 --- !u!95 &955077802
 Animator:
   serializedVersion: 4
@@ -23150,7 +23120,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 81901425d3ffb8e4abbeed479bb19a66, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -23767,7 +23737,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0.0005493164, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.000000006519258, y: 0.5000001}
 --- !u!114 &1132349498
@@ -40652,7 +40622,7 @@ MonoBehaviour:
       _optionName: Support Developer (More ads)
       _optionKey: Support Ads
       _requireApply: 0
-    _tabButtonTemplate: {fileID: 2487743}
+    _tabTemplate: {fileID: 2487746}
 --- !u!114 &2106797598
 MonoBehaviour:
   m_ObjectHideFlags: 0

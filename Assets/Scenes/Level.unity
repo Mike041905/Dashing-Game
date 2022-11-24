@@ -4949,10 +4949,10 @@ MonoBehaviour:
   OnAdSkipped:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 660013273}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 582122821}
+        m_TargetAssemblyTypeName: RevivePlayer, Assembly-CSharp
+        m_MethodName: Revive
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -15611,7 +15611,7 @@ MonoBehaviour:
   - Rewarded_Android
   _gameIdIOS: 5030802
   _gameIdAndroid: 5030803
-  _testMode: 1
+  _testMode: 0
 --- !u!114 &1635799464
 MonoBehaviour:
   m_ObjectHideFlags: 0

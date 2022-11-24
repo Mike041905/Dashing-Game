@@ -10145,8 +10145,7 @@ MonoBehaviour:
   stopRange: 7
   backupRange: 6.5
   shootingDistance: 10
-  difficultyMultiplier: 1
-  room: {fileID: 0}
+  Room: {fileID: 0}
   turnSpeed: 270
   AttackBreakOffDistance: 4
   pointPositionTolerance: 1
@@ -10166,8 +10165,8 @@ MonoBehaviour:
   health: 0.25
   deathEffect: {fileID: 1518020747397404029, guid: be85564dc7699d14a8de14ea9d38a1ba, type: 3}
   destroyOnDeath: 1
-  minCoinsOnDeath: 2
-  maxCoinsOnDeath: 4
+  minCoinsOnDeath: 1
+  maxCoinsOnDeath: 2
   immuneTime: 0.2
   OnDeathEvent:
     m_PersistentCalls:

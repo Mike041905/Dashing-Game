@@ -5143,8 +5143,7 @@ MonoBehaviour:
   stopRange: 10
   backupRange: 2
   shootingDistance: 13
-  difficultyMultiplier: 1
-  room: {fileID: 0}
+  Room: {fileID: 0}
 --- !u!114 &9040167499389947996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5162,7 +5161,7 @@ MonoBehaviour:
   deathEffect: {fileID: 1518020747397404029, guid: 79d43f36675b4f848bd2819a69224317, type: 3}
   destroyOnDeath: 1
   minCoinsOnDeath: 0
-  maxCoinsOnDeath: 4
+  maxCoinsOnDeath: 2
   immuneTime: 0.2
   OnDeathEvent:
     m_PersistentCalls:

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 [RequireComponent(typeof(HorizontalLayoutGroup))]
 public class OptionsMenu : MonoBehaviour
@@ -23,7 +24,7 @@ public class OptionsMenu : MonoBehaviour
         public void Spawn(OptionsMenu options)
         {
             _option = Instantiate(_optionTemplate, options.ScrollOptions.content);
-            _option.Initialize(_optionName, _optionKey, _requireApply, options.OnApply);
+            _option.Initialize(_optionName, _optionKey, _requireApply, options, options.OnApply);
             _option.gameObject.SetActive(true);
 
             _optionTemplate.gameObject.SetActive(false);
@@ -31,57 +32,36 @@ public class OptionsMenu : MonoBehaviour
     }
 
     [Serializable]
-    struct OptionsTab
+    struct Tab
     {
         [SerializeField] string _tabName;
         [SerializeField] SettingsField[] _fields;
+
         [Space(10)]
-        [SerializeField] Button _tabButtonTemplate;
-
-
-        Button _tabButtonInstance;
-        GameObject _fieldInstanceHolder;
-        OptionsMenu _options;
+        [SerializeField] OptionsTab _tabTemplate;
 
         public void SpawnTab(OptionsMenu options)
         {
-            _options = options;
+            OptionsTab _tabInstance = Instantiate(_tabTemplate, options.ScrollTabs.content);
+            _tabInstance.gameObject.SetActive(true);
+            _tabInstance.Initalize(_tabName, SpawnFields(options), options);
 
-            _tabButtonInstance = Instantiate(_tabButtonTemplate, options.ScrollTabs.content);
-            _tabButtonInstance.onClick.AddListener(OpenTab);
-            _tabButtonInstance.gameObject.SetActive(true);
-
-            _tabButtonTemplate.gameObject.SetActive(false);
-
-            SpawnFields();
+            _tabTemplate.gameObject.SetActive(false);
         }
 
-        void SpawnFields()
+        GameObject SpawnFields(OptionsMenu options)
         {
-            _fieldInstanceHolder = new();
-            _fieldInstanceHolder.transform.parent = _options.ScrollOptions.content.transform;
+            GameObject _fieldInstanceHolder = new();
+            _fieldInstanceHolder.transform.parent = options.ScrollOptions.content.transform;
             _fieldInstanceHolder.SetActive(false);
             _fieldInstanceHolder.AddComponent<VerticalLayoutGroup>();
 
             foreach (SettingsField field in _fields)
             {
-                field.Spawn(_options);
+                field.Spawn(options);
             }
-        }
 
-        void OpenTab()
-        {
-            CloseAllTabs();
-
-            _fieldInstanceHolder.SetActive(true);
-        }
-
-        void CloseAllTabs()
-        {
-            foreach (Transform tabContent in _options.ScrollOptions.content)
-            {
-                tabContent.gameObject.SetActive(false);
-            } 
+            return _fieldInstanceHolder;
         }
     }
 
@@ -91,7 +71,7 @@ public class OptionsMenu : MonoBehaviour
 
     public event UnityAction OnApply;
 
-    [SerializeField] OptionsTab[] _tabs;
+    [SerializeField] Tab[] _tabs;
 
     private void Start()
     {
@@ -111,5 +91,18 @@ public class OptionsMenu : MonoBehaviour
         {
             _tabs[i].SpawnTab(this);
         }
+    }
+
+    public void CloseAllTabs()
+    {
+        foreach (Transform tabContent in ScrollOptions.content)
+        {
+            tabContent.gameObject.SetActive(false);
+        }
+    }
+
+    public void RequireApply()
+    {
+        ApplyButton.interactable = true;
     }
 }
