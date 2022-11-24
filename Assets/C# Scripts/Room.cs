@@ -155,7 +155,7 @@ public class Room : MonoBehaviour
     protected virtual void SpawnEnemies(List<EnemyManager.Enemy> enemies, float tickets)
     {
         int InsufficentTicketsCounter = 0;
-        while (tickets > 0 || InsufficentTicketsCounter < 5) //run until tickets are depleated or couldn't find cheapest enemy (5x)
+        while (tickets > 0 && InsufficentTicketsCounter < 5) //run until tickets are depleated or couldn't find cheapest enemy (5x)
         {
             //initilaze variables
             Vector2 spawnPosition = MikeRandom.RandomVector2(-20, 20) + (Vector2)transform.position;

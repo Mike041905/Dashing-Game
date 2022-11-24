@@ -1,3 +1,4 @@
+using Mike;
 using UnityEngine;
 
 public abstract class PowerUp : MonoBehaviour
@@ -52,7 +53,7 @@ public abstract class PowerUp : MonoBehaviour
 
         for (int i = 0; i < stats.Length; i++)
         {
-            result += $"{stats[i].statName}: {stats[i].statValue} -> {stats[i].statValue + stats[i].statUpgradeOffset + stats[i].statValue * stats[i].statUpgradeMultiplier}" + "\n";
+            result += $"{stats[i].statName}: {MikeString.ConvertNumberToString(stats[i].statValue)} -> {MikeString.ConvertNumberToString(stats[i].statValue + stats[i].statUpgradeOffset + stats[i].statValue * stats[i].statUpgradeMultiplier)}" + "\n";
         }
 
         return result;

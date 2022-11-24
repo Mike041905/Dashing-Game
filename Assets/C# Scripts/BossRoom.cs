@@ -22,7 +22,7 @@ public class BossRoom : Room
 
         // This is a dummy do not initialize!
         _dummy = Instantiate(_boss.BossPrefab, transform.position, Quaternion.identity);
-        _dummy.tag = null;
+        _dummy.gameObject.tag = null;
 
         return this;
     }
@@ -49,6 +49,6 @@ public class BossRoom : Room
         spawnedEnemies = spawnedEnemies.Append(Boss.gameObject);
 
 
-        base.SpawnEnemies(new(_boss.Enemies), _boss.EnemySpawnTickets * EnemyManager.Instance.EnemySpwnTcktMul);
+        base.SpawnEnemies(new(_boss.Enemies), EnemyManager.Instance.GetSpawnTickets(_boss.EnemySpawnTickets));
     }
 }

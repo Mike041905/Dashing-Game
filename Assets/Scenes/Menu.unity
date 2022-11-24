@@ -22205,7 +22205,8 @@ MonoBehaviour:
   _bossSpawnLevelOffset: 0
   _levelSaveInterval: 5
   _levelSaveOffset: 1
-  <DifficultyPerRoomMultiplier>k__BackingField: 0
+  <StartingDifficulty>k__BackingField: 0
+  <DifficultyPerLevelAddition>k__BackingField: 0
   <DifficultyPerLevelMultiplier>k__BackingField: 0
   <DifficultyPerLevelOffset>k__BackingField: 0
   OnLevelChangedEvent:
@@ -39521,7 +39522,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1946466722
 RectTransform:
   m_ObjectHideFlags: 0

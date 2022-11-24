@@ -40,7 +40,7 @@ public class EnemyManager : MonoBehaviour
     }
 
     [field: SerializeField] public float EnemySpwnTcktDiffMul { get; private set; } = 0.05f;
-    public float EnemySpwnTcktMul { get => Mathf.Floor(EnemySpwnTcktDiffMul * GameManager.Insatnce.Difficulty); }
+    public float AdditionalSpawnTicketsPerLevel { get => EnemySpwnTcktDiffMul * GameManager.Insatnce.Level; }
     [field: SerializeField] public float DefaultRoomSpawnTickets { get; private set; } = 20;
     [field: SerializeField] public Enemy[] EnemyRoster { get; private set; } = new Enemy[0];
     [field: SerializeField] public Boss[] BossRoster { get; private set; } = new Boss[0];
@@ -119,7 +119,7 @@ public class EnemyManager : MonoBehaviour
 
     public float GetSpawnTickets(float tickets)
     {
-        return tickets + Mathf.Floor(tickets * EnemySpwnTcktMul);
+        return tickets + AdditionalSpawnTicketsPerLevel;
     }
     public float GetSpawnTickets()
     {
