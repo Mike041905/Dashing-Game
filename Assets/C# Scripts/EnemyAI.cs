@@ -1,7 +1,9 @@
 using Mike;
+using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Bindings;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -80,7 +82,7 @@ public class EnemyAI : MonoBehaviour
             if(_firePoint == null) { return; }
             if (_muzzleFlash != null) { _muzzleFlash.Play(); }
 
-            Instantiate(_projectilePrefab, _firePoint.position, Quaternion.Euler(0, 0, Random.Range(-_inaccuracy, _inaccuracy) + _firePoint.rotation.eulerAngles.z)).Initialize
+            Instantiate(_projectilePrefab, _firePoint.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(-_inaccuracy, _inaccuracy) + _firePoint.rotation.eulerAngles.z)).Initialize
             (
                 _firePoint.root.gameObject,
                 _projectileSpeed,
@@ -147,6 +149,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float stopRange = 10;
     [SerializeField] private float backupRange = 10;
     [SerializeField] private float shootingDistance = 10;
+    [SerializeField] float _wakeUpTimeMin = .5f;
+    [SerializeField] float _wakeUpTimeMax = 2;
 
 
     //---------------------------------------------
@@ -164,17 +168,18 @@ public class EnemyAI : MonoBehaviour
 
     bool _initialized = false;
 
-
     //---------------------------------------------
 
     private void Start()
     {
+        if (!_initialized) return;
+
         ShootIfAble();
     }
 
     private void FixedUpdate()
     {
-        if(!_initialized) return;
+        if (!_initialized) { return; }
 
         if (Player.Instance.PlayerHealth.Dead) { return; }
         if (Target == null) { return; }
@@ -208,12 +213,18 @@ public class EnemyAI : MonoBehaviour
 
             if (!Player.Instance.PlayerHealth.Dead && shootingDistance >= Vector2.Distance(transform.position, Target.position))
             {
-                await _pattern.Execute();
+                await Task.Delay((int)UnityEngine.Random.Range(_wakeUpTimeMin * 1000, _wakeUpTimeMax * 1000));
+                
+                while (!Player.Instance.PlayerHealth.Dead &&
+                    this != null &&
+                    enabled &&
+                    shootingDistance >= Vector2.Distance(transform.position, Target.position))
+                {
+                    await _pattern.Execute();
+                }
             }
-            else
-            {
-                await Task.Yield();
-            }
+
+            await Task.Yield();
         }
     }
 

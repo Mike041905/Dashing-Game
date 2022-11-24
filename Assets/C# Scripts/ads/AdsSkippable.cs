@@ -30,9 +30,11 @@ public class AdsSkippable : MonoBehaviour
     public void ShowInterstitialAd()
     {
         if (!enabled) { return; }
+        Advertisement.Load(SurfacingID);
 
-        if (Advertisement.IsReady())
+        if (Advertisement.IsReady(SurfacingID))
         {
+            print("Showing Interstitial Ad");
             Advertisement.Show(SurfacingID);
         }
     }

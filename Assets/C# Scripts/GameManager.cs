@@ -41,10 +41,11 @@ public class GameManager : MonoBehaviour
     public ulong Gems { get; private set; }
     public int Level { get; private set; }
     public bool IsBossLevel { get => Level % _bossSpawnLevelInterval == 0 + _bossSpawnLevelOffset; }
-    [field: SerializeField] public float DifficultyPerRoomMultiplier { get; private set; }
+    [field: SerializeField] public float StartingDifficulty { get; private set; }
+    [field: SerializeField] public float DifficultyPerLevelAddition { get; private set; }
     [field: SerializeField] public float DifficultyPerLevelMultiplier { get; private set; }
     [field: SerializeField] public float DifficultyPerLevelOffset { get; private set; }
-    public float Difficulty { get => DifficultyPerRoomMultiplier + DifficultyPerLevelOffset + Level * DifficultyPerLevelMultiplier; }
+    public float Difficulty { get => Mathf.Pow(DifficultyPerLevelMultiplier, Level - 1) * StartingDifficulty + DifficultyPerLevelOffset + Mathf.Pow(DifficultyPerLevelAddition, Level); }
 
     //----------------------------------------------
 

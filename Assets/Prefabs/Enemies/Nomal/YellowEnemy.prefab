@@ -10145,6 +10145,8 @@ MonoBehaviour:
   stopRange: 7
   backupRange: 6.5
   shootingDistance: 10
+  _wakeUpTimeMin: 0
+  _wakeUpTimeMax: 0
   Room: {fileID: 0}
   turnSpeed: 270
   AttackBreakOffDistance: 4

@@ -23,15 +23,23 @@ public struct UpgradeData
         Float
     }
 
+    [Header("General")]
     [SerializeField] string upgradeKey;
     [SerializeField] string name;
     [SerializeField] VariableType variableType;
+    [SerializeField] int maxLevel;
+
+    [Header("Stat Scaler")]
     [SerializeField] float startingValue;
     [SerializeField] float upgradeAdditionValue;
     [SerializeField] float upgradeMultiplier;
+    [SerializeField] float _upgradeOffset;
+
+    [Header("Cost Scaler")]
+    [SerializeField] float _startingCost;
+    [SerializeField] float _costAddition;
     [SerializeField] float costMultiplier;
     [SerializeField] float costOffset;
-    [SerializeField] int maxLevel;
 
     // LMAO why can Properties return values bigger that their soposed max value
     public string UpgradeName { get => name; }
@@ -51,7 +59,7 @@ public struct UpgradeData
         get => LevelToUpgradeValue(Level + 1);
     }
 
-    public float Cost { get => math.ceil(UpgradeValue * costMultiplier + costOffset); }
+    public float Cost { get => math.ceil(Mathf.Pow(costMultiplier, Level - 1) * _startingCost + costOffset + Mathf.Pow(_costAddition, Level)); }
 
 
     //--------------------------
@@ -59,7 +67,7 @@ public struct UpgradeData
 
     float LevelToUpgradeValue(int level)
     {
-        float val = startingValue * Mathf.Pow(upgradeMultiplier, level - 1) + upgradeAdditionValue * (level - 1);
+        float val = Mathf.Pow(upgradeMultiplier, level - 1) * startingValue + _upgradeOffset + Mathf.Pow(upgradeAdditionValue, level);
         return variableType == VariableType.Integer ? Mathf.Ceil(val) : val;
     }
 

@@ -53,6 +53,7 @@ public class Option : MonoBehaviour
     private void OnEnable()
     {
         // Workaround for animator
+        if(!_initialized) { return; }
 
         if (_slider != null) { _slider.onValueChanged.Invoke(_slider.value); }
         if (_toggle != null) { _toggle.onValueChanged.Invoke(_toggle.isOn); }

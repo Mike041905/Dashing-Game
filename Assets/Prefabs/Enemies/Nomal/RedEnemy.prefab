@@ -5143,6 +5143,8 @@ MonoBehaviour:
   stopRange: 10
   backupRange: 2
   shootingDistance: 13
+  _wakeUpTimeMin: 0
+  _wakeUpTimeMax: 2
   Room: {fileID: 0}
 --- !u!114 &9040167499389947996
 MonoBehaviour:

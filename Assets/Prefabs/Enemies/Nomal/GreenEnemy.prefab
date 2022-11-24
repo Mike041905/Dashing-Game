@@ -5091,7 +5091,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pattern:
     _inTime: 0
-    _outTime: 2
+    _outTime: 3
     _repeat:
     - _inTime: 0
       _outTime: 0
@@ -5111,6 +5111,8 @@ MonoBehaviour:
   stopRange: 10
   backupRange: 7
   shootingDistance: 11
+  _wakeUpTimeMin: 0.5
+  _wakeUpTimeMax: 1
   Room: {fileID: 0}
 --- !u!114 &9040167499389947996
 MonoBehaviour:

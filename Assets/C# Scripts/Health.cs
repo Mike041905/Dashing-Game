@@ -198,7 +198,7 @@ public class Health : MonoBehaviour
         OnDeath?.Invoke();
         OnDeathEvent?.Invoke();
 
-        int coinAmmount = Random.Range(minCoinsOnDeath, maxCoinsOnDeath);
+        int coinAmmount = Random.Range(minCoinsOnDeath, maxCoinsOnDeath + 1);
         for (int i = 0; i < coinAmmount; i++) // idk if coinAmmount is a copy in a for loop or not and im to lazy to look it up
         {
             Instantiate(GameManager.Insatnce.CoinPrefab, transform.position + (Vector3) Mike.MikeRandom.RandomVector2(-.5f, .5f, -.5f, .5f), Quaternion.identity).GetComponent<Item>().coinsPerPickup = 1 + Mathf.RoundToInt(GameManager.Insatnce.Level * .1f);

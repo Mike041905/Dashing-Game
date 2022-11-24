@@ -99,7 +99,7 @@ public static class StorageManager
             public const string SupportAdsSavekey = "Support Ads";
 
             static bool? _supportAds = null;
-            public static bool SupportAds { get { if (_supportAds == null) { _supportAds = PlayerPrefs.GetInt(SupportAdsSavekey, 0) == 1; } return _supportAds.Value; } set { _supportAds = value; PlayerPrefs.SetInt(SupportAdsSavekey, value ? 1 : 0); } }
+            public static bool SupportAds { get { _supportAds ??= PlayerPrefs.GetInt(SupportAdsSavekey, 0) == 1; return _supportAds.Value; } set { _supportAds = value; PlayerPrefs.SetInt(SupportAdsSavekey, value ? 1 : 0); } }
         }
 
         public static void SaveOption<T>(string key, T value)

@@ -13624,9 +13624,10 @@ MonoBehaviour:
   _bossSpawnLevelOffset: 0
   _levelSaveInterval: 5
   _levelSaveOffset: 1
-  <DifficultyPerRoomMultiplier>k__BackingField: 0
-  <DifficultyPerLevelMultiplier>k__BackingField: 1.3
-  <DifficultyPerLevelOffset>k__BackingField: -0.3
+  <StartingDifficulty>k__BackingField: 1
+  <DifficultyPerLevelAddition>k__BackingField: 0
+  <DifficultyPerLevelMultiplier>k__BackingField: 1.2
+  <DifficultyPerLevelOffset>k__BackingField: 0
   OnLevelChangedEvent:
     m_PersistentCalls:
       m_Calls:

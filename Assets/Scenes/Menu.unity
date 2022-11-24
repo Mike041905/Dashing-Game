@@ -2165,6 +2165,161 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 198641192}
   m_CullTransparentMesh: 1
+--- !u!1 &213410862
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 213410863}
+  - component: {fileID: 213410864}
+  - component: {fileID: 213410865}
+  m_Layer: 5
+  m_Name: DevCodeHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &213410863
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213410862}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1497400403}
+  m_Father: {fileID: 849586394}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &213410864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213410862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4f111b87583214aaddfd321032fb87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _keyName: '`'
+  _onKeyDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _onKeyContinous:
+    m_PersistentCalls:
+      m_Calls: []
+  _onKeyUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1497400402}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 213410865}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 213410864}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &213410865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213410862}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4f111b87583214aaddfd321032fb87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _keyName: '`'
+  _onKeyDown:
+    m_PersistentCalls:
+      m_Calls: []
+  _onKeyContinous:
+    m_PersistentCalls:
+      m_Calls: []
+  _onKeyUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1497400402}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 213410864}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 213410865}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &221673847
 GameObject:
   m_ObjectHideFlags: 0
@@ -2981,7 +3136,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1532139289}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -3399,7 +3554,7 @@ RectTransform:
   m_Children:
   - {fileID: 1041224248}
   m_Father: {fileID: 1532139289}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -15064,7 +15219,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -22023,6 +22178,7 @@ RectTransform:
   - {fileID: 505570198}
   - {fileID: 1692925786}
   - {fileID: 1620173876}
+  - {fileID: 213410863}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -23737,7 +23893,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0.0005493164, y: 0}
+  m_AnchoredPosition: {x: 0.00012207031, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.000000006519258, y: 0.5000001}
 --- !u!114 &1132349498
@@ -35704,17 +35860,17 @@ RectTransform:
   m_GameObject: {fileID: 1497400402}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 1.0799998, y: 1.0799998, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1503376576}
   - {fileID: 500710966}
-  m_Father: {fileID: 1532139289}
+  m_Father: {fileID: 213410863}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 147, y: 83}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: -434.3852, y: -8}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1497400404
@@ -36064,7 +36220,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1497400403}
   - {fileID: 341130674}
   - {fileID: 313000341}
   - {fileID: 1998192582}
@@ -37436,6 +37591,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1692925786}
+  - component: {fileID: 1692925787}
   m_Layer: 0
   m_Name: Stars
   m_TagString: Untagged
@@ -37464,6 +37620,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &1692925787
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692925785}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c4b59954d677f534f8e599c08d5e3376, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1718583739
 GameObject:
   m_ObjectHideFlags: 0
@@ -38009,124 +38185,163 @@ MonoBehaviour:
     - upgradeKey: Offline Earnings
       name: Offline Earnings
       variableType: 1
+      maxLevel: 0
       startingValue: 1
       upgradeAdditionValue: 0
       upgradeMultiplier: 1.1
-      costMultiplier: 1.2
-      costOffset: 98
-      maxLevel: 0
+      _upgradeOffset: 0
+      _startingCost: 100
+      _costAddition: 0
+      costMultiplier: 1.1
+      costOffset: 0
   - name: Player
     upgrades:
     - upgradeKey: Damage
       name: Damage
       variableType: 1
+      maxLevel: 0
       startingValue: 1
       upgradeAdditionValue: 0
-      upgradeMultiplier: 1.1
-      costMultiplier: 1
-      costOffset: 9
-      maxLevel: 0
+      upgradeMultiplier: 1.2
+      _upgradeOffset: 0
+      _startingCost: 10
+      _costAddition: 0
+      costMultiplier: 1.2
+      costOffset: 0
     - upgradeKey: Health
       name: Health
       variableType: 1
+      maxLevel: 0
       startingValue: 100
       upgradeAdditionValue: 0
-      upgradeMultiplier: 1.1
-      costMultiplier: 1
-      costOffset: -90
-      maxLevel: 0
+      upgradeMultiplier: 1.2
+      _upgradeOffset: 0
+      _startingCost: 10
+      _costAddition: 0
+      costMultiplier: 1.2
+      costOffset: 0
     - upgradeKey: Health On Kill
       name: Life Steal
       variableType: 1
+      maxLevel: 0
       startingValue: 10
       upgradeAdditionValue: 0
-      upgradeMultiplier: 1.1
-      costMultiplier: 1
+      upgradeMultiplier: 1.2
+      _upgradeOffset: 0
+      _startingCost: 10
+      _costAddition: 0
+      costMultiplier: 1.2
       costOffset: 0
-      maxLevel: 0
     - upgradeKey: Stamina Recharge
       name: Stamina Recharge
       variableType: 1
+      maxLevel: 50
       startingValue: 2
       upgradeAdditionValue: 0
-      upgradeMultiplier: 1.05
-      costMultiplier: 500
-      costOffset: -950
-      maxLevel: 50
+      upgradeMultiplier: 1.1
+      _upgradeOffset: 0
+      _startingCost: 100
+      _costAddition: 0
+      costMultiplier: 2
+      costOffset: 0
   - name: Cheats
     upgrades:
     - upgradeKey: 
       name: 
       variableType: 0
+      maxLevel: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
+      _upgradeOffset: 0
+      _startingCost: 0
+      _costAddition: 0
       costMultiplier: 0
       costOffset: -1
-      maxLevel: 0
     - upgradeKey: 
       name: 
       variableType: 0
+      maxLevel: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
+      _upgradeOffset: 0
+      _startingCost: 0
+      _costAddition: 0
       costMultiplier: 0
       costOffset: -10
-      maxLevel: 0
     - upgradeKey: 
       name: 
       variableType: 0
+      maxLevel: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
+      _upgradeOffset: 0
+      _startingCost: 0
+      _costAddition: 0
       costMultiplier: 0
       costOffset: -100
-      maxLevel: 0
     - upgradeKey: 
       name: 
       variableType: 1
+      maxLevel: 0
       startingValue: 1
       upgradeAdditionValue: 0
       upgradeMultiplier: 2
+      _upgradeOffset: 0
+      _startingCost: 0
+      _costAddition: 0
       costMultiplier: -1
       costOffset: 0
-      maxLevel: 0
     - upgradeKey: 
       name: 
       variableType: 1
+      maxLevel: 0
       startingValue: 1
       upgradeAdditionValue: 0
       upgradeMultiplier: 2
+      _upgradeOffset: 0
+      _startingCost: 0
+      _costAddition: 0
       costMultiplier: 1
       costOffset: 0
-      maxLevel: 0
     - upgradeKey: 
       name: 
       variableType: 0
+      maxLevel: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
+      _upgradeOffset: 0
+      _startingCost: 0
+      _costAddition: 0
       costMultiplier: 0
       costOffset: 100
-      maxLevel: 0
     - upgradeKey: 
       name: 
       variableType: 0
+      maxLevel: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
+      _upgradeOffset: 0
+      _startingCost: 0
+      _costAddition: 0
       costMultiplier: 0
       costOffset: 10
-      maxLevel: 0
     - upgradeKey: 
       name: 
       variableType: 0
+      maxLevel: 0
       startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 0
+      _upgradeOffset: 0
+      _startingCost: 0
+      _costAddition: 0
       costMultiplier: 0
       costOffset: 1
-      maxLevel: 0
 --- !u!1 &1800446454
 GameObject:
   m_ObjectHideFlags: 0
@@ -39818,7 +40033,7 @@ RectTransform:
   m_Children:
   - {fileID: 1098324140}
   m_Father: {fileID: 1532139289}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -40593,7 +40808,7 @@ RectTransform:
   - {fileID: 323818162}
   - {fileID: 676592985}
   m_Father: {fileID: 1532139289}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

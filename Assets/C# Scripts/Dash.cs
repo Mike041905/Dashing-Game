@@ -264,8 +264,9 @@ public class Dash : MonoBehaviour
         if(collision.gameObject.TryGetComponent(out EnemyAI enemy))
         {
             enemy.EnemyHealth.TakeDamage(Damage, gameObject);
+            OnHitEnemy?.Invoke(collision.gameObject);
 
-            if(enemy is BossAI && !enemy.EnemyHealth.Dead)
+            if(!enemy.EnemyHealth.Dead)
             {
                 Bounce(collision);
             }
@@ -274,8 +275,6 @@ public class Dash : MonoBehaviour
                 CameraShaker.Instance.ShakeOnce(1, 4, .01f, .2f);
                 HapticFeedback.Vibrate(100);
             }
-
-            OnHitEnemy?.Invoke(collision.gameObject);
         }
         else
         {
