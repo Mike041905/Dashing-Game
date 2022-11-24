@@ -21,9 +21,9 @@ public class OptionsMenu : MonoBehaviour
         [SerializeField] string _optionKey;
         [SerializeField] bool _requireApply;
 
-        public void Spawn(OptionsMenu options)
+        public void Spawn(OptionsMenu options, Transform parent)
         {
-            _option = Instantiate(_optionTemplate, options.ScrollOptions.content);
+            _option = Instantiate(_optionTemplate, parent);
             _option.Initialize(_optionName, _optionKey, _requireApply, options, options.OnApply);
             _option.gameObject.SetActive(true);
 
@@ -52,13 +52,15 @@ public class OptionsMenu : MonoBehaviour
         GameObject SpawnFields(OptionsMenu options)
         {
             GameObject _fieldInstanceHolder = new();
-            _fieldInstanceHolder.transform.parent = options.ScrollOptions.content.transform;
+            _fieldInstanceHolder.transform.parent = options.ScrollOptions.content;
+            _fieldInstanceHolder.transform.localScale = Vector3.one;
+            _fieldInstanceHolder.transform.position = Vector3.zero;
             _fieldInstanceHolder.SetActive(false);
             _fieldInstanceHolder.AddComponent<VerticalLayoutGroup>();
 
             foreach (SettingsField field in _fields)
             {
-                field.Spawn(options);
+                field.Spawn(options, _fieldInstanceHolder.transform);
             }
 
             return _fieldInstanceHolder;
@@ -91,6 +93,12 @@ public class OptionsMenu : MonoBehaviour
         {
             _tabs[i].SpawnTab(this);
         }
+
+        DestroyImmediate(ScrollTabs.content.GetChild(0).gameObject); // destroy tab template
+        DestroyImmediate(ScrollOptions.content.GetChild(0).gameObject); // destroy options template
+
+        ScrollTabs.content.GetChild(0).gameObject.SetActive(true);
+        ScrollOptions.content.GetChild(0).gameObject.SetActive(true);
     }
 
     public void CloseAllTabs()
