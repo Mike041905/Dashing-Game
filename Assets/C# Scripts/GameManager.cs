@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
     public ulong Gems { get; private set; }
     public int Level { get; private set; }
     public bool IsBossLevel { get => Level % _bossSpawnLevelInterval == 0 + _bossSpawnLevelOffset; }
+    [field: SerializeField] private float _coinsPerDifficultyMultiplier = .7f;
+    public float CoinsPerDifficulty { get => Difficulty * _coinsPerDifficultyMultiplier;}
     [field: SerializeField] public float StartingDifficulty { get; private set; }
     [field: SerializeField] public float DifficultyPerLevelAddition { get; private set; }
     [field: SerializeField] public float DifficultyPerLevelMultiplier { get; private set; }

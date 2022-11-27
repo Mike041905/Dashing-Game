@@ -63,7 +63,7 @@ public class Item : MonoBehaviour
 
         if (_isPowerUp) { ChoosePowerUp(); }
 
-        GameManager.Insatnce.AddCoins(coinsPerPickup * GameManager.Insatnce.Difficulty);
+        GameManager.Insatnce.AddCoins(coinsPerPickup * GameManager.Insatnce.CoinsPerDifficulty);
         GameManager.Insatnce.AddGems((ulong)gemsPerPickup);
 
         if (collectionEffect != null) Instantiate(collectionEffect, transform.position, Quaternion.identity);

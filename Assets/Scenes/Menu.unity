@@ -22205,6 +22205,7 @@ MonoBehaviour:
   _bossSpawnLevelOffset: 0
   _levelSaveInterval: 5
   _levelSaveOffset: 1
+  _coinsPerDifficultyMultiplier: 0.7
   <StartingDifficulty>k__BackingField: 0
   <DifficultyPerLevelAddition>k__BackingField: 0
   <DifficultyPerLevelMultiplier>k__BackingField: 0
@@ -22708,23 +22709,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '-Enemy health will now properly scale with difficulty
-
-    -Enemy damage
-    will now properly scale with difficulty
-
-    -Minimap rooms and conectors will
-    no longer look distorted
-
-    -Improved performance
-
-    -Offline earnings will
-    no show properly
-
-    -Fixed pause menu transparent background
-
-    -Missiles
-    will no longer target boss room after all enemies have been eliminated'
+  m_text: -The player should now be able to close the offline earnings pop-up
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -36842,20 +36827,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '-Changed dropped coins ammount
+  m_text: '-Balanced Explosion PowerUp
 
-    -More enemies spawn the higher the
-    level
+    -Explosion PowerUp now triggers after
+    an enemy has been destroyed instead of on hit
 
-    -PowerUps will now be rounded
-
-    -The player will now bounce off
-    of enemies unless the enemy Is destroyed
-
-    -Changed camera behaviour
-
-    -Balanced
-    Upgrades and difficulty'
+    -Offline earnings will now
+    only work while online as they use time from the internet instead of the player''s
+    device (No more cheating, Sorry)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -40704,19 +40683,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '-Ad failed message
-
-    -Temporary Immortality on revive (stops after
-    player dashes)
-
-    -Options Menu
-
-    -Support Developer option
-
-    -Star animation
-    on boot up
-
-    -Added delay before first enemy shot'
+  m_text: Nothing
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
