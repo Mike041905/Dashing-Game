@@ -2,19 +2,40 @@ using System;
 using UnityEngine;
 using TMPro;
 using Mike;
+using System.Net;
+using System.Threading.Tasks;
+using Unity.Mathematics;
 
 public class OfflineEarnings : MonoBehaviour
 {
+    static OfflineEarnings _instance;
+    public static OfflineEarnings Instance { get => _instance; }
+
+    private void Awake()
+    {
+        if(Instance != null) { DestroyImmediate(gameObject); return; }
+
+        _instance = this;
+    }
+
+
     [SerializeField] private GameObject popUp;
     [SerializeField] private TextMeshProUGUI coinsGained;
     [SerializeField] private int _maxOfflineTime;
 
+
+    const string LastLoginDateSaveKey = "Last Login Date";
+
+    DateTime UTCNow { get => GetUTCNowInternet(); }
+    DateTime LastLoginDate { get => StorageManager.GetDate(LastLoginDateSaveKey, UTCNow); set => StorageManager.SaveDate(LastLoginDateSaveKey, value); }
+    TimeSpan TimeDifference { get => UTCNow - LastLoginDate; }
+
+
     void Start()
     {
-        if (RemoveIfIsDuplicate()) return;
         DontDestroyOnLoad(gameObject);
 
-        InitializeOfflineEarnings();
+        // Run on background thread as web request may take too long
         ShowCoinsGained();
     }
 
@@ -24,54 +45,40 @@ public class OfflineEarnings : MonoBehaviour
     //------------------------
 
 
-    bool RemoveIfIsDuplicate()
+    public DateTime GetUTCNowInternet()
     {
-        if (GameObject.FindGameObjectsWithTag("OfflineEarner").Length > 1) { Destroy(gameObject); return true; }
-
-        return false;
+        HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create("http://google.com");
+        myHttpWebRequest.Timeout = 10000; // 10s timeout
+        WebResponse response = myHttpWebRequest.GetResponse();
+        string res = response.Headers["date"];
+        response.Dispose();
+        return DateTime.Parse(res).ToUniversalTime();
     }
 
     void ShowCoinsGained()
     {
-        InitializeOfflineEarnings();
+        if(popUp == null) { return; }
 
-        if (Mathf.Ceil((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalHours) >= _maxOfflineTime)
-        {
-            coinsGained.text = MikeString.ConvertNumberToString(Mathf.RoundToInt(_maxOfflineTime * 60 * Upgrade.GetUpgrade("Offline Earnings", UpgradeData.VariableType.Float)));
-        }
-        else
-        {
-            coinsGained.text = MikeString.ConvertNumberToString(Mathf.RoundToInt((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalSeconds / 100 * Upgrade.GetUpgrade("Offline Earnings",UpgradeData.VariableType.Float)));
-        }
+        coinsGained.text = MikeString.ConvertNumberToString(math.round(CalculateOfflineCoins(TimeDifference, _maxOfflineTime)));
 
         popUp.SetActive(coinsGained.text != "0");
     }
 
     public void GiveOfflineEarnings()
     {
-        if(Mathf.RoundToInt((float)(DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date"))).TotalHours) >= 10f)
-        {
-            GameManager.Insatnce.AddCoins((ulong)Mathf.RoundToInt(432 * Upgrade.GetUpgrade("Offline Earnings", UpgradeData.VariableType.Float)));
-        }
-        else
-        {
-            GameManager.Insatnce.AddCoins((ulong)Mathf.RoundToInt( (float) (DateTime.UtcNow - DateTime.Parse(PlayerPrefs.GetString("Last Login Date")) ).TotalSeconds / 100 * Upgrade.GetUpgrade("Offline Earnings", UpgradeData.VariableType.Float)));
-        }
+        GameManager.Insatnce.AddCoins(CalculateOfflineCoins(TimeDifference, _maxOfflineTime));
 
         SetNewLastLoginDate();
     }
 
-    void SetNewLastLoginDate()
+    double CalculateOfflineCoins(TimeSpan time, float maxHours = Mathf.Infinity)
     {
-        PlayerPrefs.SetString("Last Login Date", DateTime.UtcNow.ToString("G") + "");
-        NotificationManager.Instance.SendCollectCoinsNotification();
+        return (time.TotalHours > maxHours ? maxHours : time.TotalHours) * Upgrade.GetUpgrade("Offline Earnings", UpgradeData.VariableType.Float);
     }
 
-    void InitializeOfflineEarnings()
+    void SetNewLastLoginDate()
     {
-        if (!PlayerPrefs.HasKey("Last Login Date"))
-        {
-            PlayerPrefs.SetString("Last Login Date", DateTime.UtcNow.ToString("G") + "");
-        }
+        LastLoginDate = UTCNow;
+        NotificationManager.Instance.SendCollectCoinsNotification();
     }
 }

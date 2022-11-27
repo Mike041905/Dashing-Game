@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Missile : MonoBehaviour
 {
     public Transform target;
@@ -18,44 +19,47 @@ public class Missile : MonoBehaviour
     [SerializeField] float boostTime = 0.3f;
     [SerializeField] float boostDeceleration = 1.5f;
 
-    private float currentSpeed = 0;
-    private bool initialBoost = true;
-    private float boostTimer = 0;
+    private float _currentSpeed = 0;
+    private bool _initialBoost = true;
+    private float _boostTimer = 0;
 
+    private bool _hasTarget = true;
+
+    Rigidbody2D _rb;
+    Rigidbody2D Rb { get { if (_rb == null) { _rb = GetComponent<Rigidbody2D>(); } return _rb; } }
 
     private void Start()
     {
-        currentSpeed = speed;
+        _currentSpeed = speed;
         trail.Stop();
     }
 
     void FixedUpdate()
     {
-        if(currentSpeed < speed)
+        if(_currentSpeed < speed)
         {
-            currentSpeed += 10f * Time.fixedDeltaTime + currentSpeed * 1.1f * Time.fixedDeltaTime;
+            _currentSpeed += 10f * Time.fixedDeltaTime + _currentSpeed * 1.1f * Time.fixedDeltaTime;
 
-            if(currentSpeed > speed) { currentSpeed = speed; }
+            if(_currentSpeed > speed) { _currentSpeed = speed; }
         }
 
-        if(target == null) 
+        if(target == null & _hasTarget) 
         { 
             GameObject go = MikeGameObject.GetClosestTargetWithTag(transform.position, "Enemy"); 
-            if (go == null) 
-            {
-                Hit(); 
-                return; 
-            } 
-            else 
+            if(go != null) 
             { 
                 target = go.transform; 
-            } 
+            }
+            else
+            {
+                _hasTarget = false;
+            }
         }
 
-        transform.position += currentSpeed * Time.fixedDeltaTime * transform.up;
+        Rb.MovePosition(transform.position + _currentSpeed * Time.fixedDeltaTime * transform.up);
 
-        if(initialBoost && boostTimer < boostTime) { boostTimer += Time.fixedDeltaTime; currentSpeed -= currentSpeed * Time.deltaTime; return; }
-        else if(initialBoost) { initialBoost = false; trail.Play(); currentSpeed = 0; }
+        if(_initialBoost && _boostTimer < boostTime) { _boostTimer += Time.fixedDeltaTime; _currentSpeed -= _currentSpeed * boostDeceleration * Time.deltaTime; return; }
+        else if(_initialBoost) { _initialBoost = false; trail.Play(); _currentSpeed = 0; }
 
         if(target != null) transform.rotation = Quaternion.RotateTowards(transform.rotation, Mike.MikeTransform.Rotation.LookTwards(transform.position, (Vector2)target.position * (1 + 0.1f * Random.Range(-maxWiggle, maxWiggle))), rotSpeed * Time.deltaTime);
     }

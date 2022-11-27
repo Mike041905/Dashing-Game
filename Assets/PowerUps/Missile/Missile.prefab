@@ -5013,7 +5013,7 @@ MonoBehaviour:
   trail: {fileID: 5676547036465115752}
   explosionPrefab: {fileID: 7525922467955804732, guid: 7f8529ba6318817478108b222d24acf5, type: 3}
   boostTime: 0.3
-  boostDeceleration: 1.5
+  boostDeceleration: 5
 --- !u!50 &1792948013366909596
 Rigidbody2D:
   serializedVersion: 4

@@ -154,6 +154,38 @@ public static class StorageManager
     //---------------------------
 
 
+    #region DateTime
+    public const string DateTimeSaveSuffix = "_DateTime";
+
+    /// <summary>
+    /// Saves Date (G) in PlayerPrefs with special Key
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="dateTime"></param>
+    /// <returns></returns>
+    public static DateTime SaveDate(string key, DateTime dateTime)
+    {
+        PlayerPrefs.SetString(key + DateTimeSaveSuffix, dateTime.ToString("G"));
+        return dateTime;
+    }
+
+    /// <param name="key"></param>
+    /// <param name="defaultDateTime"></param>
+    /// <returns><see cref="DateTime"/> Stored in playerPrefs by <see cref="SaveDate(string, DateTime)"/> function</returns>
+    public static DateTime GetDate(string key, DateTime defaultDateTime)
+    {
+        if(!PlayerPrefs.HasKey(key + DateTimeSaveSuffix)) { return SaveDate(key, defaultDateTime); }
+
+        return DateTime.Parse(PlayerPrefs.GetString(key + DateTimeSaveSuffix));
+    }
+
+    /// <summary>Defaults to <see cref="DateTime.Now"/></summary>
+    /// <param name="key"></param>
+    /// <param name="defaultDateTime"></param>
+    /// <returns><see cref="DateTime"/> Stored in playerPrefs by <see cref="SaveDate(string, DateTime)"/> function</returns>
+    public static DateTime GetDate(string key) => GetDate(key, DateTime.Now);
+    #endregion
+
     #region ResetProgress
     /// <summary>
     /// Used to temporarly store data when executing <see cref="ResetProgress()"/>

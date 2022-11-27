@@ -5475,7 +5475,6 @@ MonoBehaviour:
   _staminaSlider: {fileID: 1933296686}
   _lineRenderer: {fileID: 602972577}
   _cameraTarget: {fileID: 744869240}
-  _spriteTransform: {fileID: 721634215}
   Damage: 1
   DashSpeed: 40
   DashDistance: 7
@@ -5798,6 +5797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae200ecc29f50142a3cffb03900108d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 721634214}
 --- !u!58 &602972581
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -15620,7 +15620,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1635799461}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47a0d754d9d02644298f41762f9a5523, type: 3}
   m_Name: 
@@ -15653,7 +15653,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1635799461}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c8391b5f38087b4aa451a43cd835214, type: 3}
   m_Name: 

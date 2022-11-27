@@ -21,9 +21,11 @@ public class Player : MonoBehaviour
 
 	Room _currentRoom;
 	public Room CurrentRoom { get { return _currentRoom = _currentRoom != null ? _currentRoom : Mike.MikeGameObject.GetClosestTargetWithTag(transform.position, "Room").GetComponent<Room>(); } set => _currentRoom = value; }
-	
 
-	public void OnDeath()
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    public SpriteRenderer SpriteRenderer { get { return _spriteRenderer = _spriteRenderer != null ? _spriteRenderer : GetComponent<SpriteRenderer>(); } }
+
+    public void OnDeath()
 	{
 		SetCommon(false);
 

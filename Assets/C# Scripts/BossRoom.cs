@@ -22,7 +22,8 @@ public class BossRoom : Room
 
         // This is a dummy do not initialize!
         _dummy = Instantiate(_boss.BossPrefab, transform.position, Quaternion.identity);
-        _dummy.gameObject.tag = null;
+        _dummy.gameObject.tag = "Untagged";
+        Destroy(_dummy.EnemyHealth);
 
         return this;
     }

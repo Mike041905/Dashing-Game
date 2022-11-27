@@ -12,15 +12,15 @@ public class PowerUpMisslle : PowerUp
         ExecuteMissile();
     }
 
-    float missileTimer = 0;
+    float _missileTimer = 0;
     public void ExecuteMissile()
     {
         if (!Player.Instance.CurrentRoom.ActiveFight) { return; } //check if any enemy alive
-        if (missileTimer < GetStat("Interval").statValue) { missileTimer += Time.deltaTime; return; }//makes the method run at a certain interval
-        else { missileTimer = 0; }//reset timer
+        if (_missileTimer < GetStat("Interval").statValue) { _missileTimer += Time.deltaTime; return; }//makes the method run at a certain interval
+        else { _missileTimer = 0; }//reset timer
         if (Random.Range(0f, 1f) > GetStat("ChancePerc").statValue) { return; }//roll dice
 
-        Missile missile = Instantiate(missilePrefab, transform.position, transform.rotation);//spawn missile
+        Missile missile = Instantiate(missilePrefab, Player.Instance.transform.position, Player.Instance.SpriteRenderer.transform.rotation);//spawn missile
 
         missile.target = MikeGameObject.GetClosestTargetWithTag(missile.transform.position, "Enemy").transform;//set missile target
     }
