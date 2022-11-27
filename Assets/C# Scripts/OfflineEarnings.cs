@@ -16,6 +16,7 @@ public class OfflineEarnings : MonoBehaviour
         if(Instance != null) { DestroyImmediate(gameObject); return; }
 
         _instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
 
@@ -26,16 +27,16 @@ public class OfflineEarnings : MonoBehaviour
 
     const string LastLoginDateSaveKey = "Last Login Date";
 
-    DateTime UTCNow { get => GetUTCNowInternet(); }
-    DateTime LastLoginDate { get => StorageManager.GetDate(LastLoginDateSaveKey, UTCNow); set => StorageManager.SaveDate(LastLoginDateSaveKey, value); }
-    TimeSpan TimeDifference { get => UTCNow - LastLoginDate; }
+    DateTime _UTCNow;
+    DateTime LastLoginDate { get => StorageManager.GetDate(LastLoginDateSaveKey, _UTCNow); set => StorageManager.SaveDate(LastLoginDateSaveKey, value); }
+    TimeSpan TimeDifference { get => _UTCNow - LastLoginDate; }
 
+    double? _coins;
 
-    void Start()
+    async void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        _UTCNow = await Task.Run(GetUTCNowInternet);
 
-        // Run on background thread as web request may take too long
         ShowCoinsGained();
     }
 
@@ -51,6 +52,7 @@ public class OfflineEarnings : MonoBehaviour
         myHttpWebRequest.Timeout = 10000; // 10s timeout
         WebResponse response = myHttpWebRequest.GetResponse();
         string res = response.Headers["date"];
+        response.Close();
         response.Dispose();
         return DateTime.Parse(res).ToUniversalTime();
     }
@@ -59,26 +61,28 @@ public class OfflineEarnings : MonoBehaviour
     {
         if(popUp == null) { return; }
 
-        coinsGained.text = MikeString.ConvertNumberToString(math.round(CalculateOfflineCoins(TimeDifference, _maxOfflineTime)));
+        _coins = math.round(CalculateOfflineCoins(TimeDifference, _maxOfflineTime));
+        coinsGained.text = MikeString.ConvertNumberToString(_coins.Value);
 
         popUp.SetActive(coinsGained.text != "0");
     }
 
     public void GiveOfflineEarnings()
     {
-        GameManager.Insatnce.AddCoins(CalculateOfflineCoins(TimeDifference, _maxOfflineTime));
+        GameManager.Insatnce.AddCoins(_coins.Value);
 
         SetNewLastLoginDate();
+        _coins = null;
     }
 
     double CalculateOfflineCoins(TimeSpan time, float maxHours = Mathf.Infinity)
     {
-        return (time.TotalHours > maxHours ? maxHours : time.TotalHours) * Upgrade.GetUpgrade("Offline Earnings", UpgradeData.VariableType.Float);
+        return (time.TotalHours > maxHours ? maxHours : time.TotalHours) * 60 * Upgrade.GetUpgrade("Offline Earnings", UpgradeData.VariableType.Float);
     }
 
     void SetNewLastLoginDate()
     {
-        LastLoginDate = UTCNow;
+        LastLoginDate = _UTCNow;
         NotificationManager.Instance.SendCollectCoinsNotification();
     }
 }
