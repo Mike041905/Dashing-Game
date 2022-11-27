@@ -8,24 +8,13 @@ public class PowerUpExplode : PowerUp
 
     void Start()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Dash>().OnHitEnemy += Explode;
+        Player.Instance.PlayerDash.OnEnemyKilled += Explode;
     }
 
-    private void Update()
+    void Explode(EnemyAI enemy)
     {
-        if (coolDown > 0) coolDown -= Time.deltaTime;
-    }
-
-    float coolDown = 0;
-    void Explode(GameObject hit)
-    {
-        if(coolDown <= 0)
-        {
-            GameObject go = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            go.transform.localScale = Vector2.one * GetStat("Size").statValue;
-            go.GetComponent<Explosion>().radius = GetStat("Size").statValue;
-
-            coolDown = .25f;
-        }
+        GameObject go = Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
+        go.transform.localScale = Vector2.one * GetStat("Size").statValue;
+        go.GetComponent<Explosion>().radius = GetStat("Size").statValue;
     }
 }

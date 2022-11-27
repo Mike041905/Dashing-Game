@@ -41,6 +41,7 @@ public class Dash : MonoBehaviour
     public event UnityAction OnEndDash;
 
     public event UnityAction<GameObject> OnHitEnemy;
+    public event UnityAction<EnemyAI> OnEnemyKilled;
 
     private bool _isAiming = false;
     private Vector2 _firstTouchPosition;
@@ -271,6 +272,7 @@ public class Dash : MonoBehaviour
             }
             else
             {
+                OnEnemyKilled?.Invoke(enemy);
                 CameraShaker.Instance.ShakeOnce(1, 4, .01f, .2f);
                 HapticFeedback.Vibrate(100);
             }
