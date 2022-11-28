@@ -45,6 +45,7 @@ public class Health : MonoBehaviour
     [SerializeField] private int minCoinsOnDeath = 0;
     [SerializeField] private int maxCoinsOnDeath = 3;
     [SerializeField] float immuneTime = .2f;
+    public bool BunceOnDeath = false;
 
     [Header("ShakeOptions")]
     [SerializeField] float _shakeMagintudeDeath = 2;
@@ -222,4 +223,6 @@ public class Health : MonoBehaviour
         _maxhealth = maxHealth;
         if(healToMax) { CurrentHealth = maxHealth; }
     }
+
+    public void HealToMax() => CurrentHealth = Maxhealth;
 }

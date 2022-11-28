@@ -272,32 +272,44 @@ public class Dash : MonoBehaviour
         CameraShaker.Instance.ShakeOnce(_shakeMagintudeHit, _shakeRoughnessHit, _shakeInTimeHit, _shakeOutTimeHit);
         HapticFeedback.Vibrate((int)(_vibrateTime * 1000));
 
-        if (collision.gameObject.TryGetComponent(out Health health))
+        collision.gameObject.TryGetComponent(out EnemyAI enemy);
+        Health health = enemy != null ? enemy.EnemyHealth : null;
+
+        if (health != null) // is enemy
         {
-            health.TryGetComponent(out EnemyAI enemy);
-
-            health.TakeDamage(Damage, gameObject);
-            if (enemy != null) { OnHitEnemy?.Invoke(enemy); }
-
-            if(!health.Dead)
-            {
-                if(_hitFX != null) 
-                {
-                    ContactPoint2D contact = collision.GetContact(0);
-                    Instantiate(_hitFX, contact.point, MikeTransform.Rotation.LookTwards(contact.point, contact.normal)); 
-                }
-                if(UseBounce) { Bounce(collision); }
-            }
-            else
-            {
-                if (enemy != null) { OnEnemyKilled?.Invoke(enemy); }
-            }
+            DealDamage(UseBounce);
         }
-        else
+        else if(collision.gameObject.TryGetComponent(out health)) // is not enemy
+        {
+            DealDamage(true);
+        }
+        else // not enemy and no healh script
         {
             Bounce(collision);
         }
 
+        void DealDamage(bool bounce)
+        {
+            health.TakeDamage(Damage, gameObject);
+
+            if (enemy != null) { OnHitEnemy?.Invoke(enemy); }
+
+            if (!health.Dead)
+            {
+                if (_hitFX != null)
+                {
+                    ContactPoint2D contact = collision.GetContact(0);
+                    Instantiate(_hitFX, contact.point, MikeTransform.Rotation.LookTwards(contact.point, contact.normal));
+                }
+                if (bounce) { Bounce(collision); }
+            }
+            else
+            {
+                if (health.BunceOnDeath) { Bounce(collision); }
+                if (enemy != null) { OnEnemyKilled?.Invoke(enemy); }
+            }
+
+        }
     }
 
     void Bounce(Collision2D collision)

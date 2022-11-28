@@ -10072,7 +10072,7 @@ GameObject:
   - component: {fileID: 1271912217142359408}
   - component: {fileID: 9040167499389947996}
   - component: {fileID: 9040167499389947997}
-  - component: {fileID: 3752980813822647907}
+  - component: {fileID: 551575944797544321}
   m_Layer: 0
   m_Name: YellowEnemy
   m_TagString: Enemy
@@ -10118,26 +10118,26 @@ MonoBehaviour:
       _outTime: 0
       _firePattern:
       - _inTime: 0
-        _outTime: 0.25
+        _outTime: 0.5
         _projectile:
           _projectilePrefab: {fileID: 5806203619031725865, guid: b1f6815eebb63cd40abc8076c5cecede, type: 3}
           _firePoint: {fileID: 3033408715699039662}
           _muzzleFlash: {fileID: 2611279514554467024}
           _projectileDamage: 5
-          _projectileSpeed: 15
+          _projectileSpeed: 30
           _inaccuracy: 1
       _repeat: 0
     - _inTime: 0
       _outTime: 0
       _firePattern:
       - _inTime: 0
-        _outTime: 0.25
+        _outTime: 0.5
         _projectile:
           _projectilePrefab: {fileID: 5806203619031725865, guid: b1f6815eebb63cd40abc8076c5cecede, type: 3}
           _firePoint: {fileID: 3342986198927811855}
           _muzzleFlash: {fileID: 838643998136055267}
           _projectileDamage: 5
-          _projectileSpeed: 15
+          _projectileSpeed: 30
           _inaccuracy: 1
       _repeat: 0
   movementSpeed: 10
@@ -10204,8 +10204,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &3752980813822647907
-BoxCollider2D:
+--- !u!58 &551575944797544321
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -10217,16 +10217,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: -0.15}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.35

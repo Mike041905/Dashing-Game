@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5117320625641416578}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &8463235191424468885
 TrailRenderer:
@@ -153,10 +153,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949899b4c84c98d44a7b2035b7b6ee46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minY: -2
-  maxY: 2
-  minSpeed: 900
-  maxSpeed: 1100
+  _maxRadius: 5
+  _minSpeed: 10
+  _maxSpeed: 50
 --- !u!1 &446299447005461956
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,10 +309,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949899b4c84c98d44a7b2035b7b6ee46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minY: -2
-  maxY: 2
-  minSpeed: 900
-  maxSpeed: 1100
+  _maxRadius: 10
+  _minSpeed: 20
+  _maxSpeed: 100
 --- !u!1 &6628215295143812199
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,7 +343,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5117320625641416578}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &7395000154504675682
 TrailRenderer:
@@ -467,10 +465,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949899b4c84c98d44a7b2035b7b6ee46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minY: -2
-  maxY: 2
-  minSpeed: 900
-  maxSpeed: 1100
+  _maxRadius: 3
+  _minSpeed: 6
+  _maxSpeed: 30
 --- !u!1 &8392118956376280407
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,8 +497,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1546379518300666219}
   - {fileID: 9116757272802045424}
+  - {fileID: 1546379518300666219}
   - {fileID: 8822956749076406789}
   m_Father: {fileID: 0}
   m_RootOrder: 0

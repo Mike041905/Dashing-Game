@@ -1,33 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
 public class ZigZagEffect : MonoBehaviour
 {
-    [SerializeField] private float minY = -1;
-    [SerializeField] private float maxY = 1;
-    [SerializeField] private float minSpeed = 3;
-    [SerializeField] private float maxSpeed = 5;
+    [SerializeField] private float _maxRadius = 1;
+    [SerializeField] private float _minSpeed = 3;
+    [SerializeField] private float _maxSpeed = 5;
 
-    private float currentSpeed = 5;
-    private float currentY = 5;
-    bool up = true;
+    private float _currentSpeed = 5;
+    private Vector2 _currentPos;
 
     private void Start()
     {
-        currentSpeed = Random.Range(minSpeed, maxSpeed);
-        currentY = Random.Range(up == true ? 0 : minY, up == true ? maxY : 0);
+        GetNewSpeedAndPos();
     }
 
     private void FixedUpdate()
     {
-        if (transform.localPosition != transform.up * currentY) transform.localPosition = Vector2.MoveTowards(transform.localPosition, transform.up * currentY, currentSpeed * Time.deltaTime);
-        else
-        {
-            up = !up;
-            currentSpeed = Random.Range(minSpeed, maxSpeed);
-            currentY = Random.Range(up == true ? 0 : minY, up == true ? maxY : 0);
-        }
+        transform.localPosition = Vector2.MoveTowards(transform.localPosition, _currentPos, _currentSpeed * Time.fixedDeltaTime);
+
+        if ((Vector2)transform.localPosition == _currentPos) { GetNewSpeedAndPos(); }
+    }
+
+    private void GetNewSpeedAndPos()
+    {
+        _currentSpeed = Random.Range(_minSpeed, _maxSpeed);
+        _currentPos = Random.insideUnitCircle * Random.Range(0, _maxRadius);
     }
 }

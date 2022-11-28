@@ -1,9 +1,10 @@
 using UnityEngine;
 using Mike;
+using System.Collections.Generic;
 
 public class PowerUpAdder : MonoBehaviour
 {
-    public static PowerUp[] PowerUps { get; private set; } = new PowerUp[0];
+    public static List<PowerUp> PowerUps { get; private set; } = new();
 
     static PowerUpAdder _instance;
     public static PowerUpAdder Instance { get => _instance;  }
@@ -12,13 +13,12 @@ public class PowerUpAdder : MonoBehaviour
     {
         if(Instance != null) { return; }
 
-        PowerUps = new PowerUp[0];
         _instance = this;
     }
 
     public PowerUp GetPowerUp(string name)
     {
-        for (int i = 0; i < PowerUps.Length; i++)
+        for (int i = 0; i < PowerUps.Count; i++)
         {
             if (PowerUps[i].powerUpName == name) { return PowerUps[i]; }
         }
@@ -28,7 +28,7 @@ public class PowerUpAdder : MonoBehaviour
     
     public bool TryGetPowerUp(string name, out PowerUp powerUp)
     {
-        for (int i = 0; i < PowerUps.Length; i++)
+        for (int i = 0; i < PowerUps.Count; i++)
         {
             if (PowerUps[i].powerUpName == name) { powerUp = PowerUps[i]; return true; }
         }
@@ -37,19 +37,26 @@ public class PowerUpAdder : MonoBehaviour
         return false;
     }
 
-    public PowerUp AddOrUpgradePowerUp(GameObject newPowerUp)
+    public PowerUp AddOrUpgradePowerUp(GameObject newPowerUp) => AddOrUpgradePowerUp(newPowerUp.GetComponent<PowerUp>());
+    public PowerUp AddOrUpgradePowerUp(PowerUp newPowerUp)
     {
-        PowerUp powerUp = GetPowerUp(newPowerUp.GetComponent<PowerUp>().powerUpName);
-        if(powerUp == null) // Add
+        if (!TryGetPowerUp(newPowerUp.powerUpName, out PowerUp powerUp)) // Add
         {
-            PowerUps = MikeArray.Append(PowerUps, Instantiate(newPowerUp, transform).GetComponent<PowerUp>());
+            PowerUps.Add(Instantiate(newPowerUp, transform)); ;
         }
         else // Upgrade
         {
-            powerUp.Upgrade();
+            powerUp.UpgradePowerUp();
         }
 
-        return powerUp != null ? powerUp : newPowerUp.GetComponent<PowerUp>();
+        return powerUp != null ? powerUp : newPowerUp;
+    }
+
+    public void RemovePowerUp(PowerUp powerUp)
+    {
+        PowerUps.Remove(powerUp);
+
+        Destroy(powerUp);
     }
 
     public bool HasPowerUp(string name)

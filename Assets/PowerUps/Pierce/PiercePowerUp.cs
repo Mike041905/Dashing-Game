@@ -25,7 +25,7 @@ public class PiercePowerUp : PowerUp
 
         foreach (Collider2D collider in result)
         {
-            collider.enabled = true;
+            if (collider != null) { collider.enabled = true; }
         }
     }
 

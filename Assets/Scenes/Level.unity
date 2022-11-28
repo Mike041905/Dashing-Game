@@ -531,6 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d68e957ffac14459359ac91bd231a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _health: {fileID: 602972575}
   _gradient:
     serializedVersion: 2
     key0: {r: 1, g: 0, b: 0, a: 1}
@@ -560,7 +561,9 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
-  _healthBarImage: {fileID: 60345033}
+  _graphics:
+  - {fileID: 60345033}
+  _spriteRenderers: []
 --- !u!1 &67532096
 GameObject:
   m_ObjectHideFlags: 0
@@ -5485,10 +5488,10 @@ MonoBehaviour:
   KnockbackMultiplier: 10
   _usePcControls: 0
   UseBounce: 1
-  _shakeMagintudeBounce: 1
-  _shakeRoughnessBounce: 4
-  _shakeInTimeBounce: 0.1
-  _shakeOutTimeBounce: 0.3
+  _shakeMagintudeHit: 1
+  _shakeRoughnessHit: 4
+  _shakeInTimeHit: 0.1
+  _shakeOutTimeHit: 0.3
   _vibrateTime: 0.3
 --- !u!114 &602972575
 MonoBehaviour:
@@ -5509,6 +5512,7 @@ MonoBehaviour:
   minCoinsOnDeath: 0
   maxCoinsOnDeath: 0
   immuneTime: 0.2
+  BunceOnDeath: 0
   _shakeMagintudeDeath: 0
   _shakeRoughnessDeath: 0
   _shakeInTimeDeath: 0
@@ -5617,8 +5621,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_LinearDrag: 99999
+  m_AngularDrag: 99999
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 1
@@ -12865,7 +12869,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 200, y: -31}
+  m_AnchoredPosition: {x: 199.99997, y: -31}
   m_SizeDelta: {x: 400, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1387286095
@@ -13641,7 +13645,7 @@ MonoBehaviour:
   _bossSpawnLevelOffset: 0
   _levelSaveInterval: 5
   _levelSaveOffset: 1
-  _coinsPerDifficultyMultiplier: 0.7
+  _coinsPerDifficultyMultiplier: 0.5
   <StartingDifficulty>k__BackingField: 1
   <DifficultyPerLevelAddition>k__BackingField: 0
   <DifficultyPerLevelMultiplier>k__BackingField: 1.2

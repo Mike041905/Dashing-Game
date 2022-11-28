@@ -211,9 +211,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destructionEffect: {fileID: 1518020747397404029, guid: 8bdf83497c2f64943820f2b18abbf61f, type: 3}
   lootTable:
-  - item: {fileID: 1449947554712204251, guid: 07a654ad39c44b04e94023f2230c9440, type: 3}
-    weight: 7
-  - item: {fileID: 1449947554712204251, guid: 598d28d1194c1a84c800f259d428fb87, type: 3}
-    weight: 2
-  - item: {fileID: 3464007397947900406, guid: 3935256af02a4e74497854eaa6af4a65, type: 3}
+  - item: {fileID: 7502922020259089908, guid: 1388f1a6cc04d8041835444557798a69, type: 3}
     weight: 10
+  - item: {fileID: 1449947554712204251, guid: 598d28d1194c1a84c800f259d428fb87, type: 3}
+    weight: 5
+  - item: {fileID: 3464007397947900406, guid: 3935256af02a4e74497854eaa6af4a65, type: 3}
+    weight: 15
+  - item: {fileID: 3464007397947900406, guid: 3269bb939407dee468828365c2b04773, type: 3}
+    weight: 10
+  - item: {fileID: 3464007397947900406, guid: 31c27c8e40cf9d14782928ffd04e2f79, type: 3}
+    weight: 5
+  - item: {fileID: 3464007397947900406, guid: 04178bffb4419864bae4564d0536dd4e, type: 3}
+    weight: 1

@@ -9,7 +9,7 @@ public class Item : MonoBehaviour
     [System.Serializable]
     public struct Loot
     {
-        public int Weight;
+        public float Weight;
         public PowerUp Item;
     }
 

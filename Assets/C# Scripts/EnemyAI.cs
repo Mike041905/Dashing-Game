@@ -4,6 +4,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Bindings;
+using UnityEngine.Events;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -33,7 +34,10 @@ public class EnemyAI : MonoBehaviour
                 {
                     if (!executedIn)
                     {
+                        OnStartExecuteIn?.Invoke();
                         await OnExecuteIn();
+                        OnFinishExecuteIn?.Invoke();
+
                         executedIn = true;
                     }
 
@@ -59,7 +63,9 @@ public class EnemyAI : MonoBehaviour
         {
 
         }
-        
+
+        public UnityAction OnStartExecuteIn;
+        public UnityAction OnFinishExecuteIn;
         public virtual async Task OnExecuteIn()
         {
 
@@ -149,6 +155,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float stopRange = 10;
     [SerializeField] private float backupRange = 10;
     [SerializeField] private float shootingDistance = 10;
+    [SerializeField] private bool _canMoveWhileShooting = true;
+    [SerializeField] private bool _canRotateWhileShooting = true;
     [SerializeField] private float _rotationSpeed = 180;
     [SerializeField] float _wakeUpTimeMin = .5f;
     [SerializeField] float _wakeUpTimeMax = 2;
@@ -169,6 +177,7 @@ public class EnemyAI : MonoBehaviour
 
 
     bool _initialized = false;
+    bool _isShooting = false;
 
     //---------------------------------------------
 
@@ -212,14 +221,21 @@ public class EnemyAI : MonoBehaviour
 
     protected virtual void FaceTarget()
     {
+        if(!_canRotateWhileShooting && _isShooting) { return; }
+
         Rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, MikeTransform.Rotation.LookTwards(transform.position, Target.position), _rotationSpeed * Time.fixedDeltaTime));
     }
 
     private async void ShootIfAble()
     {
+        _pattern.OnStartExecuteIn += () => _isShooting = true;
+        _pattern.OnFinishExecuteIn += () => _isShooting = false;
+
         while (true)
         {
-            if(this == null) return;
+            _isShooting = false;
+
+            if (this == null) return;
             if(!enabled) return;
 
             if (!Player.Instance.PlayerHealth.Dead && shootingDistance >= Vector2.Distance(transform.position, Target.position))
@@ -227,11 +243,14 @@ public class EnemyAI : MonoBehaviour
                 await Task.Delay((int)UnityEngine.Random.Range(_wakeUpTimeMin * 1000, _wakeUpTimeMax * 1000));
 
                 if (this == null) { return; }
-                if (Player.Instance == null) { return; }
-                while (!Player.Instance.PlayerHealth.Dead &&
-                    this != null &&
-                    enabled &&
-                    shootingDistance >= Vector2.Distance(transform.position, Target.position))
+                if (Player.Instance.gameObject == null) { return; }
+                while 
+                    (
+                        !Player.Instance.PlayerHealth.Dead &&
+                        this != null &&
+                        enabled &&
+                        shootingDistance >= Vector2.Distance(transform.position, Target.position)
+                    )
                 {
                     await _pattern.Execute();
                 }
@@ -243,6 +262,8 @@ public class EnemyAI : MonoBehaviour
 
     protected virtual void Move()
     {
+        if(!_canMoveWhileShooting && _isShooting) { return; }
+
         if (Vector2.Distance(transform.position, Target.position) > stopRange)
         {
             Rb.MovePosition(Rb.position + (movementSpeed * Time.fixedDeltaTime * (Vector2)transform.up));

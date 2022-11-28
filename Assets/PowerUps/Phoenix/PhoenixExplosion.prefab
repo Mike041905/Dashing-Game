@@ -42,7 +42,7 @@ ParticleSystem:
   m_GameObject: {fileID: 484414614763701655}
   serializedVersion: 8
   lengthInSec: 1
-  simulationSpeed: 2
+  simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -4913,7 +4913,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1756769894592756770}
   serializedVersion: 8
   lengthInSec: 1
-  simulationSpeed: 2
+  simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -9784,7 +9784,7 @@ ParticleSystem:
   m_GameObject: {fileID: 2786131896967247650}
   serializedVersion: 8
   lengthInSec: 1
-  simulationSpeed: 2
+  simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -14655,7 +14655,7 @@ ParticleSystem:
   m_GameObject: {fileID: 5825705920938979663}
   serializedVersion: 8
   lengthInSec: 1
-  simulationSpeed: 2
+  simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -19494,7 +19494,7 @@ GameObject:
   - component: {fileID: 2929665200272339105}
   - component: {fileID: 7157947959844350238}
   m_Layer: 0
-  m_Name: Explosion
+  m_Name: PhoenixExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19528,6 +19528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84087dd9046ba941b0a4b974561131e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  radius: 1
+  damage: 10000
+  radius: 50
   damageDropOffMultiplier: 1

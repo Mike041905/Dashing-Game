@@ -26,7 +26,7 @@ public abstract class PowerUp : MonoBehaviour
     [Tooltip("Values 0 and below mean infinity")] public int MaxLevel = 0;
     public bool HasReachedMaxLevel { get => MaxLevel > 0 && MaxLevel <= PowerUpLevel; }
 
-    public virtual void Upgrade(int times = 1)
+    public virtual void UpgradePowerUp(int times = 1)
     {
         PowerUpLevel += times;
 

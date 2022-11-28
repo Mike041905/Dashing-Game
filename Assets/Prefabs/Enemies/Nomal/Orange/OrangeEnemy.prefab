@@ -9869,6 +9869,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2040838279441247070}
   - component: {fileID: 552560349481645677}
+  - component: {fileID: 7750624885653927544}
   m_Layer: 0
   m_Name: ShieldSprite R
   m_TagString: Untagged
@@ -9943,6 +9944,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7750624885653927544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4485998989570676259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16be4fa98a0f606469723cb5fff037bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 8173284260547868297}
+  _sizeMultiplier: {x: 0.04, y: 0.1}
+  _sizeOffset: {x: 0.71, y: 0}
 --- !u!1 &5507492696757133353
 GameObject:
   m_ObjectHideFlags: 0
@@ -9992,12 +10008,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 0}
-  health: 5
+  health: 4
   deathEffect: {fileID: 7890909979121165634, guid: 1dbe499b5b90d19488df293b3c5e3758, type: 3}
-  destroyOnDeath: 0
+  destroyOnDeath: 1
   minCoinsOnDeath: 0
   maxCoinsOnDeath: 0
   immuneTime: 0.2
+  BunceOnDeath: 1
   _shakeMagintudeDeath: 2
   _shakeRoughnessDeath: 5
   _shakeInTimeDeath: 0.1
@@ -10154,6 +10171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3736287258578875373}
   - component: {fileID: 8764934308591428212}
+  - component: {fileID: 769086715471524777}
   m_Layer: 0
   m_Name: ShieldSprite L
   m_TagString: Untagged
@@ -10228,6 +10246,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &769086715471524777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8216885959441204468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16be4fa98a0f606469723cb5fff037bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 8173284260547868297}
+  _sizeMultiplier: {x: 0.04, y: 0.1}
+  _sizeOffset: {x: 0.71, y: 0}
 --- !u!1 &8920907549652899066
 GameObject:
   m_ObjectHideFlags: 0
@@ -10396,7 +10429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pattern:
     _inTime: 0
-    _outTime: 4
+    _outTime: 5
     _repeat:
     - _inTime: 0
       _outTime: 0
@@ -10407,7 +10440,7 @@ MonoBehaviour:
           _projectilePrefab: {fileID: 5806203619031725865, guid: 8ff868ae2dcf17b4dba300d92d5a1f5b, type: 3}
           _firePoint: {fileID: 6906346801406127423}
           _muzzleFlash: {fileID: 5854889769880618239}
-          _projectileDamage: 1
+          _projectileDamage: 2
           _projectileSpeed: 10
           _inaccuracy: 5
       - _inTime: 0
@@ -10416,15 +10449,17 @@ MonoBehaviour:
           _projectilePrefab: {fileID: 5806203619031725865, guid: 8ff868ae2dcf17b4dba300d92d5a1f5b, type: 3}
           _firePoint: {fileID: 3997293795890969470}
           _muzzleFlash: {fileID: 6563036778428889460}
-          _projectileDamage: 1
+          _projectileDamage: 2
           _projectileSpeed: 10
           _inaccuracy: 5
       _repeat: 10
   movementSpeed: 2
   playerAvoidanceSpeed: 0.1
-  stopRange: 15
+  stopRange: 10
   backupRange: 5
-  shootingDistance: 20
+  shootingDistance: 15
+  _canMoveWhileShooting: 1
+  _canRotateWhileShooting: 1
   _rotationSpeed: 75
   _wakeUpTimeMin: 1
   _wakeUpTimeMax: 3
@@ -10450,6 +10485,7 @@ MonoBehaviour:
   minCoinsOnDeath: 1
   maxCoinsOnDeath: 3
   immuneTime: 0.2
+  BunceOnDeath: 0
   _shakeMagintudeDeath: 2
   _shakeRoughnessDeath: 5
   _shakeInTimeDeath: 0.1
