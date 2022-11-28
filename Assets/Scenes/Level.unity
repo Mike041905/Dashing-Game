@@ -5475,13 +5475,21 @@ MonoBehaviour:
   _staminaSlider: {fileID: 1933296686}
   _lineRenderer: {fileID: 602972577}
   _cameraTarget: {fileID: 744869240}
+  _hitFX: {fileID: 7890909979121165634, guid: 750ca5371338ac9448b2a5997fc93525, type: 3}
   Damage: 1
   DashSpeed: 40
   DashDistance: 7
   StaminaDrain: 1
   MaxStamina: 10
   StaminaRecharge: 1
+  KnockbackMultiplier: 10
   _usePcControls: 0
+  UseBounce: 1
+  _shakeMagintudeBounce: 1
+  _shakeRoughnessBounce: 4
+  _shakeInTimeBounce: 0.1
+  _shakeOutTimeBounce: 0.3
+  _vibrateTime: 0.3
 --- !u!114 &602972575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5501,6 +5509,11 @@ MonoBehaviour:
   minCoinsOnDeath: 0
   maxCoinsOnDeath: 0
   immuneTime: 0.2
+  _shakeMagintudeDeath: 0
+  _shakeRoughnessDeath: 0
+  _shakeInTimeDeath: 0
+  _shakeOutTimeDeath: 0
+  _vibrateTime: 3
   OnDeathEvent:
     m_PersistentCalls:
       m_Calls:
@@ -11620,7 +11633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6093a43fa89cc4bbf98ac07c8f0fc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <EnemySpwnTcktDiffMul>k__BackingField: 0.2
+  <EnemySpwnTcktDiffMul>k__BackingField: 0.1
   <DefaultRoomSpawnTickets>k__BackingField: 15
   <EnemyRoster>k__BackingField:
   - prefab: {fileID: 9040167499389947992, guid: 3d3644d34b9d03048a8d8ff8675040f5, type: 3}
@@ -11634,7 +11647,11 @@ MonoBehaviour:
   - prefab: {fileID: 9040167499389947992, guid: 2919d26f918a24c41b21dc4cde86a41c, type: 3}
     spwanChance: 1
     ticketCost: 2
-    minimumLevel: 3
+    minimumLevel: 4
+  - prefab: {fileID: 9040167499389947992, guid: 39689e2638a7f954d996f374246f766c, type: 3}
+    spwanChance: 1
+    ticketCost: 3
+    minimumLevel: 6
   <BossRoster>k__BackingField:
   - BossPrefab: {fileID: -9187788747358179675, guid: d082c4435c5b5814e8b783af44bb772b, type: 3}
     RandomWeight: 1
@@ -13586,7 +13603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 7070746043108465200, guid: 9c0d0ff55c5b5dc49a67ef1e4f293fe5, type: 3}
   initialChanceOfRoomSpawnPrc: 35
-  roomChanceDeprecation: 1.9
+  roomChanceDeprecation: 2
   maxBranch: 2
   minRooms: 3
   startingRoom: {fileID: 1209498131}
@@ -13624,6 +13641,7 @@ MonoBehaviour:
   _bossSpawnLevelOffset: 0
   _levelSaveInterval: 5
   _levelSaveOffset: 1
+  _coinsPerDifficultyMultiplier: 0.7
   <StartingDifficulty>k__BackingField: 1
   <DifficultyPerLevelAddition>k__BackingField: 0
   <DifficultyPerLevelMultiplier>k__BackingField: 1.2

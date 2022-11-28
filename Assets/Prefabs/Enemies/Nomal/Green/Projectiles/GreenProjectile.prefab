@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 637388007816473744}
   - component: {fileID: 3541962096935044093}
   m_Layer: 0
-  m_Name: Projectile2
+  m_Name: GreenProjectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,10 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 222ac2e1439da4e43a78325caa5c99aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitEffect: {fileID: 7890909979121165634, guid: e427020535af3b14293a29ba6a2128a1, type: 3}
-  shooter: {fileID: 0}
-  speed: 0
-  damage: 0
+  _hitEffect: {fileID: 7890909979121165634, guid: 5396ef28d5a7ff4408e190c96469541e, type: 3}
+  _useFixedUpdate: 1
+  _canColideWithOtherProjectiles: 0
 --- !u!58 &-8734146140012271883
 CircleCollider2D:
   m_ObjectHideFlags: 0

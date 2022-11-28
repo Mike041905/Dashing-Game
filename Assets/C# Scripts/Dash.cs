@@ -14,6 +14,7 @@ public class Dash : MonoBehaviour
     [SerializeField] private Slider _staminaSlider;
     [SerializeField] private LineRenderer _lineRenderer;
     [SerializeField] private Transform _cameraTarget;
+    [SerializeField] private GameObject _hitFX;
     // NOTE: _spriteTransform is used for a workaround
     // Issue: While rotating a moving rigidbody physics break
     // Workaround: Rotate sprite renderer (Collider must be a circle)
@@ -25,9 +26,16 @@ public class Dash : MonoBehaviour
     public float StaminaDrain = 1;
     public float MaxStamina = 10;
     public float StaminaRecharge = 1;
+    public float KnockbackMultiplier = 1;
 
     [Header("Options")]
     [SerializeField] private bool _usePcControls = false;
+    [SerializeField] public bool UseBounce = true;
+    [SerializeField] float _shakeMagintudeHit = 1;
+    [SerializeField] float _shakeRoughnessHit = 4;
+    [SerializeField] float _shakeInTimeHit = .1f;
+    [SerializeField] float _shakeOutTimeHit = .3f;
+    [SerializeField] float _vibrateTime = .3f;
 
 
     //-----------------------------
@@ -40,7 +48,7 @@ public class Dash : MonoBehaviour
     public event UnityAction OnStartDash;
     public event UnityAction OnEndDash;
 
-    public event UnityAction<GameObject> OnHitEnemy;
+    public event UnityAction<EnemyAI> OnHitEnemy;
     public event UnityAction<EnemyAI> OnEnemyKilled;
 
     private bool _isAiming = false;
@@ -261,20 +269,28 @@ public class Dash : MonoBehaviour
     {
         if(collision == null) { return; }
 
-        if(collision.gameObject.TryGetComponent(out EnemyAI enemy))
-        {
-            enemy.EnemyHealth.TakeDamage(Damage, gameObject);
-            OnHitEnemy?.Invoke(collision.gameObject);
+        CameraShaker.Instance.ShakeOnce(_shakeMagintudeHit, _shakeRoughnessHit, _shakeInTimeHit, _shakeOutTimeHit);
+        HapticFeedback.Vibrate((int)(_vibrateTime * 1000));
 
-            if(!enemy.EnemyHealth.Dead)
+        if (collision.gameObject.TryGetComponent(out Health health))
+        {
+            health.TryGetComponent(out EnemyAI enemy);
+
+            health.TakeDamage(Damage, gameObject);
+            if (enemy != null) { OnHitEnemy?.Invoke(enemy); }
+
+            if(!health.Dead)
             {
-                Bounce(collision);
+                if(_hitFX != null) 
+                {
+                    ContactPoint2D contact = collision.GetContact(0);
+                    Instantiate(_hitFX, contact.point, MikeTransform.Rotation.LookTwards(contact.point, contact.normal)); 
+                }
+                if(UseBounce) { Bounce(collision); }
             }
             else
             {
-                OnEnemyKilled?.Invoke(enemy);
-                CameraShaker.Instance.ShakeOnce(1, 4, .01f, .2f);
-                HapticFeedback.Vibrate(100);
+                if (enemy != null) { OnEnemyKilled?.Invoke(enemy); }
             }
         }
         else
@@ -289,8 +305,5 @@ public class Dash : MonoBehaviour
         float distanceLeft = DashDistance - Vector2.Distance(_dashStartPosition, collision.GetContact(0).point);
         _dashTargetPosition = collision.GetContact(0).point - Vector2.Reflect(((Vector2)transform.position - _dashTargetPosition).normalized, collision.GetContact(0).normal) * distanceLeft;
         Player.Instance.SpriteRenderer.transform.rotation = (MikeTransform.Rotation.LookTwards(Rb.position, _dashTargetPosition));
-
-        CameraShaker.Instance.ShakeOnce(1, 4, .01f, .2f);
-        HapticFeedback.Vibrate(100);
     }
 }

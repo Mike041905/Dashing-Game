@@ -25,6 +25,17 @@ public class PowerUpAdder : MonoBehaviour
 
         return null;
     }
+    
+    public bool TryGetPowerUp(string name, out PowerUp powerUp)
+    {
+        for (int i = 0; i < PowerUps.Length; i++)
+        {
+            if (PowerUps[i].powerUpName == name) { powerUp = PowerUps[i]; return true; }
+        }
+
+        powerUp = null;
+        return false;
+    }
 
     public PowerUp AddOrUpgradePowerUp(GameObject newPowerUp)
     {

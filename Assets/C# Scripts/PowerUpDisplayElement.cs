@@ -17,7 +17,7 @@ public class PowerUpDisplayElement : MonoBehaviour
         _displayedPowerUp = powerUp;
 
         _image.sprite = _displayedPowerUp.icon;
-        _level.text = _displayedPowerUp.powerUpLevel.ToString();
+        _level.text = _displayedPowerUp.PowerUpLevel.ToString();
     }
 
     public void ShowPowerUpInfo()

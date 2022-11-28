@@ -87,8 +87,8 @@ public class EnemyAI : MonoBehaviour
                 _firePoint.root.gameObject,
                 _projectileSpeed,
                 _projectileDamage * GameManager.Insatnce.Difficulty,
-                new string[2] { "Coin", "PowerUp" },
-                new string[1] { _firePoint.root.tag }
+                new string[] { "Coin", "PowerUp", "EnemyShield" },
+                new string[] { _firePoint.root.tag }
             );
         }
     }
@@ -149,6 +149,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float stopRange = 10;
     [SerializeField] private float backupRange = 10;
     [SerializeField] private float shootingDistance = 10;
+    [SerializeField] private float _rotationSpeed = 180;
     [SerializeField] float _wakeUpTimeMin = .5f;
     [SerializeField] float _wakeUpTimeMax = 2;
 
@@ -161,6 +162,7 @@ public class EnemyAI : MonoBehaviour
 
     Health _enemyHealth;
     public Health EnemyHealth { get { if (_enemyHealth == null) { _enemyHealth = GetComponent<Health>(); } return _enemyHealth; } }
+    [field: SerializeField] public Health[] AdditionalHealthScripts { get; private set; }
 
     Rigidbody2D _rb;
     public Rigidbody2D Rb { get { if (_rb == null) { _rb = GetComponent<Rigidbody2D>(); } return _rb; } }
@@ -194,14 +196,23 @@ public class EnemyAI : MonoBehaviour
     public virtual void Initialize(Room room, float difficulty)
     {
         Room = room;
-        EnemyHealth.SetMaxHealth(EnemyHealth.Maxhealth * difficulty);
-
+        SetMaxHealthBasedOnDifficulty(difficulty);
         _initialized = true;
+
+
+        void SetMaxHealthBasedOnDifficulty(float difficulty)
+        {
+            EnemyHealth.SetMaxHealth(EnemyHealth.Maxhealth * difficulty);
+            foreach (Health health in AdditionalHealthScripts)
+            {
+                health.SetMaxHealth(health.Maxhealth * difficulty);
+            }
+        }
     }
 
     protected virtual void FaceTarget()
     {
-        transform.rotation = MikeTransform.Rotation.LookTwards(transform.position, Target.position);
+        Rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, MikeTransform.Rotation.LookTwards(transform.position, Target.position), _rotationSpeed * Time.fixedDeltaTime));
     }
 
     private async void ShootIfAble()
@@ -214,7 +225,9 @@ public class EnemyAI : MonoBehaviour
             if (!Player.Instance.PlayerHealth.Dead && shootingDistance >= Vector2.Distance(transform.position, Target.position))
             {
                 await Task.Delay((int)UnityEngine.Random.Range(_wakeUpTimeMin * 1000, _wakeUpTimeMax * 1000));
-                
+
+                if (this == null) { return; }
+                if (Player.Instance == null) { return; }
                 while (!Player.Instance.PlayerHealth.Dead &&
                     this != null &&
                     enabled &&
@@ -238,6 +251,8 @@ public class EnemyAI : MonoBehaviour
         {
             Rb.MovePosition(Rb.position - (movementSpeed * Time.fixedDeltaTime * (Vector2)transform.up));
         }
+
+        if(Vector2.Distance(transform.position, Room.transform.position) > 27) { EnemyHealth.Die(); }
     }
 
     private void OnDestroy()

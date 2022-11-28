@@ -122,16 +122,18 @@ MonoBehaviour:
   activationDelay: 0.25
   _isPowerUp: 1
   _powerUpLootTable:
-  - weight: 1
-    item: {fileID: 1532714903873071266, guid: 4a8903a0750b33841a8f53996da46fe1, type: 3}
-  - weight: 1
-    item: {fileID: 1532714903873071266, guid: c7278ea4c42b70e4a8562eeced0c28f4, type: 3}
-  - weight: 1
-    item: {fileID: 8762551887521317020, guid: 6bfbf312ffe3b85478e897f2338f2eed, type: 3}
-  - weight: 1
-    item: {fileID: 7846968903967964103, guid: a4394ac4b4ebce841bceb6aac765d974, type: 3}
-  - weight: 1
-    item: {fileID: 1978333764054074077, guid: 3770bd6b9b97a5646beab6fe99fd9eee, type: 3}
+  - Weight: 1
+    Item: {fileID: -7135763935551167239, guid: 4a8903a0750b33841a8f53996da46fe1, type: 3}
+  - Weight: 1
+    Item: {fileID: -6805368183399235354, guid: c7278ea4c42b70e4a8562eeced0c28f4, type: 3}
+  - Weight: 1
+    Item: {fileID: -577738160673975738, guid: 6bfbf312ffe3b85478e897f2338f2eed, type: 3}
+  - Weight: 1
+    Item: {fileID: -1539788069909281705, guid: 3770bd6b9b97a5646beab6fe99fd9eee, type: 3}
+  - Weight: 1
+    Item: {fileID: 4186335560488765506, guid: a4394ac4b4ebce841bceb6aac765d974, type: 3}
+  - Weight: 1
+    Item: {fileID: 8237758920498945096, guid: 6ab641409ed511e4eb5ded405b1636c9, type: 3}
   _choices: 3
 --- !u!58 &3737288497924828327
 CircleCollider2D:

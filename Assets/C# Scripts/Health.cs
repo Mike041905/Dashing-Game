@@ -1,3 +1,4 @@
+using EZCameraShake;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,6 +46,12 @@ public class Health : MonoBehaviour
     [SerializeField] private int maxCoinsOnDeath = 3;
     [SerializeField] float immuneTime = .2f;
 
+    [Header("ShakeOptions")]
+    [SerializeField] float _shakeMagintudeDeath = 2;
+    [SerializeField] float _shakeRoughnessDeath = 5;
+    [SerializeField] float _shakeInTimeDeath = .1f;
+    [SerializeField] float _shakeOutTimeDeath = .2f;
+    [SerializeField] float _vibrateTime = .2f;
 
     float _maxhealth;
     public float Maxhealth { get { if (_maxhealth == 0) { _maxhealth = CurrentHealth; } return _maxhealth; } }
@@ -204,8 +211,9 @@ public class Health : MonoBehaviour
             Instantiate(GameManager.Insatnce.CoinPrefab, transform.position + (Vector3) Mike.MikeRandom.RandomVector2(-.5f, .5f, -.5f, .5f), Quaternion.identity).GetComponent<Item>().coinsPerPickup = 1 + Mathf.RoundToInt(GameManager.Insatnce.Level * .1f);
         }
 
+        if (_shakeMagintudeDeath > 0) { CameraShaker.Instance.ShakeOnce(_shakeMagintudeDeath, _shakeRoughnessDeath, _shakeInTimeDeath, _shakeOutTimeDeath); }
         HealthOnKill();
-        if(deathEffect != null) Instantiate(deathEffect, transform.position, Quaternion.identity);
+        if(deathEffect != null) Instantiate(deathEffect, transform.position, transform.rotation);
         if (destroyOnDeath) Destroy(gameObject);
     }
 

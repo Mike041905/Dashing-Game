@@ -22,6 +22,8 @@ public class EnemyCounter : MonoBehaviour
     public void ChangeAmmount(int enemiesLeft)
     {
         if(counterText == null) { return; }
+        if (!enabled) { return; }
+        if (!gameObject.activeSelf) { return; }
 
         counterText.StartColorTransion(new(1,1,1, Mathf.Clamp01(enemiesLeft)), 2);
         counterText.text = preffix + enemiesLeft;

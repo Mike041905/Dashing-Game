@@ -22,11 +22,14 @@ public abstract class PowerUp : MonoBehaviour
 
     [Header("Stats")]
     public Stat[] stats;
-    public int powerUpLevel = 1;
+    public int PowerUpLevel = 1;
+    [Tooltip("Values 0 and below mean infinity")] public int MaxLevel = 0;
+    public bool HasReachedMaxLevel { get => MaxLevel > 0 && MaxLevel <= PowerUpLevel; }
 
     public virtual void Upgrade(int times = 1)
     {
-        powerUpLevel += times;
+        PowerUpLevel += times;
+
         for (int i1 = 0; i1 < stats.Length; i1++)
         {
             for (int i = 0; i < times; i++)

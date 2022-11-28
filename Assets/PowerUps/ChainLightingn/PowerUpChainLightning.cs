@@ -8,7 +8,7 @@ public class PowerUpChainLightning : PowerUp
 
     void Start()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Dash>().OnHitEnemy += Electrify;
+        Player.Instance.PlayerDash.OnHitEnemy += Electrify;
     }
 
     private void Update()
@@ -17,7 +17,7 @@ public class PowerUpChainLightning : PowerUp
     }
 
     float coolDown = 0;
-    void Electrify(GameObject hit)
+    void Electrify(EnemyAI _)
     {
         if(coolDown <= 0)
         {

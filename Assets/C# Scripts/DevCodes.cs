@@ -51,6 +51,11 @@ public class DevCodes : MonoBehaviour
             SceneManager.LoadScene(0);
             return;
         }
+        else if (Code.StartsWith("level="))
+        {
+            StorageManager.Game.StartingLevel = int.Parse(Code.Remove(0, Code.IndexOf("=") + 1));
+            return;
+        }
 
         Debug.LogError("There is no such DevCode as: \"" + Code + "\"");
     }

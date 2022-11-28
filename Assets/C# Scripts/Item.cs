@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,8 +9,8 @@ public class Item : MonoBehaviour
     [System.Serializable]
     public struct Loot
     {
-        public int weight;
-        public GameObject item;
+        public int Weight;
+        public PowerUp Item;
     }
 
     [Header("General")]
@@ -81,7 +82,15 @@ public class Item : MonoBehaviour
         float[] weights = new float[_powerUpLootTable.Length];
         for (int i = 0; i < _powerUpLootTable.Length; i++)
         {
-            weights[i] = _powerUpLootTable[i].weight;
+            // List only if hasn't reached max level
+            if(PowerUpAdder.Instance.TryGetPowerUp(_powerUpLootTable[i].Item.powerUpName, out PowerUp p))
+            {
+                weights[i] = p.HasReachedMaxLevel ? 0 : _powerUpLootTable[i].Weight;
+            }
+            else
+            {
+                weights[i] = _powerUpLootTable[i].Weight;
+            }
         }
 
         choiceIndexes = new int[_choices];
@@ -109,7 +118,7 @@ public class Item : MonoBehaviour
         // converts to ChoiceData
         for (int i = 0; i < _choices; i++)
         {
-            PowerUp powerUp = _powerUpLootTable[choiceIndexes[i]].item.GetComponent<PowerUp>();
+            PowerUp powerUp = _powerUpLootTable[choiceIndexes[i]].Item.GetComponent<PowerUp>();
             PowerUp oldPowerUp = PowerUpAdder.Instance.GetPowerUp(powerUp.powerUpName);
 
             choices[i] = new ChoiceSelector.ChoiceData
@@ -128,8 +137,8 @@ public class Item : MonoBehaviour
     {
         if(index >= 0)
         {
-            PowerUpAdder.Instance.AddOrUpgradePowerUp(_powerUpLootTable[choiceIndexes[index]].item);
-            Debug.Log(_powerUpLootTable[choiceIndexes[index]].item.GetComponent<PowerUp>().powerUpName);
+            PowerUpAdder.Instance.AddOrUpgradePowerUp(_powerUpLootTable[choiceIndexes[index]].Item.gameObject);
+            Debug.Log(_powerUpLootTable[choiceIndexes[index]].Item.GetComponent<PowerUp>().powerUpName);
         }
     }
 }
