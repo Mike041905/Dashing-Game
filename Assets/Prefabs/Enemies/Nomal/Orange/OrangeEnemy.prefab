@@ -10440,7 +10440,7 @@ MonoBehaviour:
           _projectilePrefab: {fileID: 5806203619031725865, guid: 8ff868ae2dcf17b4dba300d92d5a1f5b, type: 3}
           _firePoint: {fileID: 6906346801406127423}
           _muzzleFlash: {fileID: 5854889769880618239}
-          _projectileDamage: 2
+          _projectileDamage: 4
           _projectileSpeed: 10
           _inaccuracy: 5
       - _inTime: 0
@@ -10449,7 +10449,7 @@ MonoBehaviour:
           _projectilePrefab: {fileID: 5806203619031725865, guid: 8ff868ae2dcf17b4dba300d92d5a1f5b, type: 3}
           _firePoint: {fileID: 3997293795890969470}
           _muzzleFlash: {fileID: 6563036778428889460}
-          _projectileDamage: 2
+          _projectileDamage: 4
           _projectileSpeed: 10
           _inaccuracy: 5
       _repeat: 10
@@ -10460,9 +10460,9 @@ MonoBehaviour:
   shootingDistance: 15
   _canMoveWhileShooting: 1
   _canRotateWhileShooting: 1
-  _rotationSpeed: 75
+  _rotationSpeed: 90
   _wakeUpTimeMin: 1
-  _wakeUpTimeMax: 3
+  _wakeUpTimeMax: 2
   Room: {fileID: 0}
   <AdditionalHealthScripts>k__BackingField:
   - {fileID: 8173284260547868297}

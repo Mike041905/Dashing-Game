@@ -10118,7 +10118,7 @@ MonoBehaviour:
       _outTime: 0
       _firePattern:
       - _inTime: 0
-        _outTime: 0.5
+        _outTime: 0.25
         _projectile:
           _projectilePrefab: {fileID: 5806203619031725865, guid: b1f6815eebb63cd40abc8076c5cecede, type: 3}
           _firePoint: {fileID: 3033408715699039662}
@@ -10131,7 +10131,7 @@ MonoBehaviour:
       _outTime: 0
       _firePattern:
       - _inTime: 0
-        _outTime: 0.5
+        _outTime: 0.25
         _projectile:
           _projectilePrefab: {fileID: 5806203619031725865, guid: b1f6815eebb63cd40abc8076c5cecede, type: 3}
           _firePoint: {fileID: 3342986198927811855}
@@ -10141,17 +10141,19 @@ MonoBehaviour:
           _inaccuracy: 1
       _repeat: 0
   movementSpeed: 10
-  playerAvoidanceSpeed: 0.1
-  stopRange: 7
-  backupRange: 6.5
-  shootingDistance: 10
-  _rotationSpeed: 180
+  playerAvoidanceSpeed: 0
+  stopRange: 0
+  backupRange: 0
+  shootingDistance: 20
+  _canMoveWhileShooting: 1
+  _canRotateWhileShooting: 1
+  _rotationSpeed: 0
   _wakeUpTimeMin: 0
   _wakeUpTimeMax: 0
   Room: {fileID: 0}
   <AdditionalHealthScripts>k__BackingField: []
   turnSpeed: 270
-  AttackBreakOffDistance: 4
+  AttackBreakOffDistance: 5
   pointPositionTolerance: 1
 --- !u!114 &9040167499389947996
 MonoBehaviour:
@@ -10172,6 +10174,7 @@ MonoBehaviour:
   minCoinsOnDeath: 1
   maxCoinsOnDeath: 2
   immuneTime: 0.2
+  BunceOnDeath: 0
   _shakeMagintudeDeath: 2
   _shakeRoughnessDeath: 5
   _shakeInTimeDeath: 0.1

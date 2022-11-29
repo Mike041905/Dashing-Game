@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2613580721983987460}
   - component: {fileID: 2809862030690681428}
-  - component: {fileID: 5806203619031725865}
   - component: {fileID: -1388307018243709701}
   - component: {fileID: 7416270618412215974}
   - component: {fileID: -1143598216822730655}
+  - component: {fileID: 6857500648535128497}
   m_Layer: 0
-  m_Name: RedProjectile
+  m_Name: PurpleProjectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1810532768877956804}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -56,7 +56,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 11a9214fb90bffe40b3b36a4d2f9cbb0, type: 2}
+  - {fileID: 2100000, guid: 6edbe6d06350ed44dba173cb9239e815, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -88,21 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5806203619031725865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810532768877956804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 222ac2e1439da4e43a78325caa5c99aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hitEffect: {fileID: 7890909979121165634, guid: e427020535af3b14293a29ba6a2128a1, type: 3}
-  _useFixedUpdate: 1
-  _canColideWithOtherProjectiles: 0
 --- !u!58 &-1388307018243709701
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -136,7 +121,7 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
@@ -161,7 +146,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 11a9214fb90bffe40b3b36a4d2f9cbb0, type: 2}
+  - {fileID: 2100000, guid: 6edbe6d06350ed44dba173cb9239e815, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -182,10 +167,10 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.1
+  m_Time: 0.07
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.15
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -248,3 +233,28 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &6857500648535128497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1810532768877956804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f63e0c94258716442a83dfe952220885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitEffect: {fileID: 7525922467955804732, guid: 801bcde09cd398a4aab31952b05aa7cc, type: 3}
+  _useFixedUpdate: 1
+  _canColideWithOtherProjectiles: 0
+  _shrapnel:
+    _projectilePrefab: {fileID: -8183653215962721641, guid: afdbc5fa94878b1499cee5e2d756a0b7, type: 3}
+    _firePoint: {fileID: 2613580721983987460}
+    _muzzleFlash: {fileID: 0}
+    _projectileDamage: 1
+    _projectileSpeed: 10
+    _inaccuracy: 180
+  _shrapnelAmount: 6
+  _fuseTime: 2
+  _randomSpread: 0

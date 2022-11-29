@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -9,10 +10,15 @@ public class ShieldPowerUp : PowerUp
     [SerializeField] float _rechargeDelay;
 
     Task _recharge;
+    CancellationTokenSource _cancellationToken = new();
+
+    float RechargeSpeed { get => Upgrade.GetUpgrade("Health", UpgradeData.VariableType.Float) * 0.01f * GetStat("Recharge Speed").statValue; }
+    float ShieldMaxHealth { get => Upgrade.GetUpgrade("Health", UpgradeData.VariableType.Float) * 0.01f * GetStat("Shield Health").statValue; }
 
     private void Start()
     {
         UpdateMaxHealth();
+        _shieldHealth.HealToMax();
 
         _shieldHealth.OnDeath += OnShieldDown;
         _shieldHealth.OnTakeDamage += (h, g) => OnHit();
@@ -27,7 +33,7 @@ public class ShieldPowerUp : PowerUp
 
     void UpdateMaxHealth()
     {
-        _shieldHealth.SetMaxHealth(Upgrade.GetUpgrade("Health", UpgradeData.VariableType.Float) * 0.01f * GetStat("Shield Health").statValue, false);
+        _shieldHealth.SetMaxHealth(ShieldMaxHealth, false);
     }
 
     async void OnShieldDown()
@@ -43,18 +49,19 @@ public class ShieldPowerUp : PowerUp
     {
         if(_recharge != null) 
         {
-            if (!_recharge.IsCompleted) { _recharge.Dispose(); }
-            _recharge = Recharge();
+            if (!_recharge.IsCompleted) { _cancellationToken.Cancel(); _cancellationToken = new(); }
         }
+
+        _recharge = Recharge(_cancellationToken.Token);
     }
 
-    async Task Recharge()
+    async Task Recharge(CancellationToken token)
     {
-        await Task.Delay((int)(_rechargeDelay * 1000));
+        await Task.Delay((int)(_rechargeDelay * 1000), token);
 
-        while (_shieldHealth.CurrentHealth < _shieldHealth.Maxhealth)
+        while (_shieldHealth.CurrentHealth < _shieldHealth.Maxhealth && !token.IsCancellationRequested)
         {
-            _shieldHealth.CurrentHealth += GetStat("Recharge Speed").statValue * Time.deltaTime;
+            _shieldHealth.CurrentHealth += RechargeSpeed * Time.deltaTime;
 
             await Task.Yield();
         }

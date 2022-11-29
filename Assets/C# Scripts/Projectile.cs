@@ -66,7 +66,7 @@ public class Projectile : MonoBehaviour
         OnHit(collider.transform.gameObject);
     }
 
-    void OnHit(GameObject other)
+    protected virtual void OnHit(GameObject other)
     {
         if (_canColideWithOtherProjectiles && other.TryGetComponent(out Projectile _)) { return; }
         if (_tagHitBlacklist.Contains(other.tag)) { return; }
@@ -76,6 +76,13 @@ public class Projectile : MonoBehaviour
             health.TakeDamage(_damage, gameObject);
         }
 
+        Die();
+    }
+
+    public void Hit() { Die(); }
+
+    protected virtual void Die()
+    {
         if (_hitEffect != null) Instantiate(_hitEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }

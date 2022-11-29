@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Missile : MonoBehaviour
 {
-    public Transform target;
+    public Transform Target;
     [SerializeField] private float damage = 100;
     [SerializeField] private float damageRadius = .5f;
     [SerializeField] private float speed = 5;
@@ -43,12 +43,12 @@ public class Missile : MonoBehaviour
             if(_currentSpeed > speed) { _currentSpeed = speed; }
         }
 
-        if(target == null & _hasTarget) 
+        if(Target == null & _hasTarget) 
         { 
             GameObject go = MikeGameObject.GetClosestTargetWithTag(transform.position, "Enemy"); 
             if(go != null) 
             { 
-                target = go.transform; 
+                Target = go.transform; 
             }
             else
             {
@@ -61,11 +61,12 @@ public class Missile : MonoBehaviour
         if(_initialBoost && _boostTimer < boostTime) { _boostTimer += Time.fixedDeltaTime; _currentSpeed -= _currentSpeed * boostDeceleration * Time.deltaTime; return; }
         else if(_initialBoost) { _initialBoost = false; trail.Play(); _currentSpeed = 0; }
 
-        if(target != null) transform.rotation = Quaternion.RotateTowards(transform.rotation, Mike.MikeTransform.Rotation.LookTwards(transform.position, (Vector2)target.position * (1 + 0.1f * Random.Range(-maxWiggle, maxWiggle))), rotSpeed * Time.deltaTime);
+        if(Target != null) transform.rotation = Quaternion.RotateTowards(transform.rotation, Mike.MikeTransform.Rotation.LookTwards(transform.position, (Vector2)Target.position + Random.insideUnitCircle * maxWiggle), rotSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D hit)
     {
+        if (hit.isTrigger) { return; }
         if (hit.transform.CompareTag("Player")) { return; }
         if (hit.transform.CompareTag("Projectile")) { return; }
         if (hit.transform.CompareTag("Coin")) { return; }

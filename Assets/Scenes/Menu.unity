@@ -40829,11 +40829,15 @@ MonoBehaviour:
   <ScrollTabs>k__BackingField: {fileID: 1459276256}
   <ApplyButton>k__BackingField: {fileID: 676592989}
   _tabs:
-  - _tabName: Misc
+  - _tabName: All
     _fields:
     - _optionTemplate: {fileID: 955077801}
       _optionName: Support Developer (More ads)
       _optionKey: Support Ads
+      _requireApply: 0
+    - _optionTemplate: {fileID: 955077801}
+      _optionName: Vibration
+      _optionKey: Haptic Feedback
       _requireApply: 0
     _tabTemplate: {fileID: 2487746}
 --- !u!114 &2106797598

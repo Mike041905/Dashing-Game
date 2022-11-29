@@ -25,6 +25,8 @@ public static class HapticFeedback
 
     public static void Vibrate(long milliseconds)
     {
+        if (!StorageManager.Settings.Controls.HapticFeedback) { return; }
+
         if (IsAndroid)
             vibrator.Call("vibrate", milliseconds);
         else

@@ -22,6 +22,6 @@ public class PowerUpMisslle : PowerUp
 
         Missile missile = Instantiate(missilePrefab, Player.Instance.transform.position, Player.Instance.SpriteRenderer.transform.rotation);//spawn missile
 
-        missile.target = MikeGameObject.GetClosestTargetWithTag(missile.transform.position, "Enemy").transform;//set missile target
+        missile.Target = MikeGameObject.GetClosestTargetWithTag(missile.transform.position, "Enemy").transform;//set missile target
     }
 }

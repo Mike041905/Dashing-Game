@@ -1,10 +1,12 @@
 using EZCameraShake;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
+    [SerializeField] string[] _damageWhitelist = { "Enemy" };
     public float damage = 1;
     public float radius = 2;
     [SerializeField] float damageDropOffMultiplier = 1;
@@ -33,7 +35,7 @@ public class Explosion : MonoBehaviour
     {
         foreach (Collider2D collider in objects)
         {
-            if(!collider.CompareTag("Player") && collider.GetComponent<Health>() != null)//check for health component
+            if (_damageWhitelist.Contains(collider.tag) && collider.GetComponent<Health>() != null)//check for health component
             {
                 //calculate final damage
                 float finalDamage = (radius - Vector2.Distance(transform.position, collider.ClosestPoint(transform.position)) * damageDropOffMultiplier / radius) * damage * Upgrade.GetUpgrade("Damage", UpgradeData.VariableType.Float);

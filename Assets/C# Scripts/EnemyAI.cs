@@ -83,17 +83,20 @@ public class EnemyAI : MonoBehaviour
         [SerializeField] float _projectileSpeed;
         [SerializeField] float _inaccuracy;
 
-        public void Shoot()
+        public void Shoot(float angleOverride = float.NaN, float inaccuracyOverride = float.NaN)
         {
             if(_firePoint == null) { return; }
             if (_muzzleFlash != null) { _muzzleFlash.Play(); }
 
-            Instantiate(_projectilePrefab, _firePoint.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(-_inaccuracy, _inaccuracy) + _firePoint.rotation.eulerAngles.z)).Initialize
+            float inaccuracy = float.IsNaN(inaccuracyOverride) ? _inaccuracy : inaccuracyOverride;
+            float angle = float.IsNaN(angleOverride) ? _firePoint.rotation.eulerAngles.z : angleOverride;
+
+            Instantiate(_projectilePrefab, _firePoint.position, Quaternion.Euler(0, 0, UnityEngine.Random.Range(-inaccuracy, inaccuracy) + angle)).Initialize
             (
                 _firePoint.root.gameObject,
                 _projectileSpeed,
                 _projectileDamage * GameManager.Insatnce.Difficulty,
-                new string[] { "Coin", "PowerUp", "EnemyShield" },
+                new string[] { "Coin", "PowerUp", "EnemyShield", "Projectile" },
                 new string[] { _firePoint.root.tag }
             );
         }
