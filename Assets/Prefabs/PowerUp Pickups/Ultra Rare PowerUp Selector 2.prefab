@@ -122,14 +122,12 @@ MonoBehaviour:
   activationDelay: 0.25
   _isPowerUp: 1
   _powerUpLootTable:
-  - Weight: 0.00001
-    Item: {fileID: -577738160673975738, guid: 6bfbf312ffe3b85478e897f2338f2eed, type: 3}
-  - Weight: 0.00001
-    Item: {fileID: -577738160673975738, guid: 6bfbf312ffe3b85478e897f2338f2eed, type: 3}
-  - Weight: 0.00001
-    Item: {fileID: -577738160673975738, guid: 6bfbf312ffe3b85478e897f2338f2eed, type: 3}
   - Weight: 1
-    Item: {fileID: 5735514970987360137, guid: fdad2e8ab85722446a77c5f2f1519811, type: 3}
+    Item: {fileID: -8584057576242036481, guid: bd1d97fcbe84acd468438c75534f98fd, type: 3}
+  - Weight: 1
+    Item: {fileID: -8584057576242036481, guid: bd1d97fcbe84acd468438c75534f98fd, type: 3}
+  - Weight: 1
+    Item: {fileID: -8584057576242036481, guid: bd1d97fcbe84acd468438c75534f98fd, type: 3}
   _choices: 3
 --- !u!58 &3737288497924828327
 CircleCollider2D:

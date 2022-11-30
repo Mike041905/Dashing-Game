@@ -168,6 +168,8 @@ public class EnemyAI : MonoBehaviour
     //---------------------------------------------
 
 
+    protected bool _canShoot = true;
+
     protected Transform Target { get => Player.Instance.transform; }
     public Room Room;
 
@@ -229,7 +231,7 @@ public class EnemyAI : MonoBehaviour
         Rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, MikeTransform.Rotation.LookTwards(transform.position, Target.position), _rotationSpeed * Time.fixedDeltaTime));
     }
 
-    private async void ShootIfAble()
+    protected virtual async void ShootIfAble()
     {
         _pattern.OnStartExecuteIn += () => _isShooting = true;
         _pattern.OnFinishExecuteIn += () => _isShooting = false;
@@ -251,6 +253,7 @@ public class EnemyAI : MonoBehaviour
 
                 while 
                     (
+                        _canShoot &&
                         !Player.Instance.PlayerHealth.Dead &&
                         this != null &&
                         enabled &&

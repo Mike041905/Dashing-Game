@@ -9,12 +9,13 @@ public class YellowEnemy : EnemyAI
     [SerializeField] private float turnSpeed;
     [SerializeField] private float AttackBreakOffDistance = 2.5f;
     [SerializeField] private float pointPositionTolerance = .5f;
+    [SerializeField] private bool _drawGizmos = false;
 
-    private State currentState = State.Attacking;
+    private State _currentState = State.Attacking;
 
-    Vector2[] path = new Vector2[2];
-    int currentPathTargetIndex = 0;
-    public int PathIndex { get => currentPathTargetIndex; set { currentPathTargetIndex = value; if (currentPathTargetIndex >= path.Length) { currentPathTargetIndex = 0; } } }
+    Vector2[] _path = new Vector2[2];
+    int _currentPathTargetIndex = 0;
+    public int PathIndex { get => _currentPathTargetIndex; set { _currentPathTargetIndex = value; if (_currentPathTargetIndex >= _path.Length) { _currentPathTargetIndex = 0; } } }
 
     enum State
     {
@@ -26,7 +27,7 @@ public class YellowEnemy : EnemyAI
     {
         if(Target != null)
         {
-            switch (currentState)
+            switch (_currentState)
             {   
                 case State.Attacking: Attack(); break;
                 case State.PreparingForAttack: PrepareForAttack(); break;
@@ -36,22 +37,26 @@ public class YellowEnemy : EnemyAI
 
     void Attack()
     {
+        _canShoot = true;
+
         if (Vector2.Distance(transform.position, Target.position) > AttackBreakOffDistance)
         {
-            transform.position += movementSpeed * Time.deltaTime * transform.up;
+            Rb.MovePosition(Rb.position + movementSpeed * Time.fixedDeltaTime * (Vector2)transform.up);
             FaceTarget();
         }
         else
         {
             GeneratePath();
-            currentState = State.PreparingForAttack;
+            _currentState = State.PreparingForAttack;
         }
     }
 
     void PrepareForAttack()
     {
-        transform.position += movementSpeed * Time.deltaTime * transform.up;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, MikeTransform.Rotation.LookTwards(transform.position, path[currentPathTargetIndex]), turnSpeed * Time.deltaTime);
+        _canShoot = false;
+
+        Rb.MovePosition(Rb.position + movementSpeed * Time.fixedDeltaTime * (Vector2)transform.up);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, MikeTransform.Rotation.LookTwards(transform.position, _path[_currentPathTargetIndex]), turnSpeed * Time.deltaTime);
         MoveOnPath();
     }
 
@@ -61,16 +66,16 @@ public class YellowEnemy : EnemyAI
 
     void MoveOnPath()
     {
-        if (Vector2.Distance((Vector2)transform.position, path[currentPathTargetIndex]) <= pointPositionTolerance)
+        if (Vector2.Distance((Vector2)transform.position, _path[_currentPathTargetIndex]) <= pointPositionTolerance)
         {
-            if (PathIndex == path.Length - 1) { currentState = State.Attacking; }
+            if (PathIndex == _path.Length - 1) { _currentState = State.Attacking; }
             PathIndex++;
         }
     }
 
     protected override void FaceTarget()
     {
-        if(currentState == State.PreparingForAttack) { return; }
+        if(_currentState == State.PreparingForAttack) { return; }
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, MikeTransform.Rotation.LookTwards(transform.position, Target.position), turnSpeed * Time.deltaTime);
     }
@@ -103,7 +108,7 @@ public class YellowEnemy : EnemyAI
 
         for (int i = 0; i < 2; i++)
         {
-            if (ValidateRoute(position, new Transform[] { transform })) { path[0] = position; return; }
+            if (ValidateRoute(position, new Transform[] { transform })) { _path[0] = position; return; }
 
             dir *= -1;
         }
@@ -117,7 +122,7 @@ public class YellowEnemy : EnemyAI
             if(Vector2.Distance(position, (Vector2)Target.position) > 7)
             {
                 //check if doesnt hit anything
-                if (ValidateRoute(position, new Transform[] { transform } )) { path[0] = position; return; }
+                if (ValidateRoute(position, new Transform[] { transform } )) { _path[0] = position; return; }
             }
         }
     }
@@ -128,19 +133,19 @@ public class YellowEnemy : EnemyAI
 
         for (int i = 0; i < 10; i++)
         {
-            position = path[0] + (Vector2)transform.up * 15 + MikeRandom.RandomVector2(-10, 10);
-            RaycastHit2D[] hits = Physics2D.RaycastAll(path[0], position);
+            position = _path[0] + (Vector2)transform.up * 15 + MikeRandom.RandomVector2(-10, 10);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(_path[0], position);
 
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit.transform == transform) { continue; }
-                if (hit.transform.CompareTag("Barrier") && Vector2.Distance(hit.point, path[0]) < 15)
+                if (hit.transform.CompareTag("Barrier") && Vector2.Distance(hit.point, _path[0]) < 15)
                 {
-                    path[1] = hit.point - (Vector2)transform.up * 2;
+                    _path[1] = hit.point - (Vector2)transform.up * 2;
                     return;
                 }
             }
-            path[1] = position;
+            _path[1] = position;
         }
 
     }
@@ -154,10 +159,12 @@ public class YellowEnemy : EnemyAI
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, path[currentPathTargetIndex]);
-        Gizmos.DrawLine(path[0], path[1]);
+        if (!_drawGizmos) { return; }
 
-        Gizmos.DrawSphere(path[0], pointPositionTolerance);
-        Gizmos.DrawSphere(path[1], pointPositionTolerance);
+        Gizmos.DrawLine(transform.position, _path[_currentPathTargetIndex]);
+        Gizmos.DrawLine(_path[0], _path[1]);
+
+        Gizmos.DrawSphere(_path[0], pointPositionTolerance);
+        Gizmos.DrawSphere(_path[1], pointPositionTolerance);
     }
 }

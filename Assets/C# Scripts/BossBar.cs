@@ -86,12 +86,12 @@ public class BossBar : MonoBehaviour
     Coroutine _alphaCoroutine = null;
     void ChangeAlpha(float targetAlpha, float speed, UnityAction onFinish = null)
     {
-        if(_alphaCoroutine!= null) { StopCoroutine(_alphaCoroutine);}
+        if(_alphaCoroutine != null) { StopCoroutine(_alphaCoroutine); }
         _alphaCoroutine = StartCoroutine(ChangeAlphaCoroutine(targetAlpha, speed, onFinish));
     }
     IEnumerator ChangeAlphaCoroutine(float targetAlpha, float speed, UnityAction onFinish = null)
     {
-        while (_holder.alpha != targetAlpha)
+        while (_holder.alpha > targetAlpha + 0.01f || _holder.alpha < targetAlpha - 0.1f)
         {
             _holder.alpha = Mathf.Lerp(_holder.alpha, targetAlpha, Time.deltaTime * speed);
 
