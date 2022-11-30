@@ -35,6 +35,8 @@ public class OfflineEarnings : MonoBehaviour
 
     async void Start()
     {
+        if (Instance != this) { return; }
+
         _UTCNow = await Task.Run(GetUTCNowInternet);
 
         ShowCoinsGained();

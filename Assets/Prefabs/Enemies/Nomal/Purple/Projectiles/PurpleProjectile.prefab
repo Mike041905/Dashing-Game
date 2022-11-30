@@ -253,8 +253,8 @@ MonoBehaviour:
     _firePoint: {fileID: 2613580721983987460}
     _muzzleFlash: {fileID: 0}
     _projectileDamage: 1
-    _projectileSpeed: 10
+    _projectileSpeed: 7
     _inaccuracy: 180
-  _shrapnelAmount: 6
+  _shrapnelAmount: 12
   _fuseTime: 2
   _randomSpread: 0

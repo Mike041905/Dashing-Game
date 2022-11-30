@@ -11,8 +11,6 @@ public class PowerUpAdder : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null) { return; }
-
         _instance = this;
     }
 

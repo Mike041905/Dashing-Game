@@ -11,6 +11,8 @@ namespace Mike
         static List<MikeColorTransition> activeTransitions = new List<MikeColorTransition>();
         public static void StartColorTransion(this Graphic graphic, Color newColor, float transitionSpeed, UnityAction onFinish = null)
         {
+            if (graphic == null) { return; }
+
             for (int i = 0; i < activeTransitions.Count; i++)
             {
                 if (activeTransitions[i].graphic == graphic) { activeTransitions[i].Stop(); activeTransitions.RemoveAt(i); }
@@ -35,11 +37,15 @@ namespace Mike
 
         IEnumerator ColorTransition(Color newColor, float transitionSpeed, UnityAction onFinish)
         {
+            if (graphic == null) { yield break; }
+
             Color startColor = graphic.color;
             float t = 0;
 
             while (graphic.color != newColor)
             {
+                if (graphic == null) { yield break; }
+
                 t += 1 / transitionSpeed * Time.deltaTime;
                 graphic.color = Color.Lerp(startColor, newColor, t);
                 yield return null;

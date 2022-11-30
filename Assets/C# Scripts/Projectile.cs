@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private GameObject _hitEffect;
     [SerializeField] bool _useFixedUpdate = true;
     [SerializeField] bool _canColideWithOtherProjectiles = false;
+    [SerializeField] bool _destroyOnHit = true;
 
     GameObject _shooter;
     bool _initialized = false;
@@ -23,23 +24,16 @@ public class Projectile : MonoBehaviour
     Rigidbody2D _rb;
     Rigidbody2D Rb { get { if (_rb == null) { _rb = GetComponent<Rigidbody2D>(); } return _rb; } }
 
+
     //---------------------------------------
 
-
-    private void Update()
-    {
-        if(!_initialized) { return; }
-        if(_useFixedUpdate) { return; }
-
-        transform.position += _speed * Time.deltaTime * transform.up;
-    }
 
     private void FixedUpdate()
     {
         if (!_initialized) { return; }
         if (!_useFixedUpdate) { return; }
 
-        Rb.MovePosition(Rb.position + (_speed * Time.deltaTime * (Vector2)transform.up));
+        Rb.MovePosition(Rb.position + (_speed * Time.fixedDeltaTime * (Vector2)transform.up));
     }
 
 
@@ -84,6 +78,7 @@ public class Projectile : MonoBehaviour
     protected virtual void Die()
     {
         if (_hitEffect != null) Instantiate(_hitEffect, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        if (_destroyOnHit) { Destroy(gameObject); }
+        else { gameObject.SetActive(false); }
     }
 }

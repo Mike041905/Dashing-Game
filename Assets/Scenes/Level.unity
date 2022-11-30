@@ -11655,11 +11655,15 @@ MonoBehaviour:
   - prefab: {fileID: 9040167499389947992, guid: 39689e2638a7f954d996f374246f766c, type: 3}
     spwanChance: 2
     ticketCost: 2
-    minimumLevel: 5
+    minimumLevel: 6
   - prefab: {fileID: 9040167499389947992, guid: 41fb1756281185e45a6671f3c8a7e884, type: 3}
     spwanChance: 2
     ticketCost: 3
-    minimumLevel: 5
+    minimumLevel: 7
+  - prefab: {fileID: 9040167499389947992, guid: 64dd90be6ccdb694faad4d71b562c8b7, type: 3}
+    spwanChance: 1
+    ticketCost: 3
+    minimumLevel: 8
   <BossRoster>k__BackingField:
   - BossPrefab: {fileID: -9187788747358179675, guid: d082c4435c5b5814e8b783af44bb772b, type: 3}
     RandomWeight: 1

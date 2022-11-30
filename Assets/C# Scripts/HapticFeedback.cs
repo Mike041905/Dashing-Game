@@ -14,8 +14,13 @@ public static class HapticFeedback
     public static AndroidJavaObject vibrator;
 #endif
 
+    static bool? _doHapticFeedback = null;
+    static bool DoHapticFeedback { get => _doHapticFeedback ??= StorageManager.Settings.Controls.HapticFeedback; }
+
     public static void Vibrate()
     {
+        if (!DoHapticFeedback) { return; }
+
         if (IsAndroid)
             vibrator.Call("vibrate");
         else
@@ -25,7 +30,7 @@ public static class HapticFeedback
 
     public static void Vibrate(long milliseconds)
     {
-        if (!StorageManager.Settings.Controls.HapticFeedback) { return; }
+        if (!DoHapticFeedback) { return; }
 
         if (IsAndroid)
             vibrator.Call("vibrate", milliseconds);
@@ -35,6 +40,8 @@ public static class HapticFeedback
 
     public static void Vibrate(long[] pattern, int repeat)
     {
+        if (!DoHapticFeedback) { return; }
+
         if (IsAndroid)
             vibrator.Call("vibrate", pattern, repeat);
         else

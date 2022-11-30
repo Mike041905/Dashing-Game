@@ -62,17 +62,15 @@ public static class StorageManager
             public const string InvertDashSavekey = "Invert Dash";
 
 
-            static bool? _invertDash = null;
             /// <summary>
-            /// Determines if dashing should be inverted. This value is cached
+            /// Determines if dashing should be inverted.
             /// </summary>
-            public static bool InvertDash { get { _invertDash ??= PlayerPrefs.GetInt(InvertDashSavekey, 0) == 1; return _invertDash.Value; } set { _invertDash = value; PlayerPrefs.SetInt(InvertDashSavekey, InvertDash ? 1 : 0); } }
+            public static bool InvertDash { get => PlayerPrefs.GetInt(InvertDashSavekey, 0) == 1; set => PlayerPrefs.SetInt(InvertDashSavekey, InvertDash ? 1 : 0); }
 
-            static bool? _hapticFeedback = null;
             /// <summary>
-            /// Determines if hapticfeedback should be executed. This value is cached
+            /// Determines if hapticfeedback should be executed.
             /// </summary>
-            public static bool HapticFeedback { get { _hapticFeedback ??= PlayerPrefs.GetInt(HapticsSavekey, 1) == 1; return _hapticFeedback.Value; } set { _hapticFeedback = value; PlayerPrefs.SetInt(HapticsSavekey, HapticFeedback ? 1 : 0); } }
+            public static bool HapticFeedback { get => PlayerPrefs.GetInt(HapticsSavekey, 1) == 1; set => PlayerPrefs.SetInt(HapticsSavekey, HapticFeedback ? 1 : 0);  }
         }
 
         /// <summary>
@@ -98,8 +96,7 @@ public static class StorageManager
         {
             public const string SupportAdsSavekey = "Support Ads";
 
-            static bool? _supportAds = null;
-            public static bool SupportAds { get { _supportAds ??= PlayerPrefs.GetInt(SupportAdsSavekey, 0) == 1; return _supportAds.Value; } set { _supportAds = value; PlayerPrefs.SetInt(SupportAdsSavekey, value ? 1 : 0); } }
+            public static bool SupportAds { get => PlayerPrefs.GetInt(SupportAdsSavekey, 0) == 1;  set => PlayerPrefs.SetInt(SupportAdsSavekey, value ? 1 : 0); }
         }
 
         public static void SaveOption<T>(string key, T value)

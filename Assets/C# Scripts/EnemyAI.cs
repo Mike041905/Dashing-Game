@@ -246,7 +246,9 @@ public class EnemyAI : MonoBehaviour
                 await Task.Delay((int)UnityEngine.Random.Range(_wakeUpTimeMin * 1000, _wakeUpTimeMax * 1000));
 
                 if (this == null) { return; }
+                if (Player.Instance == null) { return; }
                 if (Player.Instance.gameObject == null) { return; }
+
                 while 
                     (
                         !Player.Instance.PlayerHealth.Dead &&

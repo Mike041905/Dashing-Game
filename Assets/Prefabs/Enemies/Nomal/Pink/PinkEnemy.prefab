@@ -169,8 +169,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 0.5
+      scalar: 5
+      minScalar: 0.8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -662,7 +662,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 25
+    angle: 5.04
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -748,7 +748,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.09
+      value: 0.07
       mode: 0
       spread: 0
       speed:
@@ -4819,8 +4819,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6edbe6d06350ed44dba173cb9239e815, type: 2}
-  - {fileID: 2100000, guid: 6edbe6d06350ed44dba173cb9239e815, type: 2}
+  - {fileID: 2100000, guid: 910b4f31520778842ad80336a6460977, type: 2}
+  - {fileID: 2100000, guid: 910b4f31520778842ad80336a6460977, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4881,6 +4881,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2975994638009178408}
   - component: {fileID: 8775927565387610657}
+  - component: {fileID: 523121717257145305}
+  - component: {fileID: 3704090721501110955}
   m_Layer: 0
   m_Name: Muzzle
   m_TagString: Untagged
@@ -4897,7 +4899,7 @@ Transform:
   m_GameObject: {fileID: 7985003983726578707}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3997293795890969470}
@@ -4925,7 +4927,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6edbe6d06350ed44dba173cb9239e815, type: 2}
+  - {fileID: 2100000, guid: 910b4f31520778842ad80336a6460977, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4957,6 +4959,119 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &523121717257145305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7985003983726578707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8433b08cdd5dd14aba34a3429acabb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _origin: {fileID: 3997293795890969470}
+  _lineRenderer: {fileID: 3704090721501110955}
+--- !u!120 &3704090721501110955
+LineRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7985003983726578707}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c115af24b0d92184c940b7a22b81a8db, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 0.025
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
 --- !u!1 &8920907549652899066
 GameObject:
   m_ObjectHideFlags: 0
@@ -5012,14 +5127,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9040167499349873165}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9040167499389947999}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &9040167499349873155
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5040,7 +5155,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6edbe6d06350ed44dba173cb9239e815, type: 2}
+  - {fileID: 2100000, guid: 910b4f31520778842ad80336a6460977, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5061,7 +5176,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2135585597343286014, guid: 4d774180f7c319b4589b33e00c4767a1, type: 3}
+  m_Sprite: {fileID: 3625043607559282579, guid: 7f2f1c614c4b01f46a1b747e1f716acb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5086,7 +5201,7 @@ GameObject:
   - component: {fileID: 9040167499389947998}
   - component: {fileID: 9040167499389947997}
   m_Layer: 0
-  m_Name: PurpleEnemy
+  m_Name: PinkEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5123,31 +5238,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pattern:
     _inTime: 0
-    _outTime: 2
+    _outTime: 3
     _repeat:
-    - _inTime: 0
+    - _inTime: 0.5
       _outTime: 0
       _firePattern:
       - _inTime: 0
-        _outTime: 0
+        _outTime: 2
         _projectile:
-          _projectilePrefab: {fileID: 6857500648535128497, guid: 9b925217eca16d040a3aa74bea0a4846, type: 3}
+          _projectilePrefab: {fileID: 1547369790601792873, guid: 9548477ef7885544da2b1b83d73c5440, type: 3}
           _firePoint: {fileID: 2975994638009178408}
           _muzzleFlash: {fileID: 6563036778428889460}
-          _projectileDamage: 1
-          _projectileSpeed: 5
-          _inaccuracy: 1
+          _projectileDamage: 25
+          _projectileSpeed: 100
+          _inaccuracy: 0
       _repeat: 0
   movementSpeed: 0.5
   playerAvoidanceSpeed: 0.5
-  stopRange: 5
-  backupRange: 4
-  shootingDistance: 10
-  _canMoveWhileShooting: 1
-  _canRotateWhileShooting: 1
-  _rotationSpeed: 135
-  _wakeUpTimeMin: 1
-  _wakeUpTimeMax: 3
+  stopRange: 20
+  backupRange: 15
+  shootingDistance: 25
+  _canMoveWhileShooting: 0
+  _canRotateWhileShooting: 0
+  _rotationSpeed: 90
+  _wakeUpTimeMin: 0
+  _wakeUpTimeMax: 1
   Room: {fileID: 0}
   <AdditionalHealthScripts>k__BackingField: []
 --- !u!114 &9040167499389947996
@@ -5163,15 +5278,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 0}
-  health: 1
-  deathEffect: {fileID: 7525922467955804732, guid: 0607f30bd0182044f916d8e63453b0f2, type: 3}
+  health: 0.5
+  deathEffect: {fileID: 1518020747397404029, guid: 44b9fd7c330f1944fba9e7bfc18cd407, type: 3}
   destroyOnDeath: 1
-  minCoinsOnDeath: 0
-  maxCoinsOnDeath: 2
+  minCoinsOnDeath: 1
+  maxCoinsOnDeath: 3
   immuneTime: 0.2
   BunceOnDeath: 0
-  _shakeMagintudeDeath: 2
-  _shakeRoughnessDeath: 5
+  _shakeMagintudeDeath: 1
+  _shakeRoughnessDeath: 4
   _shakeInTimeDeath: 0.1
   _shakeOutTimeDeath: 0.2
   _vibrateTime: 0.2
