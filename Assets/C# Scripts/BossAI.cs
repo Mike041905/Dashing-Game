@@ -14,3 +14,4 @@ public class BossAI : EnemyAI
         BossBar.Instance.DisplayBar(this);
     }
 }
+

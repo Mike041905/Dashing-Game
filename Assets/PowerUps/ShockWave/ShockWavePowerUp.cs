@@ -47,20 +47,8 @@ public class ShockWavePowerUp : PowerUp
             if (collider.TryGetComponent(out EnemyAI e))
             {
                 e.EnemyHealth.TakeDamage(Damage);
-                e.Rb.AddForceAtPosition(-Vector2.one * GetStat("Force").statValue, transform.position);
+                e.Rb.AddForce((e.Rb.position - (Vector2)transform.position).normalized * GetStat("Force").statValue);
             }
-
-            /*if(collider.TryGetComponent(out EnemyAI e))
-            {
-                e.EnemyHealth.TakeDamage(GetStat("Damage").statValue);
-                e.Rb.AddForceAtPosition(-Vector2.one * GetStat("Force").statValue, transform.position);
-            }
-            else if(!collider.CompareTag("Player") && collider.TryGetComponent(out Rigidbody2D rb))
-            {
-                rb.AddForceAtPosition(-Vector2.one * GetStat("Force").statValue, transform.position);
-
-            }*/
-
         }
     }
 
