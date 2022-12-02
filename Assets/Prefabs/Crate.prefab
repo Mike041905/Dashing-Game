@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 4568372071385289937}
   - component: {fileID: 4568372071385289938}
   - component: {fileID: 4568372071385289939}
+  - component: {fileID: 2227720340872057156}
   m_Layer: 0
   m_Name: Crate
   m_TagString: Crate
@@ -214,12 +215,44 @@ MonoBehaviour:
   - item: {fileID: 7502922020259089908, guid: 1388f1a6cc04d8041835444557798a69, type: 3}
     weight: 10
   - item: {fileID: 1449947554712204251, guid: 598d28d1194c1a84c800f259d428fb87, type: 3}
-    weight: 5
+    weight: 10
   - item: {fileID: 3464007397947900406, guid: 3935256af02a4e74497854eaa6af4a65, type: 3}
-    weight: 15
+    weight: 20
   - item: {fileID: 3464007397947900406, guid: 3269bb939407dee468828365c2b04773, type: 3}
     weight: 10
   - item: {fileID: 3464007397947900406, guid: 31c27c8e40cf9d14782928ffd04e2f79, type: 3}
     weight: 5
   - item: {fileID: 3464007397947900406, guid: 04178bffb4419864bae4564d0536dd4e, type: 3}
     weight: 1
+  _health: {fileID: 2227720340872057156}
+--- !u!114 &2227720340872057156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568372071385289940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa19fb2ca5a8ecf47b583f0349d638f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthSlider: {fileID: 0}
+  health: 0
+  deathEffect: {fileID: 0}
+  destroyOnDeath: 1
+  minCoinsOnDeath: 0
+  maxCoinsOnDeath: 0
+  immuneTime: 0.2
+  BunceOnDeath: 0
+  _shakeMagintudeDeath: 0.5
+  _shakeRoughnessDeath: 4
+  _shakeInTimeDeath: 0.05
+  _shakeOutTimeDeath: 0.1
+  _vibrateTime: 0.1
+  OnDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReviveEvent:
+    m_PersistentCalls:
+      m_Calls: []

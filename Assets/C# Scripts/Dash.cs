@@ -163,6 +163,8 @@ public class Dash : MonoBehaviour
 
     void UseDash(float speed, float distance)//checks if player has enough stamina and prevents from using the dash multiple times
     {
+        if(_firstTouchPosition == _secondTouchPosition) { return; }
+
         Time.timeScale = 1;
         if (_stamina < StaminaDrain)
         {

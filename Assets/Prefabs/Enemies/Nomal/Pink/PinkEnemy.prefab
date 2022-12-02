@@ -5238,9 +5238,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pattern:
     _inTime: 0
-    _outTime: 3
+    _outTime: 4
     _repeat:
-    - _inTime: 0.5
+    - _inTime: 0.35
       _outTime: 0
       _firePattern:
       - _inTime: 0
@@ -5255,12 +5255,12 @@ MonoBehaviour:
       _repeat: 0
   movementSpeed: 0.5
   playerAvoidanceSpeed: 0.5
-  stopRange: 20
+  stopRange: 30
   backupRange: 15
-  shootingDistance: 25
+  shootingDistance: 50
   _canMoveWhileShooting: 0
   _canRotateWhileShooting: 0
-  _rotationSpeed: 90
+  _rotationSpeed: 135
   _wakeUpTimeMin: 0
   _wakeUpTimeMax: 1
   Room: {fileID: 0}

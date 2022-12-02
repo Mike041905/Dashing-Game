@@ -49,8 +49,9 @@ MonoBehaviour:
     it is not very accurate. Upgrading this powerup increases its the rate at which
     bombs fall from the sky as well as the accuracy!
   description: Death from above!
-  icon: {fileID: 21300000, guid: 1ec1afdf2ea0f9644b580348b52756e6, type: 3}
+  icon: {fileID: 21300000, guid: 7e6a41d023b8a0549af9866a5ea810bb, type: 3}
   Images:
+  - {fileID: 21300000, guid: 7e6a41d023b8a0549af9866a5ea810bb, type: 3}
   - {fileID: 21300000, guid: 1ec1afdf2ea0f9644b580348b52756e6, type: 3}
   stats:
   - statName: Interval
@@ -68,5 +69,6 @@ MonoBehaviour:
     statUpgradeOffset: 0
     statUpgradeMultiplier: -0.15
     statLevel: 0
-  powerUpLevel: 1
+  PowerUpLevel: 1
+  MaxLevel: 0
   bombPrefab: {fileID: 1281403807000855016, guid: c52c35c4f30af71478923d990fc612f9, type: 3}

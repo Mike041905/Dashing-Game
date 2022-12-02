@@ -44,7 +44,7 @@ public class BossBar : MonoBehaviour
         _bossName.text = TrackedBoss.BossName;
         _bossName.color = textColor;
         _bossHealthBar.maxValue = TrackedBoss.EnemyHealth.Maxhealth;
-        _bossHealthBar.value = TrackedBoss.EnemyHealth.CurrentHealth;
+        StartCoroutine(LerpHealthBarValue(TrackedBoss.EnemyHealth.CurrentHealth));
         _bossHealthBar.fillRect.GetComponent<Image>().color = barColor;
         _holder.gameObject.SetActive(true);
 
@@ -91,7 +91,7 @@ public class BossBar : MonoBehaviour
     }
     IEnumerator ChangeAlphaCoroutine(float targetAlpha, float speed, UnityAction onFinish = null)
     {
-        while (_holder.alpha > targetAlpha + 0.01f || _holder.alpha < targetAlpha - 0.1f)
+        while (_holder.alpha > targetAlpha + 0.01f || _holder.alpha < targetAlpha - 0.01f)
         {
             _holder.alpha = Mathf.Lerp(_holder.alpha, targetAlpha, Time.deltaTime * speed);
 

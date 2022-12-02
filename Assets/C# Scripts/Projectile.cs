@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private GameObject _hitEffect;
     [SerializeField] bool _useFixedUpdate = true;
     [SerializeField] bool _canColideWithOtherProjectiles = false;
-    [SerializeField] bool _destroyOnHit = true;
+    [SerializeField] bool DestroyOnHit = true;
 
     GameObject _shooter;
     bool _initialized = false;
@@ -78,7 +78,7 @@ public class Projectile : MonoBehaviour
     protected virtual void Die()
     {
         if (_hitEffect != null) Instantiate(_hitEffect, transform.position, Quaternion.identity);
-        if (_destroyOnHit) { Destroy(gameObject); }
+        if (DestroyOnHit) { Destroy(gameObject); }
         else { gameObject.SetActive(false); }
     }
 }

@@ -48,8 +48,9 @@ MonoBehaviour:
   LongDescription: This PowerUp send an electric bolt trhrough the room causing damage
     to any enemy it hits. The heigher the level the more enemies it will hit.
   description: Damage multiple enemies on hit!
-  icon: {fileID: 21300000, guid: b0a43ccc0c27eda48855795f5f1e6776, type: 3}
+  icon: {fileID: 21300000, guid: 1206587aa2293d743aab1e7106469c18, type: 3}
   Images:
+  - {fileID: 21300000, guid: 1206587aa2293d743aab1e7106469c18, type: 3}
   - {fileID: 21300000, guid: b0a43ccc0c27eda48855795f5f1e6776, type: 3}
   stats:
   - statName: Bounces
@@ -57,5 +58,6 @@ MonoBehaviour:
     statUpgradeOffset: 1
     statUpgradeMultiplier: 0
     statLevel: 0
-  powerUpLevel: 1
+  PowerUpLevel: 1
+  MaxLevel: 0
   lightiningPrefab: {fileID: 8392118956376280407, guid: 2b4b4be4dc8d89445ac472fec41c95ea, type: 3}

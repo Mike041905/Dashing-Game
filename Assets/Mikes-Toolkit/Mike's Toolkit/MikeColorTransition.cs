@@ -8,20 +8,20 @@ namespace Mike
 {
     public static class MikeColorTransitionExtention
     {
-        static List<MikeColorTransition> activeTransitions = new List<MikeColorTransition>();
+        static List<MikeColorTransition> _activeTransitions = new();
         public static void StartColorTransion(this Graphic graphic, Color newColor, float transitionSpeed, UnityAction onFinish = null)
         {
             if (graphic == null) { return; }
 
-            for (int i = 0; i < activeTransitions.Count; i++)
+            for (int i = 0; i < _activeTransitions.Count; i++)
             {
-                if (activeTransitions[i].graphic == graphic) { activeTransitions[i].Stop(); activeTransitions.RemoveAt(i); }
+                if (_activeTransitions[i].graphic == graphic) { _activeTransitions[i].Stop(); _activeTransitions.RemoveAt(i); }
             }
 
-            activeTransitions.Add(new MikeColorTransition(graphic, newColor, transitionSpeed, onFinish));
+            _activeTransitions.Add(new MikeColorTransition(graphic, newColor, transitionSpeed, onFinish));
         }
 
-        public static void RemoveActiveTransition(MikeColorTransition transition) => activeTransitions.Remove(transition);
+        public static void RemoveActiveTransition(MikeColorTransition transition) => _activeTransitions.Remove(transition);
     }
 
     public class MikeColorTransition

@@ -12,6 +12,7 @@ public class PowerUpAdder : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        PowerUps = new();
     }
 
     public PowerUp GetPowerUp(string name)

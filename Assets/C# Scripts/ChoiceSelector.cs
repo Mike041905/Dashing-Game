@@ -46,8 +46,8 @@ public class ChoiceSelector : MonoBehaviour
     [SerializeField] UnityEvent OnStartChoice;
     [SerializeField] UnityEvent OnEndChoice;
 
-    bool activeChoice;
-    List<ChoiceQueueData> queue = new();
+    bool _activeChoice;
+    List<ChoiceQueueData> _queue = new();
 
     public void OnChoiceSelected(int choiceIndex)
     {
@@ -56,7 +56,7 @@ public class ChoiceSelector : MonoBehaviour
             Destroy(choiceHolder.transform.GetChild(i).gameObject);
         }
 
-        activeChoice = false;
+        _activeChoice = false;
         Time.timeScale = 1;
         background.SetActive(false);
 
@@ -80,7 +80,7 @@ public class ChoiceSelector : MonoBehaviour
 
     private void Update()
     {
-        if (activeChoice && Time.timeScale > 0.0001f)
+        if (_activeChoice && Time.timeScale > 0.0001f)
         {
             Time.timeScale = 0.00001f;
         }
@@ -114,27 +114,29 @@ public class ChoiceSelector : MonoBehaviour
     /// <param name="CallBack"></param>
     public void DisplayChoice(ChoiceData[] choices, UnityAction<int> CallBack)
     {
-        queue.Add(new ChoiceQueueData(choices, CallBack));
+        _queue.Add(new ChoiceQueueData(choices, CallBack));
         DisplayChoiceFromQueue();
     }
 
     void DisplayChoiceFromQueue()
     {
-        if(queue.Count <= 0) { return; }
+        if (_queue.Count <= 0 || _activeChoice) { return; }
 
         background.SetActive(true);
-        activeChoice = true;
+        _activeChoice = true;
 
         OnStartChoice?.Invoke();
-        OnSelect += queue[0].callback;
+        OnSelect += (int choiceIndex) =>
+        {
+            _queue[0].callback?.Invoke(choiceIndex);
+            _queue.RemoveAt(0);
+        };
 
-        for (int i = 0; i < queue[0].data.Length; i++)
+        for (int i = 0; i < _queue[0].data.Length; i++)
         {
             Choice choice = Instantiate(choiceTemplate.gameObject, choiceHolder.transform).GetComponent<Choice>();
-            choice.SetAsChoice(queue[0].data[i], i);
+            choice.SetAsChoice(_queue[0].data[i], i);
             choice.gameObject.SetActive(true);
         }
-
-        queue.RemoveAt(0);
     }
 }

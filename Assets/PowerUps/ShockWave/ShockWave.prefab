@@ -978,8 +978,8 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 3
-        scalar: 100
-        minScalar: 50
+        scalar: 35
+        minScalar: 10
         maxCurve:
           serializedVersion: 2
           m_Curve:
@@ -4920,9 +4920,9 @@ MonoBehaviour:
   LongDescription: When the player is damaged a shockwave aperars that deals a small
     amount of damage and pushes enemies away from the player
   description: Push enemies away on taking damage
-  icon: {fileID: 21300000, guid: 4ae6db7c9205b4249b2ba4a040f48a94, type: 3}
+  icon: {fileID: 21300000, guid: 6092bad95b735ff4c95ad5a075ad6a04, type: 3}
   Images:
-  - {fileID: 21300000, guid: 4ae6db7c9205b4249b2ba4a040f48a94, type: 3}
+  - {fileID: 21300000, guid: 6092bad95b735ff4c95ad5a075ad6a04, type: 3}
   stats:
   - statName: Damage
     statValue: 0.1
@@ -5920,8 +5920,8 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 3
-        scalar: 25
-        minScalar: 10
+        scalar: 15
+        minScalar: 5
         maxCurve:
           serializedVersion: 2
           m_Curve:

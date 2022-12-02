@@ -129,7 +129,7 @@ MonoBehaviour:
   - Weight: 1
     Item: {fileID: 776827491411068533, guid: cbeaf997162a18a4f9bb6e618e324de3, type: 3}
   - Weight: 1
-    Item: {fileID: 776827491411068533, guid: cbeaf997162a18a4f9bb6e618e324de3, type: 3}
+    Item: {fileID: 4186335560488765506, guid: a4394ac4b4ebce841bceb6aac765d974, type: 3}
   _choices: 3
 --- !u!58 &3737288497924828327
 CircleCollider2D:

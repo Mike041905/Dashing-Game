@@ -5061,9 +5061,9 @@ MonoBehaviour:
     shield is destroyed it has to recharge for 10s until it can function again. The
     shield also regenerates health when not taking damage.
   description: Creates a prortective bubble
-  icon: {fileID: 21300000, guid: 4ae6db7c9205b4249b2ba4a040f48a94, type: 3}
+  icon: {fileID: 21300000, guid: f8e86ed3643693648976500a8bd41f9b, type: 3}
   Images:
-  - {fileID: 21300000, guid: 4ae6db7c9205b4249b2ba4a040f48a94, type: 3}
+  - {fileID: 21300000, guid: f8e86ed3643693648976500a8bd41f9b, type: 3}
   stats:
   - statName: Shield Health
     statValue: 10

@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class Crate : MonoBehaviour
+public class LootDropOnDeath : MonoBehaviour
 {
     [SerializeField] private GameObject destructionEffect;
     [SerializeField] private Loot[] lootTable;
+    [SerializeField] private Health _health;
 
     [System.Serializable]
     public struct Loot
@@ -12,14 +13,15 @@ public class Crate : MonoBehaviour
         public float weight;
     }
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Start()
     {
-        if (!collision.CompareTag("Enemy")) { BreakCreate(); }
+        _health.OnDeath += SpawnLoot;
     }
 
-    void BreakCreate()
+    void SpawnLoot()
     {
+        _health.OnDeath -= SpawnLoot;
+
         Instantiate(lootTable[Mike.MikeRandom.RandomIntByWeights(GetAllLootWeights())].item, transform.position, Quaternion.identity);
         if(destructionEffect != null) Instantiate(destructionEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);

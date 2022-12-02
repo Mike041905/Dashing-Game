@@ -49,8 +49,9 @@ MonoBehaviour:
     enemy. Don't expect them to do all the work for you as they won't always hit
     their target. They're doing their best out here
   description: Sends out homing missiles!
-  icon: {fileID: 21300000, guid: 47ac7ea8f05326040b74ff87272323f5, type: 3}
+  icon: {fileID: 21300000, guid: 6817453e36117fb44b685a53550fe4b3, type: 3}
   Images:
+  - {fileID: 21300000, guid: 6817453e36117fb44b685a53550fe4b3, type: 3}
   - {fileID: 21300000, guid: 47ac7ea8f05326040b74ff87272323f5, type: 3}
   stats:
   - statName: Interval
@@ -63,5 +64,6 @@ MonoBehaviour:
     statUpgradeOffset: 0
     statUpgradeMultiplier: 0.1
     statLevel: 0
-  powerUpLevel: 1
+  PowerUpLevel: 1
+  MaxLevel: 0
   missilePrefab: {fileID: 1695380082732233614, guid: 18a1726ae628b6844b09975797e8619b, type: 3}
