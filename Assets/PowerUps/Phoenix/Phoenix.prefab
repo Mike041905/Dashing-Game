@@ -44,6 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 576e8ae3c85331d4a9a940d84ef78b47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinimumRarity: 0
+  MaximumRarity: 4
+  Rarity: 4
+  DropChance: 1
   powerUpName: Phoenix
   LongDescription: When the player is defeated, the player explodes and gets revived
   description: Extra Life

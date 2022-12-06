@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3464007397947900400}
   - component: {fileID: 3464007397947900407}
   - component: {fileID: 525222923677594248}
-  - component: {fileID: 2636885682734186678}
   - component: {fileID: 3737288497924828327}
+  - component: {fileID: -3014048360458243928}
   m_Layer: 0
   m_Name: Ultra Rare PowerUp Selector 2
   m_TagString: PowerUp
@@ -102,33 +102,6 @@ MonoBehaviour:
   magnitude: 0.5
   frequency: 0.5
   spriteRenderer: {fileID: 3464007397947900407}
---- !u!114 &2636885682734186678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3464007397947900406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cfbc54e35009f94189a2eec5543d24f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collectionEffect: {fileID: 7890909979121165634, guid: e427020535af3b14293a29ba6a2128a1, type: 3}
-  coinsPerPickup: 0
-  gemsPerPickup: 0
-  homingRange: 10
-  homingSpeed: 6
-  activationDelay: 0.25
-  _isPowerUp: 1
-  _powerUpLootTable:
-  - Weight: 1
-    Item: {fileID: -8584057576242036481, guid: bd1d97fcbe84acd468438c75534f98fd, type: 3}
-  - Weight: 1
-    Item: {fileID: -8584057576242036481, guid: bd1d97fcbe84acd468438c75534f98fd, type: 3}
-  - Weight: 1
-    Item: {fileID: -8584057576242036481, guid: bd1d97fcbe84acd468438c75534f98fd, type: 3}
-  _choices: 3
 --- !u!58 &3737288497924828327
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -145,3 +118,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-3014048360458243928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464007397947900406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b35914cec680e5458b48580e52055d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _collectionEffect: {fileID: 0}
+  HomingRange: 7
+  HomingSpeed: 5
+  _activationDelay: 0.2
+  _pickUpRarity: 3
+  _lootTable: {fileID: 6062919564196432293, guid: 49b524cf5ac58c94680991dbdfafff24, type: 3}
+  _choices: 3

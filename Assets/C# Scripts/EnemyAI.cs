@@ -96,7 +96,7 @@ public class EnemyAI : MonoBehaviour
                 _firePoint.root.gameObject,
                 _projectileSpeed,
                 _projectileDamage * GameManager.Insatnce.Difficulty,
-                new string[] { "Coin", "PowerUp", "EnemyShield", "Projectile" },
+                new string[] { "Coin", "PowerUp", "EnemyShield", "Projectile", "Crate" },
                 new string[] { _firePoint.root.tag }
             );
         }

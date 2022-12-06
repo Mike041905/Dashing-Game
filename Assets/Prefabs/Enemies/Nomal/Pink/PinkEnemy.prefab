@@ -5238,19 +5238,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pattern:
     _inTime: 0
-    _outTime: 4
+    _outTime: 3
     _repeat:
-    - _inTime: 0.35
+    - _inTime: 0.1
       _outTime: 0
       _firePattern:
       - _inTime: 0
-        _outTime: 2
+        _outTime: 3
         _projectile:
           _projectilePrefab: {fileID: 1547369790601792873, guid: 9548477ef7885544da2b1b83d73c5440, type: 3}
           _firePoint: {fileID: 2975994638009178408}
           _muzzleFlash: {fileID: 6563036778428889460}
-          _projectileDamage: 25
-          _projectileSpeed: 100
+          _projectileDamage: 40
+          _projectileSpeed: 175
           _inaccuracy: 0
       _repeat: 0
   movementSpeed: 0.5

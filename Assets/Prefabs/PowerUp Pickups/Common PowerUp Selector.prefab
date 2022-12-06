@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3464007397947900400}
   - component: {fileID: 3464007397947900407}
   - component: {fileID: 525222923677594248}
-  - component: {fileID: 2636885682734186678}
   - component: {fileID: 3737288497924828327}
+  - component: {fileID: 2926554225634117365}
   m_Layer: 0
   m_Name: Common PowerUp Selector
   m_TagString: PowerUp
@@ -102,35 +102,6 @@ MonoBehaviour:
   magnitude: 0.5
   frequency: 0.5
   spriteRenderer: {fileID: 3464007397947900407}
---- !u!114 &2636885682734186678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3464007397947900406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cfbc54e35009f94189a2eec5543d24f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collectionEffect: {fileID: 7890909979121165634, guid: e427020535af3b14293a29ba6a2128a1, type: 3}
-  coinsPerPickup: 0
-  gemsPerPickup: 0
-  homingRange: 10
-  homingSpeed: 6
-  activationDelay: 0.25
-  _isPowerUp: 1
-  _powerUpLootTable:
-  - Weight: 1
-    Item: {fileID: -7135763935551167239, guid: 4a8903a0750b33841a8f53996da46fe1, type: 3}
-  - Weight: 1
-    Item: {fileID: -6805368183399235354, guid: c7278ea4c42b70e4a8562eeced0c28f4, type: 3}
-  - Weight: 1
-    Item: {fileID: -577738160673975738, guid: 6bfbf312ffe3b85478e897f2338f2eed, type: 3}
-  - Weight: 1
-    Item: {fileID: -1539788069909281705, guid: 3770bd6b9b97a5646beab6fe99fd9eee, type: 3}
-  _choices: 3
 --- !u!58 &3737288497924828327
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -147,3 +118,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &2926554225634117365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464007397947900406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b35914cec680e5458b48580e52055d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _collectionEffect: {fileID: 0}
+  HomingRange: 7
+  HomingSpeed: 5
+  _activationDelay: 0.2
+  _pickUpRarity: 1
+  _lootTable: {fileID: 6062919564196432293, guid: 49b524cf5ac58c94680991dbdfafff24, type: 3}
+  _choices: 3

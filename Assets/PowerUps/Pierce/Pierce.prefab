@@ -44,6 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b83794acaecdb74b999cb2171267b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinimumRarity: 0
+  MaximumRarity: 2
+  Rarity: 2
+  DropChance: 1
   powerUpName: Pierce
   LongDescription: Instead of bouncing off of enemies with a high enough health,
     the player will now pierce through enemies (Doesn't work on barriers)

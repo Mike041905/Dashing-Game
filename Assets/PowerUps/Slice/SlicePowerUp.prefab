@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6265672824876300658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1069256398166754804}
+  - component: {fileID: 2101238589160499683}
+  m_Layer: 0
+  m_Name: SlicePowerUp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1069256398166754804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6265672824876300658}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2101238589160499683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6265672824876300658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3bb064f539f2ff4ead0edb6f5f2cc16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinimumRarity: 0
+  MaximumRarity: 4
+  Rarity: 4
+  DropChance: 1
+  powerUpName: Slice
+  LongDescription: This ability triggers when the player hits an enemy. it creates
+    a beam that damages enemies in front and back of the player. The beams width,
+    length, and damage are determined by the powerUps level
+  description: Damage enemies in front of you as well as behind you
+  icon: {fileID: 21300000, guid: 879d3534c4f076049a6099f80cfb568d, type: 3}
+  Images:
+  - {fileID: 21300000, guid: 879d3534c4f076049a6099f80cfb568d, type: 3}
+  stats:
+  - statName: Damage
+    statValue: 0.5
+    statUpgradeOffset: 0
+    statUpgradeMultiplier: 0.5
+    statLevel: 1
+  - statName: Width
+    statValue: 0.2
+    statUpgradeOffset: 0
+    statUpgradeMultiplier: 0.2
+    statLevel: 1
+  - statName: Length
+    statValue: 8
+    statUpgradeOffset: 0
+    statUpgradeMultiplier: 0.25
+    statLevel: 1
+  PowerUpLevel: 1
+  MaxLevel: 0
+  _slicePrefab: {fileID: 7299119319289080062, guid: 266e6b2d3c5ffa942b118607b3e4110b, type: 3}

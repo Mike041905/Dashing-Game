@@ -4916,6 +4916,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf96300131f6b9c4894cf7ddf228479f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinimumRarity: 0
+  MaximumRarity: 4
+  Rarity: 2
+  DropChance: 1
   powerUpName: Shock Wave
   LongDescription: When the player is damaged a shockwave aperars that deals a small
     amount of damage and pushes enemies away from the player

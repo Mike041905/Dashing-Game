@@ -5056,6 +5056,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e6c069d00a22940b54d0f93ce62b23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinimumRarity: 0
+  MaximumRarity: 4
+  Rarity: 3
+  DropChance: 1
   powerUpName: Shield
   LongDescription: The bubble protects the player until it is destroyed. After the
     shield is destroyed it has to recharge for 10s until it can function again. The

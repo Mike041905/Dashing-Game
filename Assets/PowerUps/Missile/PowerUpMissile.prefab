@@ -44,6 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c5df59dbece3b944b7f9e1309e34759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinimumRarity: 0
+  MaximumRarity: 1
+  Rarity: 1
+  DropChance: 1
   powerUpName: Missile Launcher
   LongDescription: This PowerUp send out homing missiles that follow the closest
     enemy. Don't expect them to do all the work for you as they won't always hit

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7846968903967964099}
   - component: {fileID: 4186335560488765506}
   m_Layer: 0
-  m_Name: SlowMoRunUpgrade
+  m_Name: SlowMoPowerUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,18 +44,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc376554df7aede4dafd1ca7e3520231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinimumRarity: 0
+  MaximumRarity: 2
+  Rarity: 2
+  DropChance: 1
   powerUpName: Slow-Mo
   LongDescription: This powerUp is very self explanatory. Whenever the player aims
     this PowerUp slows down time (50% at level 1). This is one of the first PowerUps
     added to the game!
   description: Slows down time while aiming!
-  icon: {fileID: 21300000, guid: 7e0a4927de4eace4a9afe3d692107785, type: 3}
+  icon: {fileID: 21300000, guid: 3eb6509e325e9f541b335f172b5cbe6e, type: 3}
   Images:
-  - {fileID: 21300000, guid: 7e0a4927de4eace4a9afe3d692107785, type: 3}
+  - {fileID: 21300000, guid: 3eb6509e325e9f541b335f172b5cbe6e, type: 3}
   stats:
   - statName: SlowMoTime
     statValue: 0.5
     statUpgradeOffset: 0
     statUpgradeMultiplier: -0.1
     statLevel: 0
-  powerUpLevel: 1
+  PowerUpLevel: 1
+  MaxLevel: 0

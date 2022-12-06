@@ -10067,8 +10067,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12877,7 +12877,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 200, y: -31}
+  m_AnchoredPosition: {x: 199.99997, y: -31}
   m_SizeDelta: {x: 400, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1387286095
@@ -13653,10 +13653,10 @@ MonoBehaviour:
   _bossSpawnLevelOffset: 0
   _levelSaveInterval: 5
   _levelSaveOffset: 1
-  _coinsPerDifficultyMultiplier: 0.5
+  _coinsPerDifficultyMultiplier: 0.35
   <StartingDifficulty>k__BackingField: 1
   <DifficultyPerLevelAddition>k__BackingField: 0
-  <DifficultyPerLevelMultiplier>k__BackingField: 1.2
+  <DifficultyPerLevelMultiplier>k__BackingField: 1.25
   <DifficultyPerLevelOffset>k__BackingField: 0
   OnLevelChangedEvent:
     m_PersistentCalls:
@@ -17370,7 +17370,7 @@ MonoBehaviour:
   m_text: 'Level: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 24b9a7fe0666d9e4595c235d167e64cc, type: 2}
-  m_sharedMaterial: {fileID: 6235152274686926797, guid: 24b9a7fe0666d9e4595c235d167e64cc, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 32dbc49369c523741907a105ec4bc409, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

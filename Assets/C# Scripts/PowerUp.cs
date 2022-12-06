@@ -1,7 +1,7 @@
 using Mike;
 using UnityEngine;
 
-public abstract class PowerUp : MonoBehaviour
+public abstract class PowerUp : LootMonoBehaviour
 {
     [System.Serializable]
     public struct Stat
@@ -24,6 +24,7 @@ public abstract class PowerUp : MonoBehaviour
     public Stat[] stats;
     public int PowerUpLevel = 1;
     [Tooltip("Values 0 and below mean infinity")] public int MaxLevel = 0;
+
     public bool HasReachedMaxLevel { get => MaxLevel > 0 && MaxLevel <= PowerUpLevel; }
 
     public virtual void UpgradePowerUp(int times = 1)
