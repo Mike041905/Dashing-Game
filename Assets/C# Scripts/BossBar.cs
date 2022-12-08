@@ -68,7 +68,16 @@ public class BossBar : MonoBehaviour
         if(_healthLerp != null) { StopCoroutine(_healthLerp); }
         _healthLerp = StartCoroutine(LerpHealthBarValue(health));
 
-        if(health <= 0) { ChangeAlpha(0, 1, () => { _holder.gameObject.SetActive(false); TrackedBoss = null; }); }
+        if(health <= 0) 
+        { 
+            _bossHealthBar.value = 0; 
+            ChangeAlpha(0, 1, () => 
+            { 
+                _holder.gameObject.SetActive(false); 
+                if(_healthLerp != null) { StopCoroutine(_healthLerp); }
+                TrackedBoss = null;
+            }); 
+        }
     }
     IEnumerator LerpHealthBarValue(float value)
     {

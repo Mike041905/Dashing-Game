@@ -49,7 +49,7 @@ MonoBehaviour:
   Rarity: 1
   DropChance: 1
   powerUpName: ChainLighting
-  LongDescription: This PowerUp send an electric bolt trhrough the room causing damage
+  LongDescription: This PowerUp sends an electric bolt through the room causing damage
     to any enemy it hits. The heigher the level the more enemies it will hit.
   description: Damage multiple enemies on hit!
   icon: {fileID: 21300000, guid: 1206587aa2293d743aab1e7106469c18, type: 3}

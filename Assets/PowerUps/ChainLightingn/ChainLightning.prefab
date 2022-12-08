@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949899b4c84c98d44a7b2035b7b6ee46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxRadius: 5
+  _maxRadius: 2
   _minSpeed: 10
   _maxSpeed: 50
 --- !u!1 &446299447005461956
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949899b4c84c98d44a7b2035b7b6ee46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxRadius: 10
+  _maxRadius: 3
   _minSpeed: 20
   _maxSpeed: 100
 --- !u!1 &6628215295143812199
@@ -465,7 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949899b4c84c98d44a7b2035b7b6ee46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxRadius: 3
+  _maxRadius: 1
   _minSpeed: 6
   _maxSpeed: 30
 --- !u!1 &8392118956376280407

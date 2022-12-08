@@ -17,6 +17,11 @@ public class Room : MonoBehaviour
     [Range(0, 100)] [SerializeField] private float crateSpawnChance = 20;
     [SerializeField] private int maxCrates = 20;
 
+    [Header("MiniMap")]
+    [SerializeField] protected SpriteRenderer _minimapIcon;
+    [SerializeField] protected Color _normalColor = new(.2f, .2f, .2f);
+    [SerializeField] protected Color _completedColor = new(.1f, .1f, .1f);
+
 
     //---------------------
 
@@ -33,6 +38,11 @@ public class Room : MonoBehaviour
 
 
     //---------------------
+
+    private void Start()
+    {
+        _minimapIcon.color = _normalColor;
+    }
 
     public EnemyAI GetRandomEnemy()
     {
@@ -83,6 +93,8 @@ public class Room : MonoBehaviour
     {
         if (CheckIfAllEnemiesDead())
         {
+            _minimapIcon.color = _completedColor;
+
             GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
             foreach (GameObject item in coins)
             {
@@ -90,9 +102,8 @@ public class Room : MonoBehaviour
                 item.GetComponent<Item>().homingSpeed = 60;
             }
 
-            GameObject.FindGameObjectWithTag("RoomText").GetComponent<FightStartFinish>().EndFight();
+            FightStartFinish.Instance.EndFight();
             OpenDoors();
-            transform.GetChild(2).GetChild(0).GetComponent<SpriteRenderer>().color = new Color(.25f, .25f, .25f);
             GameManager.Insatnce.TrySpawnPortal(this);
             enabled = false;
         }
@@ -145,8 +156,7 @@ public class Room : MonoBehaviour
 
     protected virtual void StartFight()
     {
-        // WTF IS THIS! WHO THOUGHT THIS WAS A GOOD IDEA! oh wait.
-        GameObject.FindGameObjectWithTag("RoomText").GetComponent<FightStartFinish>().StartFight();
+        FightStartFinish.Instance.StartFight();
 
         SpawnEnemies(EnemyManager.Instance.AvaliableEnemies, EnemyManager.Instance.GetSpawnTickets());
         SpawnCrates();
@@ -248,7 +258,7 @@ public class Room : MonoBehaviour
 
     public BossRoom ChangeToBossRoom()
     {
-        BossRoom bossRoom = gameObject.AddComponent<BossRoom>().Initialize(doors);
+        BossRoom bossRoom = gameObject.AddComponent<BossRoom>().Initialize(doors, _minimapIcon, _normalColor, _completedColor);
         Destroy(this);
 
         return bossRoom;

@@ -14,7 +14,7 @@ public class BossRoom : Room
 
     BossAI _dummy;
 
-    public BossRoom Initialize(Door[] doors)
+    public BossRoom Initialize(Door[] doors, SpriteRenderer minimapIcon, Color normalColor, Color completecolor)
     {
         _boss = EnemyManager.Instance.GetBossForCurrentLevel();
         this.doors = doors;
@@ -24,6 +24,10 @@ public class BossRoom : Room
         _dummy = Instantiate(_boss.BossPrefab, transform.position, Quaternion.identity);
         _dummy.gameObject.tag = "Untagged";
         Destroy(_dummy.EnemyHealth);
+
+        _minimapIcon = minimapIcon;
+        _normalColor = normalColor;
+        _completedColor = completecolor;
 
         return this;
     }

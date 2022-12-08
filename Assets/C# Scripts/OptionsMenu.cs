@@ -18,6 +18,7 @@ public class OptionsMenu : MonoBehaviour
 
         [SerializeField] string _optionName;
         [SerializeField] string _optionKey;
+        [SerializeField] string _defaultValue;
         [SerializeField] bool _requireApply;
 
         public void Spawn(OptionsMenu options, Transform parent)

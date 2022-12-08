@@ -22,6 +22,11 @@ public class Option : MonoBehaviour
     }
     public void Initialize(string optionName, string optionKey, bool requireApply, OptionsMenu menu, UnityAction apply = null)
     {
+        Initialize(optionName, optionKey, _defaultValue, requireApply, menu, apply);
+    }
+
+    public void Initialize(string optionName, string optionKey, string defaultValue, bool requireApply, OptionsMenu menu, UnityAction apply = null)
+    {
         if (_initialized) { return; }
         _initialized = true;
 
@@ -30,6 +35,7 @@ public class Option : MonoBehaviour
         RequireApply = requireApply;
         _label.text = optionName;
         _optionsMenu = menu;
+        _defaultValue = defaultValue;
         InitalizeValue();
     }
 
