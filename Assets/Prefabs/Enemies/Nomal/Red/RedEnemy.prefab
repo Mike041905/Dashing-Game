@@ -5143,9 +5143,13 @@ MonoBehaviour:
   stopRange: 10
   backupRange: 2
   shootingDistance: 13
+  _canMoveWhileShooting: 1
+  _canRotateWhileShooting: 1
+  _rotationSpeed: 180
   _wakeUpTimeMin: 0
   _wakeUpTimeMax: 2
   Room: {fileID: 0}
+  <AdditionalHealthScripts>k__BackingField: []
 --- !u!114 &9040167499389947996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5165,6 +5169,12 @@ MonoBehaviour:
   minCoinsOnDeath: 0
   maxCoinsOnDeath: 2
   immuneTime: 0.2
+  BunceOnDeath: 0
+  _shakeMagintudeDeath: 2
+  _shakeRoughnessDeath: 5
+  _shakeInTimeDeath: 0.1
+  _shakeOutTimeDeath: 0.2
+  _vibrateTime: 0.2
   OnDeathEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -5199,7 +5209,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 100
   m_LinearDrag: 5
   m_AngularDrag: 5
   m_GravityScale: 0

@@ -32,13 +32,11 @@ public class GameManager : MonoBehaviour
 
     private GameObject _portalInstance;
 
-    private double _coinsDouble;
-
 
     //----------------------------------------------
 
-    public long Coins { get => (long)_coinsDouble; }
-    public ulong Gems { get; private set; }
+    public long Coins { get => (long)CurrencyManager.Instance.GetCurrency(0).Value; private set { CurrencyManager.Instance.GetCurrency(0).Set(value); InputManager.Instance.UpdateUI(); } }
+    public ulong Gems { get => (ulong)CurrencyManager.Instance.GetCurrency(1).Value; private set { CurrencyManager.Instance.GetCurrency(1).Set(value); InputManager.Instance.UpdateUI(); } }
     public int Level { get; private set; }
     public bool IsBossLevel { get => Level % _bossSpawnLevelInterval == 0 + _bossSpawnLevelOffset; }
     [field: SerializeField] private float _coinsPerDifficultyMultiplier = .7f;
@@ -97,10 +95,6 @@ public class GameManager : MonoBehaviour
     private void Initialize()
     {
         Level = StorageManager.Game.StartingLevel;
-
-        Gems = ulong.Parse(PlayerPrefs.GetString("Gems", "0"));
-        _coinsDouble = double.Parse(PlayerPrefs.GetString("Coins", "0"));
-        _coinsDouble = Coins;
     }
 
     /// <summary>
@@ -108,7 +102,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SaveCoins()
     {
-        PlayerPrefs.SetString("Coins", math.round(_coinsDouble).ToString("G20"));
+        CurrencyManager.Instance.GetCurrency(0).Save();
     }
 
     /// <summary>
@@ -116,7 +110,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SaveGems()
     {
-        PlayerPrefs.SetString("Gems", Gems.ToString("G20"));
+        CurrencyManager.Instance.GetCurrency(1).Save();
     }
 
     /// <summary>
@@ -154,95 +148,35 @@ public class GameManager : MonoBehaviour
 
     public void SetCoins(double ammount)
     {
-        _coinsDouble = ammount;
+        CurrencyManager.Instance.GetCurrency(0).Set(ammount);
 
-        SaveCoins();
         InputManager.Instance.UpdateUI();
     }
 
     public void AddCoins(double ammount)
     {
-        // NOTE: double "-" operator returns a double and (double.MaxValue + 1 < 0) as it overloads the variable!
-        if (_coinsDouble + ammount > double.MaxValue)
-        {
-            _coinsDouble = 0;
-            SaveCoins();
-            InputManager.Instance.UpdateUI();
-            return;
-        }
+        CurrencyManager.Instance.GetCurrency(0).Add(ammount);
 
-        if (_coinsDouble + ammount < 0)
-        {
-            _coinsDouble = double.MaxValue;
-            SaveCoins();
-            InputManager.Instance.UpdateUI();
-            return;
-        }
-
-        _coinsDouble += ammount;
-
-        SaveCoins();
         InputManager.Instance.UpdateUI();
     }
 
     public void RemoveCoins(double ammount)
     {
-        // NOTE: double "-" operator returns a double and (double.MaxValue + 1 < 0) as it overloads the variable!
-        if (_coinsDouble - ammount > double.MaxValue)
-        {
-            _coinsDouble = double.MaxValue;
-            SaveCoins();
-            InputManager.Instance.UpdateUI();
-            return;
-        }
+        CurrencyManager.Instance.GetCurrency(0).Remove(ammount);
 
-        if (_coinsDouble - ammount < 0)
-        {
-            _coinsDouble = 0;
-            SaveCoins();
-            InputManager.Instance.UpdateUI();
-            return;
-        }
-
-        _coinsDouble -= ammount;
-
-        SaveCoins();
         InputManager.Instance.UpdateUI();
     }
 
     public void AddGems(ulong ammount)
     {
-        if (Gems + ammount > ulong.MaxValue)
-        {
-            Gems = ulong.MaxValue;
-            SaveGems();
-            InputManager.Instance.UpdateUI();
-            return;
-        }
+        CurrencyManager.Instance.GetCurrency(1).Add(ammount);
 
-        if (Gems + ammount < 0)
-        {
-            Gems = 0;
-            SaveGems();
-            InputManager.Instance.UpdateUI();
-            return;
-        }
-
-        Gems += ammount;
-
-        SaveGems();
         InputManager.Instance.UpdateUI();
     }
 
-    public bool TrySpawnPortal(Room sender)
+    public void SpawnPortal(Room portalRoom)
     {
-        for (int i = 0; i < LevelGanerator.Instance.rooms.Length; i++)
-        {
-            if (LevelGanerator.Instance.rooms[i].enabled && LevelGanerator.Instance.rooms[i] != sender) { return false; }
-        }
-
-        _portalInstance = Instantiate(_portal, sender.transform.position, Quaternion.identity);
-        return true;
+        _portalInstance = Instantiate(_portal, portalRoom.transform.position, Quaternion.identity);
     }
 
     public void MoveToNextLevel()

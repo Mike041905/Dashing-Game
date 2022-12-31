@@ -15,8 +15,10 @@ public abstract class PowerUp : LootMonoBehaviour
 
     [Header("ID")]
     public string powerUpName;
-    public string LongDescription;
     public string description;
+    [Space(5)]
+    [TextArea(2, 6)] public string LongDescription;
+    [Space(5)]
     public Sprite icon;
     public Sprite[] Images;
 

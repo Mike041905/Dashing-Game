@@ -19,7 +19,7 @@ public class LevelGanerator : MonoBehaviour
 
 
     // IDK why this isn't a list
-    [HideInInspector] public Room[] rooms = new Room[0];
+    [HideInInspector] public Room[] Rooms = new Room[0];
 
 
     //----------------------------------------
@@ -48,7 +48,7 @@ public class LevelGanerator : MonoBehaviour
 
     public void GenerateLevel()
     {
-        while (rooms.Length < minRooms)
+        while (Rooms.Length < minRooms)
         {
             startingRoom.GenerateRooms();
         }
@@ -56,6 +56,10 @@ public class LevelGanerator : MonoBehaviour
         if (GameManager.Insatnce.IsBossLevel)
         {
             ChooseBossRoom();
+        }
+        else
+        {
+            SpawnPortalRoom();
         }
     }
 
@@ -65,7 +69,7 @@ public class LevelGanerator : MonoBehaviour
 
         outRoom = null;
 
-        foreach (var room in rooms)
+        foreach (var room in Rooms)
         {
             if ((Vector2)room.transform.position == worldPosition) { outRoom = room; return true; }
         }
@@ -79,7 +83,7 @@ public class LevelGanerator : MonoBehaviour
 
         outRoom = null;
 
-        foreach (Room room in rooms)
+        foreach (Room room in Rooms)
         {
             if (room.PositionInGrid == gridPosition) { outRoom = room; return true; }
         }
@@ -94,16 +98,16 @@ public class LevelGanerator : MonoBehaviour
 
     public void AddRoom(Room room)
     {
-        Room[] temp = rooms;
-        rooms = new Room[rooms.Length + 1];
-        temp.CopyTo(rooms, 0);
-        rooms[^1] = room;
+        Room[] temp = Rooms;
+        Rooms = new Room[Rooms.Length + 1];
+        temp.CopyTo(Rooms, 0);
+        Rooms[^1] = room;
     }
 
     public void RegenerateLevel()
     {
         PersistenceManager.Instance.WipeLevel();
-        rooms = new Room[0];
+        Rooms = new Room[0];
         startingRoom.room.ResetDoors();
         GenerateLevel();
     }
@@ -132,10 +136,10 @@ public class LevelGanerator : MonoBehaviour
     {
         int choice = 0;
 
-        for (int i = 0; i < rooms.Length; i++)
+        for (int i = 0; i < Rooms.Length; i++)
         {
-            if (rooms[choice].descendant < rooms[i].descendant) { choice = i; }
-            else if(rooms[choice].descendant == rooms[i].descendant) // chooses randomly
+            if (Rooms[choice].descendant < Rooms[i].descendant) { choice = i; }
+            else if(Rooms[choice].descendant == Rooms[i].descendant) // chooses randomly
             {
                 if(UnityEngine.Random.Range(0, 4) == 0)
                 {
@@ -149,6 +153,31 @@ public class LevelGanerator : MonoBehaviour
 
     void MakeBossRoom(int roomIndex)
     {
-        rooms[roomIndex] = rooms[roomIndex].ChangeToBossRoom();
+        Rooms[roomIndex] = Rooms[roomIndex].ChangeToBossRoom();
+    }
+    
+    void MakePortalRoom(int roomIndex)
+    {
+        Rooms[roomIndex].enabled = false;
+        GameManager.Insatnce.SpawnPortal(Rooms[roomIndex]);
+    }
+
+    void SpawnPortalRoom()
+    {
+        int choice = 0;
+
+        for (int i = 0; i < Rooms.Length; i++)
+        {
+            if (Rooms[choice].descendant < Rooms[i].descendant) { choice = i; }
+            else if (Rooms[choice].descendant == Rooms[i].descendant) // chooses randomly
+            {
+                if (UnityEngine.Random.Range(0, 4) == 0)
+                {
+                    choice = i;
+                }
+            }
+        }
+
+        MakePortalRoom(choice);
     }
 }

@@ -3,7 +3,6 @@ using System.Collections;
 
 public static class HapticFeedback
 {
-
 #if UNITY_ANDROID && !UNITY_EDITOR
     public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
     public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
@@ -17,6 +16,11 @@ public static class HapticFeedback
     static bool? _doHapticFeedback = null;
     static bool DoHapticFeedback { get => _doHapticFeedback ??= StorageManager.Settings.Controls.HapticFeedback; }
 
+    public static void DeleteCache()
+    {
+        _doHapticFeedback = null;
+    }
+
     public static void Vibrate()
     {
         if (!DoHapticFeedback) { return; }
@@ -26,7 +30,6 @@ public static class HapticFeedback
         else
             Handheld.Vibrate();
     }
-
 
     public static void Vibrate(long milliseconds)
     {

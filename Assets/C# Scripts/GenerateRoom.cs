@@ -47,7 +47,7 @@ public class GenerateRoom : MonoBehaviour
 
     public void GenerateRooms()
     {
-        if(room.descendant > LevelGanerator.Instance.maxBranch) { return; }
+        if(room.descendant >= LevelGanerator.Instance.maxBranch) { return; }
 
         for (int i = 0; i < 4; i++)//one side each
         {

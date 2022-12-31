@@ -62,6 +62,7 @@ public class InputManager : MonoBehaviour
 
     public void Upgrade()
     {
+        UpdateUI();
         OnUpgrade?.Invoke();
     }
 

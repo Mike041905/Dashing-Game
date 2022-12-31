@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _trail: {fileID: 7299119319289080056}
-  _speed: 100
+  _speed: 12.5
 --- !u!96 &7299119319289080056
 TrailRenderer:
   serializedVersion: 2
