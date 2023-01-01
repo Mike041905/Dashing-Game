@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     //----------------------------------------------
 
-    public long Coins { get => (long)CurrencyManager.Instance.GetCurrency(0).Value; private set { CurrencyManager.Instance.GetCurrency(0).Set(value); InputManager.Instance.UpdateUI(); } }
+    public double Coins { get => CurrencyManager.Instance.GetCurrency(0).Value; private set { CurrencyManager.Instance.GetCurrency(0).Set(value); InputManager.Instance.UpdateUI(); } }
     public ulong Gems { get => (ulong)CurrencyManager.Instance.GetCurrency(1).Value; private set { CurrencyManager.Instance.GetCurrency(1).Set(value); InputManager.Instance.UpdateUI(); } }
     public int Level { get; private set; }
     public bool IsBossLevel { get => Level % _bossSpawnLevelInterval == 0 + _bossSpawnLevelOffset; }

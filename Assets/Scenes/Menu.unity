@@ -38597,29 +38597,42 @@ MonoBehaviour:
       costOffset: -100
     - upgradeKey: 
       name: 
-      variableType: 1
+      variableType: 0
       maxLevel: 0
       _currencyID: 0
       startingValue: 1
       upgradeAdditionValue: 0
       upgradeMultiplier: 2
       _upgradeOffset: 0
-      _startingCost: 0
+      _startingCost: -1000
       _costAddition: 0
-      costMultiplier: -1
+      costMultiplier: 0
       costOffset: 0
     - upgradeKey: 
       name: 
-      variableType: 1
+      variableType: 0
       maxLevel: 0
       _currencyID: 0
-      startingValue: 1
+      startingValue: 0
       upgradeAdditionValue: 0
       upgradeMultiplier: 2
       _upgradeOffset: 0
-      _startingCost: 0
+      _startingCost: -1e+10
       _costAddition: 0
       costMultiplier: 1
+      costOffset: 0
+    - upgradeKey: 
+      name: 
+      variableType: 0
+      maxLevel: 0
+      _currencyID: 1
+      startingValue: 0
+      upgradeAdditionValue: 0
+      upgradeMultiplier: 0
+      _upgradeOffset: 0
+      _startingCost: -1
+      _costAddition: 0
+      costMultiplier: 0
       costOffset: 0
     - upgradeKey: 
       name: 

@@ -5183,7 +5183,7 @@ MonoBehaviour:
   _hitFX: {fileID: 7890909979121165634, guid: 750ca5371338ac9448b2a5997fc93525, type: 3}
   Damage: 1
   DashSpeed: 40
-  DashDistance: 7
+  <DashDistance>k__BackingField: 7
   StaminaDrain: 1
   MaxStamina: 10
   StaminaRecharge: 1
