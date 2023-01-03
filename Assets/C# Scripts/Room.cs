@@ -25,7 +25,7 @@ public class Room : MonoBehaviour
 
     //---------------------
 
-    [HideInInspector] public int descendant = 1;
+    [HideInInspector] public int descendant = 0;
     protected GameObject[] spawnedEnemies = new GameObject[0];
 
     public Vector2Int PositionInGrid 
@@ -89,24 +89,22 @@ public class Room : MonoBehaviour
         return (PositionInGrid - other.PositionInGrid).magnitude == 1;
     }
 
-    public void EndFightIfEnemiesDead() 
+    public virtual void EndFightIfEnemiesDead() 
     {
-        if (CheckIfAllEnemiesDead())
+        if(!CheckIfAllEnemiesDead()) { return; }
+
+        _minimapIcon.color = _completedColor;
+
+        GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
+        foreach (GameObject item in coins)
         {
-            _minimapIcon.color = _completedColor;
-
-            GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
-            foreach (GameObject item in coins)
-            {
-                item.GetComponent<Item>().homingRange = 200;
-                item.GetComponent<Item>().homingSpeed = 60;
-            }
-
-            FightStartFinish.Instance.EndFight();
-            OpenDoors();
-            GameManager.Insatnce.TrySpawnPortal(this);
-            enabled = false;
+            item.GetComponent<Item>().homingRange = 200;
+            item.GetComponent<Item>().homingSpeed = 60;
         }
+
+        FightStartFinish.Instance.EndFight();
+        OpenDoors();
+        enabled = false;
     }
 
     protected virtual void OpenDoors()
@@ -142,7 +140,7 @@ public class Room : MonoBehaviour
     protected virtual void OnDoorTrigger(Collider2D collider)
     {
         if(this == null) { return; }
-        if(!enabled) { return; }
+        if(!enabled) { _minimapIcon.color = _completedColor; return; }
         if(!collider.CompareTag("Player") || Vector2.Distance(collider.transform.position, transform.position) >= 26) { return; }
         if(spawnedEnemies.Length > 0) { return; }
 

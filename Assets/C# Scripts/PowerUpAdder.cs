@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mike;
 using System.Collections.Generic;
+using System;
 
 public class PowerUpAdder : MonoBehaviour
 {
@@ -8,11 +9,13 @@ public class PowerUpAdder : MonoBehaviour
 
     static PowerUpAdder _instance;
     public static PowerUpAdder Instance { get => _instance;  }
+    public event Action<PowerUp> OnPowerUpAdded;
 
     private void Awake()
     {
         _instance = this;
         PowerUps = new();
+        OnPowerUpAdded += _ => SortPowerUps();
     }
 
     public PowerUp GetPowerUp(string name)
@@ -41,14 +44,16 @@ public class PowerUpAdder : MonoBehaviour
     {
         if (!TryGetPowerUp(newPowerUp.powerUpName, out PowerUp powerUp)) // Add
         {
-            PowerUps.Add(Instantiate(newPowerUp, transform)); ;
+            PowerUps.Add(Instantiate(newPowerUp, transform));
+            OnPowerUpAdded?.Invoke(newPowerUp);
+            return newPowerUp;
         }
         else // Upgrade
         {
             powerUp.UpgradePowerUp();
+            OnPowerUpAdded?.Invoke(powerUp);
+            return powerUp;
         }
-
-        return powerUp != null ? powerUp : newPowerUp;
     }
 
     public void RemovePowerUp(PowerUp powerUp)
@@ -66,5 +71,10 @@ public class PowerUpAdder : MonoBehaviour
         }
 
         return false;
+    }
+
+    void SortPowerUps()
+    {
+        PowerUps.Sort((a, b) => { if (a.Rarity > b.Rarity) return -1; if (a.Rarity == b.Rarity) return 0; return 1; });
     }
 }

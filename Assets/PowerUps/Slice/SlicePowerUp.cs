@@ -17,11 +17,7 @@ public class SlicePowerUp : PowerUp
         return GetStat("Length").statValue;
     }
 
-
     [SerializeField] Slice _slicePrefab;
-
-    Vector2 _endPos;
-
 
     float? _damage = null;
     float Damage { get => (_damage ??= GetDamage()) * Upgrade.GetUpgrade("Damage", UpgradeData.VariableType.Float); }

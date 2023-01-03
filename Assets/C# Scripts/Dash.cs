@@ -26,7 +26,6 @@ public class Dash : MonoBehaviour
     public float StaminaDrain = 1;
     public float MaxStamina = 10;
     public float StaminaRecharge = 1;
-    public float KnockbackMultiplier = 1;
 
     [Header("Options")]
     [SerializeField] private bool _usePcControls = false;
@@ -52,8 +51,8 @@ public class Dash : MonoBehaviour
     public event UnityAction<EnemyAI> OnEnemyKilled;
 
     private bool _isAiming = false;
-    private Vector2 _firstTouchPosition;
-    private Vector2 _secondTouchPosition;
+    public Vector2 FirstTouchPosition { get; private set; }
+    public Vector2 SecondTouchPosition { get; private set; }
     private float _stamina = 0;
 
     public Coroutine CurrentDash;
@@ -87,8 +86,8 @@ public class Dash : MonoBehaviour
     {
         if(_lineRenderer == null) { return; }
 
-        Vector2 pos1 = Camera.main.ScreenToWorldPoint(_firstTouchPosition);
-        Vector2 pos2 = Camera.main.ScreenToWorldPoint(_secondTouchPosition);
+        Vector2 pos1 = Camera.main.ScreenToWorldPoint(FirstTouchPosition);
+        Vector2 pos2 = Camera.main.ScreenToWorldPoint(SecondTouchPosition);
 
         if (Input.touchCount > 0 || Input.GetMouseButton(0))
         {
@@ -108,7 +107,7 @@ public class Dash : MonoBehaviour
 
         _directionIndicator.enabled = true;
         _directionIndicator.SetPosition(0, transform.position);
-        _directionIndicator.SetPosition(1, (_secondTouchPosition - _firstTouchPosition).normalized * 3 + (Vector2)transform.position);
+        _directionIndicator.SetPosition(1, (SecondTouchPosition - FirstTouchPosition).normalized * 3 + (Vector2)transform.position);
     }
 
     void InitializeVariables()
@@ -142,15 +141,15 @@ public class Dash : MonoBehaviour
             if (!_isAiming)
             {
                 _isAiming = true;
-                _firstTouchPosition = touchPos;
+                FirstTouchPosition = touchPos;
             }
             else
             {
-                _secondTouchPosition = touchPos;
+                SecondTouchPosition = touchPos;
 
-                _cameraTarget.position = (_secondTouchPosition - _firstTouchPosition).normalized * DashDistance / 2 + (Vector2)transform.position;
+                _cameraTarget.position = (SecondTouchPosition - FirstTouchPosition).normalized * DashDistance / 2 + (Vector2)transform.position;
 
-                if ((_secondTouchPosition - _firstTouchPosition).magnitude > .1f) Player.Instance.SpriteRenderer.transform.rotation = (MikeTransform.Rotation.LookTwards(transform.position, (_secondTouchPosition - _firstTouchPosition).normalized + (Vector2)transform.position));
+                if ((SecondTouchPosition - FirstTouchPosition).magnitude > .1f) Player.Instance.SpriteRenderer.transform.rotation = (MikeTransform.Rotation.LookTwards(transform.position, (SecondTouchPosition - FirstTouchPosition).normalized + (Vector2)transform.position));
             }
         }
         else if(_isAiming)
@@ -163,7 +162,7 @@ public class Dash : MonoBehaviour
 
     void UseDash(float speed, float distance)//checks if player has enough stamina and prevents from using the dash multiple times
     {
-        if(_firstTouchPosition == _secondTouchPosition) { return; }
+        if(FirstTouchPosition == SecondTouchPosition) { return; }
 
         Time.timeScale = 1;
         if (_stamina < StaminaDrain)
@@ -218,7 +217,7 @@ public class Dash : MonoBehaviour
         _dashStartPosition = transform.position;
 
         _stamina -= StaminaDrain;
-        _dashTargetPosition = (_secondTouchPosition - _firstTouchPosition).normalized * distance + Rb.position;
+        _dashTargetPosition = (SecondTouchPosition - FirstTouchPosition).normalized * distance + Rb.position;
         Player.Instance.SpriteRenderer.transform.rotation = (MikeTransform.Rotation.LookTwards(Rb.position, _dashTargetPosition));
 
         OnStartDash?.Invoke();

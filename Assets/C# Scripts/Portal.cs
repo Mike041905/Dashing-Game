@@ -9,6 +9,7 @@ public class Portal : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_triggered) { return; }
+        if (!isActiveAndEnabled) { return; }
         if (!collision.CompareTag("Player")) { return; }
 
         _triggered = true;

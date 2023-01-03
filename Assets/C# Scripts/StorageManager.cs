@@ -119,6 +119,8 @@ public static class StorageManager
             {
                 PlayerPrefs.SetString(key, value as string);
             }
+
+            OnOptionSaved(key, value);
         }
 
         public static T GetOption<T>(string key, T defaultValue)
@@ -145,6 +147,11 @@ public static class StorageManager
             }
 
             throw new("Invalid Type");
+        }
+
+        static void OnOptionSaved<T>(string key, T value)
+        {
+            HapticFeedback.DeleteCache();
         }
     }
 

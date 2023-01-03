@@ -274,11 +274,11 @@ public class EnemyAI : MonoBehaviour
 
         if (Vector2.Distance(transform.position, Target.position) > stopRange)
         {
-            Rb.MovePosition(Rb.position + (movementSpeed * Time.fixedDeltaTime * (Vector2)transform.up));
+            Rb.AddForce(movementSpeed * Rb.mass * Rb.drag * Time.fixedDeltaTime * (Vector2)transform.up, ForceMode2D.Impulse);
         }
         else if (Vector2.Distance(transform.position, Target.position) < backupRange)
         {
-            Rb.MovePosition(Rb.position - (movementSpeed * Time.fixedDeltaTime * (Vector2)transform.up));
+            Rb.AddForce(movementSpeed * Rb.mass * Rb.drag * Time.fixedDeltaTime * -(Vector2)transform.up, ForceMode2D.Impulse);
         }
 
         if(Vector2.Distance(transform.position, Room.transform.position) > 27) { EnemyHealth.Die(); }

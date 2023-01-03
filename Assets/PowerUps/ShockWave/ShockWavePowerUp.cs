@@ -47,7 +47,7 @@ public class ShockWavePowerUp : PowerUp
             if (collider.TryGetComponent(out EnemyAI e))
             {
                 e.EnemyHealth.TakeDamage(Damage);
-                e.Rb.AddForce((e.Rb.position - (Vector2)transform.position).normalized * GetStat("Force").statValue);
+                e.Rb.AddForce((e.Rb.position - (Vector2)transform.position).normalized * GetStat("Force").statValue, ForceMode2D.Impulse);
             }
         }
     }

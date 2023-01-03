@@ -10155,6 +10155,7 @@ MonoBehaviour:
   turnSpeed: 270
   AttackBreakOffDistance: 5
   pointPositionTolerance: 1
+  _drawGizmos: 0
 --- !u!114 &9040167499389947996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10198,7 +10199,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.5
+  m_Mass: 100
   m_LinearDrag: 5
   m_AngularDrag: 5
   m_GravityScale: 0

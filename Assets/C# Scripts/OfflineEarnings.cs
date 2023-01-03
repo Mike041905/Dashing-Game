@@ -71,6 +71,7 @@ public class OfflineEarnings : MonoBehaviour
 
     public void GiveOfflineEarnings()
     {
+        if(_coins == null) { return; }
         GameManager.Insatnce.AddCoins(_coins.Value);
 
         SetNewLastLoginDate();

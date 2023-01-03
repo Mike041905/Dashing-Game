@@ -11,6 +11,8 @@ public class DisplayActivePowerUps : MonoBehaviour
     private void Start()
     {
         _powerUpTemplate.gameObject.SetActive(false);
+
+        PowerUpAdder.Instance.OnPowerUpAdded += _ => UpdatePowerUps();
     }
 
     public void UpdatePowerUps()

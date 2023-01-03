@@ -32,10 +32,7 @@ public class AdsSkippable : MonoBehaviour
         if (!enabled) { return; }
         Advertisement.Load(SurfacingID);
 
-        if (Advertisement.IsReady(SurfacingID))
-        {
             print("Showing Interstitial Ad");
             Advertisement.Show(SurfacingID);
-        }
     }
 }

@@ -56,4 +56,12 @@ public class BossRoom : Room
 
         base.SpawnEnemies(new(_boss.Enemies), EnemyManager.Instance.GetSpawnTickets(_boss.EnemySpawnTickets));
     }
+
+    public override void EndFightIfEnemiesDead()
+    {
+        base.EndFightIfEnemiesDead();
+
+        if (!CheckIfAllEnemiesDead()) { return; }
+        GameManager.Insatnce.SpawnPortal(this);
+    }
 }

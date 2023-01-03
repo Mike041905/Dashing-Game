@@ -29,13 +29,13 @@ public class Slice : MonoBehaviour
         transform.position = origin - distance / 2 * direction;
         _trail.emitting = true;
 
-        DoSlashAnimation(origin + distance / 2 * direction);
+        DoSlashAnimation(origin + distance / 2 * direction, _speed * distance);
         
 
         return this;
     }
 
-    async void DoSlashAnimation(Vector2 endPos)
+    async void DoSlashAnimation(Vector2 endPos, float speed)
     {
         while ((Vector2) transform.position != endPos)
         {
@@ -43,7 +43,7 @@ public class Slice : MonoBehaviour
 
             if(gameObject == null) { return; }
 
-            transform.position = Vector2.MoveTowards(transform.position, endPos, _speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, endPos, speed * Time.deltaTime);
         }
     }
 }

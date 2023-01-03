@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -10,7 +11,7 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsInitia
     private void Awake()
     {
         _instance = this;
-        Advertisement.Initialize(GameID, _testMode, transform, this);
+        Advertisement.Initialize(GameID, _testMode, this);
         print($"Ads initialized with game id: {GameID} and is" + (_testMode ? " " : " NOT ") + "running in Test Mode ");
     }
 
@@ -21,6 +22,8 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsInitia
     [SerializeField] string _gameIdAndroid = "Your-Google-ID";
 
     [SerializeField] bool _testMode = true;
+
+    Dictionary<string, Action<ShowResult>> _actions = new();
 
     #region Platform Sepecific Properties
 #if UNITY_IOS
@@ -39,12 +42,10 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsInitia
 
     public void ShowRewardedVideo(string placementID, Action<ShowResult> onFinished = null)
     {
-        if (Advertisement.IsReady(placementID)) 
+        if (Advertisement.isInitialized) 
         { 
-            ShowOptions options = new(); // Workaround for IUnityAdsShowListener
-            options.resultCallback += (ShowResult r) => { LoadAd(placementID); onFinished?.Invoke(r); };
-
-            Advertisement.Show(placementID, options, this); 
+            Advertisement.Show(placementID, this);
+            _actions.Add(placementID, onFinished);
         }
         else 
         { 
@@ -99,6 +100,10 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsInitia
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
         print($"Failed to show ad with placementId: {placementId} error: {error} - {message}");
+        if(_actions.TryGetValue(placementId, out var action))
+        {
+            action?.Invoke(ShowResult.Failed);
+        }
     }
 
     public void OnUnityAdsShowStart(string placementId)
@@ -113,9 +118,12 @@ public class AdsRewarded : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsInitia
 
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
     {
-        // IUnityAdsShowListener doesn't work :/ but imma keep this code anyway
-
         print($"OnUnityAdsShowComplete placementId: {placementId} UnityAdsShowCompletionState: {showCompletionState}");
+        if(_actions.TryGetValue(placementId, out var action))
+        {
+            action?.Invoke((ShowResult)showCompletionState);
+            _actions.Remove(placementId);
+        }
         LoadAd(placementId);
     }
 }
