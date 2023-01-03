@@ -22,7 +22,7 @@ public class Dash : MonoBehaviour
     [Header("Stats")]
     public float Damage = 1;
     public float DashSpeed = 1;
-    public float DashDistance = 1;
+    [field:SerializeField] public float DashDistance { get; private set; } = 1;
     public float StaminaDrain = 1;
     public float MaxStamina = 10;
     public float StaminaRecharge = 1;
